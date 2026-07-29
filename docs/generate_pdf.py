@@ -27,7 +27,7 @@ from fpdf.enums import Align
 
 DOCS = Path(__file__).resolve().parent
 FONT_DIR = DOCS / "fonts"   # Montserrat, versionne avec le projet et sa licence OFL
-CSPROJ = DOCS.parent / "SovereignOS.Desktop" / "SovereignOS.Desktop.csproj"
+CSPROJ = DOCS.parent / "src" / "Pinel.Desktop" / "Pinel.Desktop.csproj"
 
 
 def read_version() -> str:
@@ -78,11 +78,11 @@ RULE_LEN = TEXT_W / (PHI ** 4)               # 22,03
 
 VERSION = read_version()
 
-NAVY = (0, 19, 41)
-ACCENT = (0, 137, 123)
-GREY = (110, 118, 129)
-RULE = (222, 226, 230)
-HEAD_BG = (240, 243, 246)
+NAVY = (37, 62, 128)
+ACCENT = (29, 124, 150)
+GREY = (107, 107, 107)
+RULE = (221, 229, 234)
+HEAD_BG = (231, 240, 245)
 
 
 @dataclass
@@ -97,20 +97,36 @@ class Doc:
 
 DOCUMENTS = [
     Doc(
-        source=DOCS / "DOCUMENTATION_FONCTIONNELLE_ET_TECHNIQUE.md",
-        output=DOCS / "Sovereign_OS_DIM_Documentation_Technique.pdf",
-        title="Sovereign OS DIM",
-        subtitle="Documentation fonctionnelle et technique",
+        source=DOCS / "01_GUIDE_UTILISATEUR.md",
+        output=DOCS / "Pinel_01_Guide_utilisateur.pdf",
+        title="Pinel",
+        subtitle="Guide utilisateur",
+        recipient="Departement d'Information Medicale - GHT Psy Sud Paris",
+        icon=DOCS / "icons" / "guide.png",
+    ),
+    Doc(
+        source=DOCS / "02_DOSSIER_FONCTIONNEL_DIM.md",
+        output=DOCS / "Pinel_02_Dossier_fonctionnel.pdf",
+        title="Pinel",
+        subtitle="Dossier fonctionnel",
+        recipient="Departement d'Information Medicale - GHT Psy Sud Paris",
+        icon=DOCS / "icons" / "guide.png",
+    ),
+    Doc(
+        source=DOCS / "03_DOSSIER_TECHNIQUE_DSI.md",
+        output=DOCS / "Pinel_03_Dossier_technique.pdf",
+        title="Pinel",
+        subtitle="Dossier technique",
         recipient="Direction des Ressources Numeriques - GHT Psy Sud Paris",
         icon=DOCS / "icons" / "securite.png",
     ),
     Doc(
-        source=DOCS / "GUIDE_UTILISATEUR.md",
-        output=DOCS / "Sovereign_OS_DIM_Guide_Utilisateur.pdf",
-        title="Sovereign OS DIM",
-        subtitle="Guide utilisateur",
-        recipient="Departement d'Information Medicale - GHT Psy Sud Paris",
-        icon=DOCS / "icons" / "guide.png",
+        source=DOCS / "04_SECURITE_ET_CONFORMITE.md",
+        output=DOCS / "Pinel_04_Securite_et_conformite.pdf",
+        title="Pinel",
+        subtitle="Securite et conformite",
+        recipient="Direction des Ressources Numeriques et DPO - GHT Psy Sud Paris",
+        icon=DOCS / "icons" / "securite.png",
     ),
 ]
 
@@ -187,7 +203,7 @@ class Renderer(FPDF):
             f"Version applicative {VERSION}",
             "Adam BELOUCIF, apprenti ingenieur PMSI, DIM",
             "adam.beloucif@psysudparis.fr, 01 42 11 70 60",
-            "Groupe Hospitalier Paul Guiraud, 54 avenue de la Republique, 94806 Villejuif cedex",
+            "GH Fondation Vallee - Paul Guiraud, 54 avenue de la Republique, 94806 Villejuif cedex",
         ):
             self.set_x(MARGIN_SIDE)
             self.cell(0, LEAD_BODY, line, new_x="LMARGIN", new_y="NEXT")

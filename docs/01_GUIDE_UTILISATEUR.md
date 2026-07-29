@@ -54,6 +54,10 @@ fichiers. Il ne transmet rien aux tutelles, le dépôt reste manuel.
 Un seul fichier, `Pinel.exe`, à copier dans un dossier de votre profil. Aucune
 installation, aucun droit administrateur.
 
+Le poste doit disposer du composant WebView2, présent d'origine sur Windows 11
+et sur Windows 10 à jour. S'il manque, l'application s'ouvre sur une fenêtre
+blanche : c'est à signaler à la direction des ressources numériques.
+
 ![L'écran de conversion des formats au démarrage](screenshots/01_conversion.png)
 
 La colonne de gauche donne les huit écrans. Les quatre premiers correspondent au
@@ -72,6 +76,9 @@ première chose à faire.
 Ouvrez **Emplacements autorisés**, puis **Ajouter un dossier**. Vous pouvez
 déclarer un dossier local, un lecteur réseau monté comme `O:\RIMP`, ou un
 partage du GHT. Les emplacements sont conservés d'une session à l'autre.
+
+La liste peut contenir des dossiers que vous n'avez pas ajoutés vous-même : la
+direction des ressources numériques peut en imposer par stratégie de groupe.
 
 Deux réglages complètent l'écran :
 
@@ -134,7 +141,7 @@ un découpage inventé.
 | SSR et SMR | RHS, SSRHA, RAPSS, FICHCOMP-SMR |
 | HAD | RPSS, RAPSS-HAD, FICHCOMP-HAD, SSRHA-HAD |
 | Transversal | VID-HOSP, ANO-HOSP, FICHCOMP |
-| MCO | RSS, RSF-A, RSF-B, RSF-C |
+| MCO | RSS, RSFA, RSFB, RSFC |
 
 Le format VID-IPP, cité dans le cahier des charges, n'est pas encore reconnu par
 son nom de fichier. Il le sera dès que son descriptif sera fourni.
@@ -223,10 +230,20 @@ d'occurrences et les fichiers d'origine. La date la plus fréquente est proposé
 vous pouvez en choisir une autre. Un arbitrage automatique reste une hypothèse :
 sur un patient suivi de longue date, vérifiez dans DxCare avant de trancher.
 
-**Contrôles qualité.** Six contrôles sur le lot : FINESS, format de date de
-naissance, identifiant en clair resté dans un fichier anonymisé, NIR de
+Vos arbitrages vivent en mémoire de la session. Ils ne sont écrits sur disque
+qu'au moment où vous exportez, en CSV ou en fichier assaini. Une
+réinitialisation ou une fermeture de l'application les perd.
+
+**Contrôles qualité.** Six contrôles fichier par fichier : FINESS, format de
+date de naissance, identifiant en clair resté dans un fichier anonymisé, NIR de
 chaînage, lignes strictement identiques, cohérence entre l'année du nom de
-fichier et les données.
+fichier et les données. Un septième contrôle croise les fichiers entre eux : il
+vérifie que chaque identifiant patient présent dans l'activité est bien chaîné
+dans le VID-HOSP, et signale les identifiants orphelins.
+
+Chaque anomalie porte un niveau de gravité, du plus grave au plus anodin :
+Blocker, Error, Warning, Info. Un Blocker signifie qu'il ne faut pas transmettre
+en l'état. C'est ce niveau qui pilote le code de sortie du mode automatique.
 
 ---
 
@@ -254,6 +271,11 @@ poste partagé : les données lues ne vivent qu'en mémoire et disparaissent.
 
 L'écran **Traçabilité** indique où se trouve le journal d'audit et affiche le
 journal de la session en cours.
+
+Un mode en ligne de commande existe pour les traitements planifiés, il est
+décrit dans le dossier technique destiné à la direction des ressources
+numériques. Si vous rencontrez un raccourci qui lance Pinel sans ouvrir de
+fenêtre, c'est de cela qu'il s'agit.
 
 ---
 
