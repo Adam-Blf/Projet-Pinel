@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pinel</title>
+  <link rel="stylesheet" href="fonts/fonts.css">
+  <link rel="stylesheet" href="css/pinel.css">
+</head>
+
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <h1>Pinel</h1>
+        <p>GHT Psy Sud Paris<br>Département d'Information Médicale</p>
+      </div>
+
+      <nav class="nav" aria-label="Navigation principale">
+        <div class="nav-group">Traitement des données PMSI</div>
+        <button class="nav-item" data-view="moulinette" aria-current="page">
+          <span class="chip"><span class="i" data-icon="file-down"></span></span> Conversion des formats ATIH
+          <span class="badge" id="badge-fichiers">0</span>
+        </button>
+        <button class="nav-item" data-view="episodes">
+          <span class="chip"><span class="i" data-icon="history"></span></span> Épisodes de prise en charge
+        </button>
+        <button class="nav-item" data-view="structure">
+          <span class="chip"><span class="i" data-icon="git-branch"></span></span> Structure du GHT
+        </button>
+        <button class="nav-item" data-view="fichcomp">
+          <span class="chip"><span class="i" data-icon="table-2"></span></span> Fichiers complémentaires
+        </button>
+
+        <div class="nav-group">Qualité et conformité</div>
+        <button class="nav-item" data-view="identito">
+          <span class="chip"><span class="i" data-icon="users-2"></span></span> Identitovigilance
+          <span class="badge" id="badge-conflits">0</span>
+        </button>
+        <button class="nav-item" data-view="controles">
+          <span class="chip"><span class="i" data-icon="check-circle"></span></span> Contrôles qualité
+        </button>
+
+        <div class="nav-group">Configuration</div>
+        <button class="nav-item" data-view="dossiers">
+          <span class="chip"><span class="i" data-icon="folders"></span></span> Emplacements autorisés
+        </button>
+        <button class="nav-item" data-view="journal">
+          <span class="chip"><span class="i" data-icon="info"></span></span> Traçabilité
+        </button>
+      </nav>
+
+      <div class="sidebar-foot">
+        <span id="version">Version 1.0.0</span>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <h2 id="view-title">Conversion des formats ATIH</h2>
+          <p id="view-subtitle">Chantier 1 - rendre les fichiers ATIH exploitables en CSV</p>
+        </div>
+        <div class="spacer"></div>
+        <button class="btn ghost" id="btn-reset" type="button">
+          <span class="i" data-icon="power"></span> Réinitialiser
+        </button>
+      </header>
+
+      <!-- ── Moulinette ─────────────────────────────────────────────── -->
+      <section class="view stack" id="view-moulinette">
+        <div class="card">
+          <h3>Dossiers à traiter</h3>
+          <p class="hint">Les fichiers sont lus dans les dossiers de travail autorisés. Le traitement reste sur le poste.</p>
+          <div class="row">
+            <button class="btn" id="btn-ajouter-dossier" type="button">
+              <span class="i" data-icon="folder-plus"></span> Ajouter un dossier
+            </button>
+            <button class="btn secondary" id="btn-scanner" type="button">
+              <span class="i" data-icon="search"></span> Scanner
+            </button>
+            <button class="btn secondary" id="btn-traiter" type="button">
+              <span class="i" data-icon="zap"></span> Traiter
+            </button>
+            <button class="btn" id="btn-export-csv" type="button">
+              <span class="i" data-icon="download"></span> Exporter en CSV
+            </button>
+          </div>
+        </div>
+
+        <div class="grid cols-4" id="kpi-moulinette"></div>
+
+        <div class="card">
+          <h3>Fichiers reconnus</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>Fichier</th><th>Format</th><th class="num">Taille (Ko)</th><th>Descriptif</th></tr>
+              </thead>
+              <tbody id="tbody-fichiers">
+                <tr><td colspan="4" class="empty">Aucun fichier. Ajoutez un dossier puis lancez le scan.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Épisodes ───────────────────────────────────────────────── -->
+      <section class="view stack" id="view-episodes" hidden>
+        <div class="card">
+          <h3>Règle de continuité</h3>
+          <p class="hint">
+            Un épisode regroupe les journées consécutives d'un même patient, dans une même unité médicale et un même
+            site. Le recueil étant annuel, un épisode se ferme au 31 décembre.
+          </p>
+          <div class="row">
+            <label class="check">Tolérance
+              <input type="number" id="episode-tolerance" value="0" min="0" max="30" style="width:5rem">
+              jour(s) sans venue
+            </label>
+            <label class="check"><input type="checkbox" id="episode-um" checked> Rupture au changement d'UM</label>
+            <label class="check"><input type="checkbox" id="episode-site" checked> Rupture au changement de site</label>
+            <label class="check"><input type="checkbox" id="episode-annee" checked> Fermeture au 31 décembre</label>
+            <button class="btn" id="btn-episodes" type="button">
+              <span class="i" data-icon="history"></span> Calculer les épisodes
+            </button>
+          </div>
+        </div>
+
+        <div class="grid cols-4" id="kpi-episodes"></div>
+
+        <div class="card">
+          <h3>Aperçu</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>Épisode</th><th>IPP</th><th>UM</th><th>Site</th><th>Début</th><th>Fin</th>
+                  <th class="num">Venues</th><th class="num">Durée</th></tr>
+              </thead>
+              <tbody id="tbody-episodes">
+                <tr><td colspan="8" class="empty">Traitez un lot RAA ou RPS, puis lancez le calcul.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Structure ──────────────────────────────────────────────── -->
+      <section class="view stack" id="view-structure" hidden>
+        <div class="card">
+          <h3>Fichier de structure du GHT</h3>
+          <p class="hint">CSV ou TSV. Les colonnes sont reconnues même si les intitulés varient.</p>
+          <div class="row">
+            <button class="btn" id="btn-structure" type="button">
+              <span class="i" data-icon="git-branch"></span> Choisir le fichier
+            </button>
+          </div>
+        </div>
+        <div class="card" id="card-structure"><div class="empty">Aucune structure chargée.</div></div>
+      </section>
+
+      <!-- ── FICHCOMP ───────────────────────────────────────────────── -->
+      <section class="view stack" id="view-fichcomp" hidden>
+        <div class="card">
+          <h3>Classeur transports</h3>
+          <p class="hint">
+            Retire les blocs d'en-tête répétés, propage la date de commande sur les lignes vides, et conserve
+            l'original avec les lignes retirées en rouge. Le fichier d'origine n'est jamais modifié.
+          </p>
+          <div class="row">
+            <button class="btn" id="btn-fichcomp-nettoyer" type="button">
+              <span class="i" data-icon="table-2"></span> Nettoyer un classeur
+            </button>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Contrôle d'un fichier complémentaire</h3>
+          <p class="hint">Longueur de ligne, FINESS, code, quantité et date au format attendu.</p>
+          <div class="row">
+            <select id="fichcomp-type">
+              <option value="med">Médicaments - 53 caractères</option>
+              <option value="dmi">Dispositifs médicaux - 50 caractères</option>
+            </select>
+            <button class="btn secondary" id="btn-fichcomp-controler" type="button">
+              <span class="i" data-icon="check-circle"></span> Contrôler un fichier
+            </button>
+          </div>
+        </div>
+        <div class="card" id="card-fichcomp"><div class="empty">Aucun traitement lancé.</div></div>
+      </section>
+
+      <!-- ── Identitovigilance ──────────────────────────────────────── -->
+      <section class="view stack" id="view-identito" hidden>
+        <div class="card">
+          <h3>Conflits de date de naissance</h3>
+          <p class="hint">Un même identifiant patient portant plusieurs dates de naissance casse le chaînage.</p>
+          <div class="row">
+            <button class="btn secondary" id="btn-collisions" type="button">
+              <span class="i" data-icon="users-2"></span> Actualiser
+            </button>
+            <button class="btn" id="btn-export-identite" type="button">
+              <span class="i" data-icon="download"></span> Exporter en CSV
+            </button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>IPP</th><th>Date retenue</th><th>Dates observées</th><th class="num">Occurrences</th></tr>
+              </thead>
+              <tbody id="tbody-collisions">
+                <tr><td colspan="4" class="empty">Aucun conflit détecté.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Contrôles ──────────────────────────────────────────────── -->
+      <section class="view stack" id="view-controles" hidden>
+        <div class="card">
+          <h3>Contrôles sur le lot</h3>
+          <p class="hint">
+            FINESS, format de date de naissance, identifiant en clair dans un fichier anonymisé, NIR de chaînage,
+            lignes en double, cohérence de l'année du fichier.
+          </p>
+          <div class="row">
+            <button class="btn" id="btn-controles" type="button">
+              <span class="i" data-icon="check-circle"></span> Lancer les contrôles
+            </button>
+          </div>
+        </div>
+        <div class="card" id="card-controles"><div class="empty">Aucun contrôle lancé.</div></div>
+      </section>
+
+      <!-- ── Dossiers de travail ────────────────────────────────────── -->
+      <section class="view stack" id="view-dossiers" hidden>
+        <div class="card">
+          <h3>Dossiers autorisés</h3>
+          <p class="hint">
+            Pinel ne lit et n'écrit que dans ces dossiers. Ils peuvent être locaux, sur un lecteur réseau monté ou
+            sur un partage du GHT.
+          </p>
+          <div class="row">
+            <button class="btn" id="btn-dossier-ajouter" type="button">
+              <span class="i" data-icon="folder-plus"></span> Ajouter un dossier
+            </button>
+          </div>
+          <div class="table-wrap" style="margin-top:var(--s3)">
+            <table>
+              <thead><tr><th>Dossier</th><th></th></tr></thead>
+              <tbody id="tbody-dossiers"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="grid cols-2">
+          <div class="card">
+            <h3>Dossier de sortie</h3>
+            <p class="hint">Destination des CSV, des exports et des classeurs nettoyés.</p>
+            <p class="path" id="dossier-sortie">—</p>
+            <button class="btn secondary" id="btn-dossier-sortie" type="button">Changer</button>
+          </div>
+          <div class="card">
+            <h3>Descriptifs de format</h3>
+            <p class="hint">
+              Dossier où déposer les descriptifs officiels, un fichier par format et par année. Les formats changent
+              tous les ans, aucune mise à jour de l'application n'est nécessaire.
+            </p>
+            <p class="path" id="dossier-formats">—</p>
+            <button class="btn secondary" id="btn-dossier-formats" type="button">Changer</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Journal ────────────────────────────────────────────────── -->
+      <section class="view stack" id="view-journal" hidden>
+        <div class="card">
+          <h3>Journal d'audit</h3>
+          <p class="hint">Trace horodatée des opérations sensibles. Aucune donnée patient n'y figure.</p>
+          <p class="path" id="chemin-audit">—</p>
+        </div>
+        <div class="card">
+          <h3>Journal de session</h3>
+          <div class="log" id="journal">En attente…</div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+  <script src="js/pinel.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,38 @@
+# Sorties de compilation
+bin/
+obj/
+publish/
+*.user
+*.suo
+.vs/
+
+# Livrables volumineux, regeneres par la compilation
+*.exe
+*.pdb
+
+# Donnees et secrets, jamais versionnes
+*.env
+.env*
+*.pfx
+*.cer
+*.key
+*.pem
+*secret*
+*.token
+
+# Fichiers PMSI : aucun fichier de donnees patient ne doit entrer ici
+*.rps
+*.raa
+*.RPS
+*.RAA
+donnees/
+data/
+echantillons/
+
+# Sorties de documentation regenerables
+docs/*.pdf
+
+# Systeme
+Thumbs.db
+desktop.ini
+~$*

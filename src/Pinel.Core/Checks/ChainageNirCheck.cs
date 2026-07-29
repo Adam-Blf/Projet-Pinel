@@ -1,0 +1,107 @@
+using System.Text;
+using Pinel.Core.Formats;
+
+namespace Pinel.Core.Checks;
+
+/// <summary>
+/// Detects the two most frequent chaînage failure modes documented in the
+/// SNDS PSY catalogue:
+/// <list type="bullet">
+///   <item><c>ERR-VID-NIR-MISSING</c> (retour 999999) - NIR absent -
+///     premier motif de rejet PSY (~70% des échecs pour patients
+///     institutionnalisés de longue date).</item>
+///   <item><c>ERR-VID-NIR-FORMAT</c> (retour 400000) - NIR non numérique
+///     ou longueur non conforme.</item>
+/// </list>
+/// Le NIR occupe les 13 premiers caractères de la ligne VID-HOSP / VID-IPP,
+/// suivis d'une clé de 2 chiffres.
+/// </summary>
+public sealed class ChainageNirCheck : IFileCheck
+{
+    private static readonly Encoding Latin1 = Encoding.GetEncoding("ISO-8859-1");
+
+    public string Name => "NIR VID-HOSP";
+
+    public IReadOnlySet<string>? AppliesTo { get; } = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+    {
+        "VID-HOSP", "ANO-HOSP",
+    };
+
+    static ChainageNirCheck()
+    {
+        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+    }
+
+    public IEnumerable<CheckFinding> Validate(string filePath, string formatName)
+    {
+        StreamReader? reader = null;
+        string? ioError = null;
+        try { reader = new StreamReader(filePath, Latin1); }
+        catch (IOException ex) { ioError = ex.Message; }
+
+        if (reader is null)
+        {
+            yield return new CheckFinding(
+                "ERR-IO", CheckSeverity.Blocker,
+                $"Impossible de lire le fichier : {ioError}",
+                filePath, 0, formatName);
+            yield break;
+        }
+
+        using (reader)
+        {
+            int lineNo = 0;
+            int missingCount = 0;
+            while (reader.ReadLine() is { } line)
+            {
+                lineNo++;
+                if (line.Length < 15) continue;
+
+                var nir = line[..13].Trim();
+                var key = line.Length >= 15 ? line[13..15].Trim() : "";
+
+                if (nir.Length == 0 || nir.All(c => c == '0'))
+                {
+                    missingCount++;
+                    // Cap individual findings, emit aggregate at the end.
+                    if (missingCount <= 20)
+                    {
+                        yield return new CheckFinding(
+                            "ERR-VID-NIR-MISSING", CheckSeverity.Warning,
+                            "NIR absent - chaînage retournera code 999999 (pas de numéro anonyme).",
+                            filePath, lineNo, formatName,
+                            FixHint: "Vérifier saisie NIR patient dans le SIH, ou statuer en DIM comme cas long-séjour sans SS.");
+                    }
+                    continue;
+                }
+
+                if (!nir.All(char.IsDigit))
+                {
+                    yield return new CheckFinding(
+                        "ERR-VID-NIR-FORMAT", CheckSeverity.Error,
+                        $"NIR non numérique : « {nir} » - chaînage retournera code 400000.",
+                        filePath, lineNo, formatName,
+                        FixHint: "Vérifier l'export NIR (espaces résiduels, clé mal alignée).");
+                }
+
+                if (key.Length > 0 && !key.All(char.IsDigit))
+                {
+                    yield return new CheckFinding(
+                        "ERR-VID-NIR-KEY", CheckSeverity.Error,
+                        $"Clé de contrôle NIR non numérique : « {key} ».",
+                        filePath, lineNo, formatName,
+                        FixHint: "Vérifier que l'export inclut bien la clé 2-chiffres après le NIR 13-chiffres.");
+                }
+            }
+
+            if (missingCount > 20)
+            {
+                yield return new CheckFinding(
+                    "ERR-VID-NIR-MISSING-BULK", CheckSeverity.Warning,
+                    $"{missingCount} lignes VID-HOSP sans NIR - volume anormal.",
+                    filePath, 0, formatName,
+                    FixHint: "Revue DIM requise - possible export tronqué ou établissement mal configuré.");
+            }
+        }
+    }
+}

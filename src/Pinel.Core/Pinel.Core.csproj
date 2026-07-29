@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Pinel.Core</RootNamespace>
+    <AssemblyTitle>Pinel Core</AssemblyTitle>
+    <Description>Lecture des formats ATIH, exports, episodes ambulatoires, structure</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Les regles internes (mise en forme, detection d'en-tete) sont couvertes
+         par les tests sans etre exposees a l'application. -->
+    <InternalsVisibleTo Include="Pinel.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ClosedXML" Version="0.105.0" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="10.0.6" />
+  </ItemGroup>
+
+</Project>
