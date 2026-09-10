@@ -76,11 +76,33 @@ public sealed class WorkspaceSettings
 
     /// <summary>
     /// Ajoute un dossier, en refusant les doublons et les chemins illisibles.
-    /// Retourne le chemin normalise, ou null si le dossier n'existe pas.
+    /// Retourne le chemin normalise, ou null si le dossier est refuse.
     /// </summary>
+    /// <remarks>
+    /// Sucre pour <see cref="TryAddFolder"/> quand seul le resultat binaire
+    /// compte a l'appel. Conserve pour ne pas casser les appelants existants ;
+    /// le refus mecanique des racines nues s'applique aussi a travers elle.
+    /// </remarks>
     public string? AddFolder(string folder)
     {
-        if (string.IsNullOrWhiteSpace(folder)) return null;
+        var result = TryAddFolder(folder);
+        return result.Accepted ? result.NormalizedPath : null;
+    }
+
+    /// <summary>
+    /// Ajoute un dossier et explique pourquoi si c'est refuse. Une racine de
+    /// volume nue (<c>C:\</c>) ou une racine UNC nue (<c>\\serveur\partage</c>)
+    /// sont refusees meme si elles existent : les accepter transformerait le
+    /// confinement de <see cref="SafePath"/> en decoration, puisque tout
+    /// chemin du poste ou du partage tomberait alors sous une racine
+    /// autorisee.
+    /// </summary>
+    public FolderAdditionResult TryAddFolder(string folder)
+    {
+        if (string.IsNullOrWhiteSpace(folder))
+        {
+            return new FolderAdditionResult(FolderAdditionStatus.NotFound, null);
+        }
 
         string full;
         try
@@ -89,16 +111,44 @@ public sealed class WorkspaceSettings
         }
         catch (Exception ex) when (ex is ArgumentException or NotSupportedException or PathTooLongException)
         {
-            return null;
+            return new FolderAdditionResult(FolderAdditionStatus.NotFound, null);
         }
 
-        if (!Directory.Exists(full)) return null;
+        if (IsBareRoot(full))
+        {
+            var status = full.StartsWith(@"\\", StringComparison.Ordinal)
+                ? FolderAdditionStatus.BareUncRoot
+                : FolderAdditionStatus.BareVolumeRoot;
+            return new FolderAdditionResult(status, null);
+        }
+
+        if (!Directory.Exists(full))
+        {
+            return new FolderAdditionResult(FolderAdditionStatus.NotFound, null);
+        }
 
         if (!Folders.Any(f => string.Equals(f, full, StringComparison.OrdinalIgnoreCase)))
         {
             Folders.Add(full);
         }
-        return full;
+        return new FolderAdditionResult(FolderAdditionStatus.Accepted, full);
+    }
+
+    /// <summary>
+    /// True quand <paramref name="full"/> est exactement la racine de son
+    /// volume ou de son partage UNC, sans aucun sous-dossier derriere. La
+    /// comparaison se fait separateur de fin retire des deux cotes : Windows
+    /// rend <c>C:\</c> egal a lui-meme mais <c>\\serveur\partage</c> (sans
+    /// barre finale) n'est egal a sa racine qu'apres ce retrait.
+    /// </summary>
+    private static bool IsBareRoot(string full)
+    {
+        var root = Path.GetPathRoot(full);
+        if (string.IsNullOrEmpty(root)) return false;
+        return string.Equals(
+            full.TrimEnd(Path.DirectorySeparatorChar),
+            root.TrimEnd(Path.DirectorySeparatorChar),
+            StringComparison.OrdinalIgnoreCase);
     }
 
     public bool RemoveFolder(string folder) =>
@@ -117,4 +167,43 @@ public sealed class WorkspaceSettings
         if (!string.IsNullOrWhiteSpace(FormatsFolder)) return FormatsFolder!;
         return Path.Combine(AppDirectory, "formats");
     }
+}
+
+/// <summary>Statut mecanique d'une tentative d'ajout de dossier de travail.</summary>
+public enum FolderAdditionStatus
+{
+    /// <summary>Dossier ajoute, ou deja present.</summary>
+    Accepted,
+
+    /// <summary>Chemin vide, illisible, ou dossier inexistant.</summary>
+    NotFound,
+
+    /// <summary>Racine nue d'un lecteur (<c>C:\</c>), sans sous-dossier.</summary>
+    BareVolumeRoot,
+
+    /// <summary>Racine nue d'un partage UNC (<c>\\serveur\partage</c>), sans sous-dossier.</summary>
+    BareUncRoot,
+}
+
+/// <summary>
+/// Resultat explicite d'une tentative d'ajout de dossier de travail, pour que
+/// l'appelant puisse afficher pourquoi un chemin est refuse plutot que de se
+/// contenter d'un booleen muet.
+/// </summary>
+public sealed record FolderAdditionResult(FolderAdditionStatus Status, string? NormalizedPath)
+{
+    /// <summary>True quand le dossier a ete ajoute (ou etait deja present).</summary>
+    public bool Accepted => Status == FolderAdditionStatus.Accepted;
+
+    /// <summary>Motif lisible par l'utilisateur, nommant une cible atteignable quand le dossier est refuse.</summary>
+    public string Reason => Status switch
+    {
+        FolderAdditionStatus.Accepted => "Dossier ajoute.",
+        FolderAdditionStatus.NotFound => "Dossier introuvable ou illisible.",
+        FolderAdditionStatus.BareVolumeRoot =>
+            "Ce chemin est un lecteur entier, pas un dossier de travail. Choisissez un sous-dossier precis, par exemple C:\\Donnees\\Rimp.",
+        FolderAdditionStatus.BareUncRoot =>
+            "Ce chemin est un partage reseau entier, pas un dossier de travail. Choisissez un sous-dossier precis, par exemple \\\\serveur\\partage\\Rimp.",
+        _ => "Dossier refuse.",
+    };
 }

@@ -105,6 +105,16 @@ public static class SafePath
     }
 
     /// <summary>
+    /// True when <paramref name="path"/> carries a Win32 extended device
+    /// prefix. Public so the guard can be proven on both the raw candidate and
+    /// the normalized path, which are not equivalent: "//?/C:/x" carries no
+    /// prefix as written and acquires one only through normalization.
+    /// </summary>
+    public static bool IsExtendedDevicePath(string path)
+        => path.StartsWith(@"\\?\", StringComparison.Ordinal)
+        || path.StartsWith(@"\\.\", StringComparison.Ordinal);
+
+    /// <summary>
     /// Cœur de la règle, sans état : normalise <paramref name="candidate"/> et
     /// vérifie qu'il tombe sous une des <paramref name="roots"/>. Renvoie le
     /// chemin normalisé, ou <c>null</c> s'il est refusé.
@@ -115,11 +125,8 @@ public static class SafePath
 
         // Chemins étendus : Win32 ne normalise pas les ".." derrière ces
         // préfixes, la comparaison de préfixe ne prouverait donc rien.
-        if (candidate.StartsWith(@"\\?\", StringComparison.Ordinal)
-            || candidate.StartsWith(@"\\.\", StringComparison.Ordinal))
-        {
-            return null;
-        }
+        // Premier passage sur la chaîne brute : court-circuit peu coûteux.
+        if (IsExtendedDevicePath(candidate)) return null;
 
         string full;
         try
@@ -130,6 +137,13 @@ public static class SafePath
         {
             return null;
         }
+
+        // Second passage, celui qui compte. La forme en barres obliques
+        // "//?/C:/..." ne porte pas le préfixe Win32 dans la chaîne brute :
+        // elle ne l'acquiert qu'à la normalisation. Tester avant elle laissait
+        // donc passer un chemin étendu, et la garde n'appliquait pas ce qu'elle
+        // annonçait. On teste la valeur qui sera réellement ouverte.
+        if (IsExtendedDevicePath(full)) return null;
 
         // Flux de données alterné : un ':' au-delà de la lettre de lecteur.
         if (full.Length > 2 && full.IndexOf(':', 2) >= 0) return null;

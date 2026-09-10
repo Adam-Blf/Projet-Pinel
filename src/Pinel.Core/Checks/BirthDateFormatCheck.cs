@@ -14,6 +14,9 @@ public sealed class BirthDateFormatCheck : IFileCheck
 {
     private static readonly Encoding Latin1 = Encoding.GetEncoding("ISO-8859-1");
 
+    /// <summary>ATIH encodes the DDN on 8 digits (YYYYMMDD).</summary>
+    private const int DdnDigits = 8;
+
     public string Name => "DDN YYYYMMDD";
 
     public IReadOnlySet<string>? AppliesTo => null; // every format has a DDN
@@ -31,16 +34,20 @@ public sealed class BirthDateFormatCheck : IFileCheck
         }
 
         StreamReader? reader = null;
-        string? ioError = null;
+        string? readFailure = null;
         try { reader = new StreamReader(filePath, Latin1); }
-        catch (IOException ex) { ioError = ex.Message; }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            readFailure = FindingRedaction.ReadFailure(ex);
+        }
 
         if (reader is null)
         {
             yield return new CheckFinding(
                 "ERR-IO", CheckSeverity.Blocker,
-                $"Impossible de lire le fichier : {ioError}",
-                filePath, 0, formatName);
+                readFailure ?? FindingRedaction.ReadFailedMessage,
+                filePath, 0, formatName,
+                FixHint: FindingRedaction.ReadFailureHint);
             yield break;
         }
 
@@ -65,10 +72,13 @@ public sealed class BirthDateFormatCheck : IFileCheck
                 }
 
                 consecutiveBad++;
+                // Message carries the GAP, never the date of birth: findings reach
+                // the UI and the JSON report on disk. See FindingRedaction.
                 yield return new CheckFinding(
                     issue.Value.code,
                     issue.Value.severity,
-                    issue.Value.message + $" Valeur lue : « {ddn} ».",
+                    $"{issue.Value.message} ({FindingRedaction.Position(fmt.DdnStart, fmt.DdnLength)}) : "
+                    + $"{issue.Value.gap}.",
                     filePath, lineNo, formatName,
                     FixHint: issue.Value.fixHint);
 
@@ -83,13 +93,18 @@ public sealed class BirthDateFormatCheck : IFileCheck
     /// the anomaly. The heuristic privileges ATIH convention (YYYYMMDD) and
     /// flags the classic DDMMYYYY misencoding as a warning, not a blocker,
     /// because some legacy exports at Fondation Vallée used that layout in 2021.
+    /// <para>
+    /// <c>gap</c> describes the deviation without reproducing the date, which is
+    /// patient data: the caller appends it to the message verbatim.
+    /// </para>
     /// </summary>
-    private static (string code, CheckSeverity severity, string message, string fixHint)? ClassifyDdn(string ddn)
+    private static (string code, CheckSeverity severity, string message, string gap, string fixHint)? ClassifyDdn(string ddn)
     {
-        if (ddn.Length != 8 || !ddn.All(char.IsDigit))
+        if (ddn.Length != DdnDigits || !ddn.All(char.IsDigit))
         {
             return ("ERR-DDN-NON-NUMERIC", CheckSeverity.Error,
-                "DDN non numérique ou de longueur incorrecte.",
+                "DDN non numérique ou de longueur incorrecte",
+                FindingRedaction.DigitGap(DdnDigits, ddn),
                 "Attendu : 8 chiffres au format YYYYMMDD.");
         }
 
@@ -107,7 +122,8 @@ public sealed class BirthDateFormatCheck : IFileCheck
             catch (ArgumentOutOfRangeException)
             {
                 return ("ERR-DDN-DAY", CheckSeverity.Error,
-                    "Jour/mois invalide dans la DDN.",
+                    "Jour ou mois invalide dans la DDN",
+                    "le quantième lu n'existe pas dans le mois lu",
                     "Corriger la date dans le logiciel source.");
             }
         }
@@ -117,12 +133,14 @@ public sealed class BirthDateFormatCheck : IFileCheck
         if (tailYear is >= 1900 and <= 2099)
         {
             return ("WARN-DDN-DDMMYYYY", CheckSeverity.Warning,
-                "DDN semble au format DDMMYYYY au lieu de YYYYMMDD (ATIH).",
+                "DDN au format DDMMYYYY au lieu de YYYYMMDD (ATIH)",
+                "les 4 derniers chiffres forment une année plausible, les 4 premiers non",
                 "Réencoder la DDN en YYYYMMDD avant envoi DRUIDES / e-PMSI.");
         }
 
         return ("ERR-DDN-YEAR", CheckSeverity.Error,
-            "Année de naissance hors de la plage 1900-2099.",
+            "Année de naissance hors plage",
+            "millésime attendu entre 1900 et 2099, valeur lue en dehors",
             "Vérifier la saisie du patient dans le SIH.");
     }
 }

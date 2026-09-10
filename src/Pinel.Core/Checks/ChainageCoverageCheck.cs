@@ -24,6 +24,9 @@ public sealed class ChainageCoverageCheck : ICrossFileCheck
         "RPS", "RAA", "RPSA", "R3A", "RHS", "SSRHA", "RAPSS", "RAPSS-HAD", "RPSS", "RSS",
     };
 
+    /// <summary>Upper bound on orphan findings, to keep the report readable.</summary>
+    private const int OrphanCap = 200;
+
     public string Name => "Chaînage VID-HOSP";
 
     static ChainageCoverageCheck()
@@ -62,12 +65,14 @@ public sealed class ChainageCoverageCheck : ICrossFileCheck
             yield break;
         }
 
-        // Extract IPPs from VID-HOSP using its positional format.
+        // Extract IPPs from VID-HOSP using its positional format, keeping the
+        // line where each one was first seen: after redaction the line number is
+        // the only locator left to the TIM, so it must be the real one.
         var vidFormat = AtihMatrix.Require("VID-HOSP");
-        var vidIpps = new HashSet<string>(StringComparer.Ordinal);
-        foreach (var ipp in ExtractIpps(vid.Path, vidFormat))
+        var vidIpps = new Dictionary<string, int>(StringComparer.Ordinal);
+        foreach (var (ipp, lineNo) in ExtractIpps(vid.Path, vidFormat))
         {
-            vidIpps.Add(ipp);
+            vidIpps.TryAdd(ipp, lineNo);
         }
 
         // Cross-check each activity file.
@@ -75,16 +80,17 @@ public sealed class ChainageCoverageCheck : ICrossFileCheck
         foreach (var (path, format) in activity)
         {
             if (!AtihMatrix.All.TryGetValue(format, out var fmt)) continue;
-            int lineNo = 0;
-            foreach (var ipp in ExtractIpps(path, fmt, withLineNumbers: true))
+            var position = FindingRedaction.Position(fmt.IppStart, fmt.IppLength);
+            foreach (var (ipp, lineNo) in ExtractIpps(path, fmt))
             {
-                lineNo++;
                 activityIpps.Add(ipp);
-                if (!vidIpps.Contains(ipp))
+                if (!vidIpps.ContainsKey(ipp))
                 {
+                    // Message carries the position, never the IPP: findings reach
+                    // the UI and the JSON report on disk. See FindingRedaction.
                     yield return new CheckFinding(
                         "ERR-CHAINAGE-MANQUANT", CheckSeverity.Error,
-                        $"IPP « {ipp} » présent dans {format} mais absent du VID-HOSP.",
+                        $"IPP présent dans {format} ({position}) mais absent du VID-HOSP.",
                         path, lineNo, format,
                         FixHint: "Régénérer le VID-HOSP ou ajouter le patient au chaînage.");
                 }
@@ -92,30 +98,42 @@ public sealed class ChainageCoverageCheck : ICrossFileCheck
         }
 
         // Orphans in VID-HOSP that nobody in the activity set references.
-        foreach (var orphan in vidIpps.Except(activityIpps).Take(200))
+        var vidPosition = FindingRedaction.Position(vidFormat.IppStart, vidFormat.IppLength);
+        var orphans = vidIpps
+            .Where(entry => !activityIpps.Contains(entry.Key))
+            .OrderBy(entry => entry.Value)
+            .Take(OrphanCap);
+        foreach (var orphan in orphans)
         {
             yield return new CheckFinding(
                 "WARN-CHAINAGE-ORPHAN", CheckSeverity.Warning,
-                $"IPP « {orphan} » présent dans VID-HOSP mais absent des fichiers d'activité.",
-                vid.Path, 0, vid.Format,
+                $"IPP présent dans VID-HOSP ({vidPosition}) mais absent des fichiers d'activité.",
+                vid.Path, orphan.Value, vid.Format,
                 FixHint: "Vérifier si c'est un résidu d'un envoi précédent à purger.");
         }
     }
 
-    private static IEnumerable<string> ExtractIpps(string path, AtihFormat fmt, bool withLineNumbers = false)
+    /// <summary>
+    /// Yields every non-empty IPP of <paramref name="path"/> with its 1-indexed
+    /// line number. A read failure yields nothing: the batch-level checks already
+    /// raise an <c>ERR-IO</c> finding for the same file.
+    /// </summary>
+    private static IEnumerable<(string Ipp, int LineNumber)> ExtractIpps(string path, AtihFormat fmt)
     {
         StreamReader? reader = null;
         try { reader = new StreamReader(path, Latin1); }
-        catch (IOException) { yield break; }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException) { yield break; }
 
         using (reader)
         {
+            int lineNo = 0;
             while (reader.ReadLine() is { } line)
             {
+                lineNo++;
                 if (line.Length < fmt.IppEnd) continue;
                 var ipp = line[fmt.IppStart..fmt.IppEnd].Trim();
                 if (string.IsNullOrEmpty(ipp) || ipp.All(c => c == '0')) continue;
-                yield return ipp;
+                yield return (ipp, lineNo);
             }
         }
     }

@@ -1,0 +1,102 @@
+/*
+ * Pinel - ossature de la page : barre latérale, zone de contenu, écrans.
+ */
+
+/* ── Ossature ─────────────────────────────────────────────────────────── */
+.app { display: flex; height: 100%; }
+
+.sidebar {
+  width: var(--sidebar);
+  flex: none;
+  background: var(--surface);
+  border-right: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+}
+
+.brand {
+  padding: var(--s4) var(--s4) var(--s3);
+  border-bottom: 1px solid var(--line);
+}
+
+.brand h1 {
+  margin: 0;
+  font-size: var(--t-lg);
+  font-weight: 800;
+  letter-spacing: -.02em;
+  color: var(--c-moulinette-ink);
+}
+
+.brand p {
+  margin: var(--s1) 0 0;
+  font-size: var(--t-xs);
+  line-height: 1.35;
+  color: var(--muted);
+}
+
+/* ── Navigation ───────────────────────────────────────────────────────── */
+/* .nav-shell est l'élément <nav> (repère de navigation) : il porte le nom
+   accessible. .nav, en dessous, porte le rôle tablist et le défilement :
+   séparer les deux évite qu'un rôle explicite écrase le repère de navigation
+   implicite de <nav>. */
+.nav-shell { display: flex; flex-direction: column; flex: 1; min-height: 0; }
+.nav { flex: 1; overflow-y: auto; padding: var(--s3) 0; }
+
+.nav-group {
+  padding: var(--s3) var(--s4) var(--s1);
+  font-size: var(--t-xs);
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  width: 100%;
+  padding: var(--s2) var(--s3);
+  border: 0;
+  border-left: 3px solid transparent;
+  background: none;
+  font: inherit;
+  font-weight: 600;
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+}
+
+.nav-item:hover { background: var(--canvas); }
+.nav-item .badge { margin-left: auto; }
+
+.sidebar-foot {
+  padding: var(--s3) var(--s4);
+  border-top: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  font-size: var(--t-xs);
+  color: var(--muted);
+}
+
+/* ── Contenu ──────────────────────────────────────────────────────────── */
+.main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+
+.topbar {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s3);
+  padding: var(--s4) var(--s5) var(--s3);
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.topbar h2 { margin: 0; font-size: var(--t-xl); font-weight: 800; letter-spacing: -.02em; }
+.topbar p { margin: 0; font-size: var(--t-sm); color: var(--muted); }
+.topbar .spacer { flex: 1; }
+
+.view { flex: 1; overflow-y: auto; padding: var(--s5); }
+.view[hidden] { display: none; }
+
+.stack > * + * { margin-top: var(--s4); }

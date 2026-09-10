@@ -223,8 +223,10 @@ Proposition, à adapter aux procédures de la DRN.
 - Une capacité de conversion d'une page HTML en PDF existe dans le service
   interne mais n'est reliée à aucun bouton de l'interface : elle est présente,
   non exposée.
-- Les positions de champ des formats ATIH ne sont pas fournies avec
-  l'application. Elles proviennent des descriptifs officiels que le DIM dépose.
+- Pinel embarque les positions par défaut de tous les formats ATIH (23 formats au
+  total). Ces positions proviennent d'un ancien processus d'extraction et peuvent
+  être remplacées par les descriptifs que le DIM dépose pour des années
+  spécifiques, permettant des adaptations sans redéploiement.
 - Les emplacements et les noms d'écrans peuvent être renommés à la demande de la
   DRN ou du DIM, sans conséquence technique.
 

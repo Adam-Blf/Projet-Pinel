@@ -1,0 +1,68 @@
+/*
+ * Pinel - couleur de section : chaque chantier (moulinette, épisodes,
+ * structure...) colore la barre de titre, l'icône active et les valeurs
+ * chiffrées, ce qui situe l'utilisateur d'un coup d'œil.
+ *
+ * --accent sert aux fonds pleins (boutons), --accent-ink sert au texte et
+ * aux bordures : la variante "-ink" est celle qui change en thème sombre,
+ * voir jetons.css.
+ */
+.app[data-accent="moulinette"] { --accent: var(--c-moulinette); --accent-ink: var(--c-moulinette-ink); }
+.app[data-accent="episodes"]   { --accent: var(--c-episodes);   --accent-ink: var(--c-episodes-ink); }
+.app[data-accent="structure"]  { --accent: var(--c-structure);  --accent-ink: var(--c-structure-ink); }
+.app[data-accent="fichcomp"]   { --accent: var(--c-fichcomp);   --accent-ink: var(--c-fichcomp-ink); }
+.app[data-accent="identito"]   { --accent: var(--c-identito);   --accent-ink: var(--c-identito-ink); }
+.app[data-accent="controles"]  { --accent: var(--c-controles);  --accent-ink: var(--c-controles-ink); }
+.app[data-accent="dossiers"]   { --accent: var(--c-dossiers);   --accent-ink: var(--c-dossiers-ink); }
+.app[data-accent="journal"]    { --accent: var(--c-journal);    --accent-ink: var(--c-journal-ink); }
+.app[data-accent="apropos"]    { --accent: var(--c-apropos);    --accent-ink: var(--c-apropos-ink); }
+
+/* Chaque entrée de navigation garde sa couleur, active ou non : l'icône
+   reste un repère graphique (contraste non textuel), la couleur de texte
+   de l'entrée active passe par -ink pour rester lisible en thème sombre. */
+.nav-item[data-view="moulinette"] .i { color: var(--c-moulinette); }
+.nav-item[data-view="episodes"] .i   { color: var(--c-episodes); }
+.nav-item[data-view="structure"] .i  { color: var(--c-structure); }
+.nav-item[data-view="fichcomp"] .i   { color: var(--c-fichcomp); }
+.nav-item[data-view="identito"] .i   { color: var(--c-identito); }
+.nav-item[data-view="controles"] .i  { color: var(--c-controles); }
+.nav-item[data-view="dossiers"] .i   { color: var(--c-dossiers); }
+.nav-item[data-view="journal"] .i    { color: var(--c-journal); }
+.nav-item[data-view="apropos"] .i    { color: var(--c-apropos); }
+
+.nav-item[aria-current="page"] {
+  border-left-color: var(--accent-ink);
+  color: var(--accent-ink);
+  background: color-mix(in srgb, var(--accent) 9%, transparent);
+}
+
+/* Filet de couleur sous la barre de titre. */
+.topbar { border-bottom-color: color-mix(in srgb, var(--accent) 35%, var(--line)); box-shadow: inset 0 -3px 0 -1px var(--accent); }
+.topbar h2 { color: var(--accent-ink); }
+
+.note { border-left-color: var(--accent); background: color-mix(in srgb, var(--accent) 8%, transparent); }
+
+/* ── Pastille d'icône de navigation ───────────────────────────────────── */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.9rem;
+  height: 1.9rem;
+  flex: none;
+  border-radius: 8px;
+  background: color-mix(in srgb, currentColor 12%, transparent);
+}
+
+.nav-item[data-view="moulinette"] .chip { color: var(--c-moulinette); }
+.nav-item[data-view="episodes"] .chip   { color: var(--c-episodes); }
+.nav-item[data-view="structure"] .chip  { color: var(--c-structure); }
+.nav-item[data-view="fichcomp"] .chip   { color: var(--c-fichcomp); }
+.nav-item[data-view="identito"] .chip   { color: var(--c-identito); }
+.nav-item[data-view="controles"] .chip  { color: var(--c-controles); }
+.nav-item[data-view="dossiers"] .chip   { color: var(--c-dossiers); }
+.nav-item[data-view="journal"] .chip    { color: var(--c-journal); }
+.nav-item[data-view="apropos"] .chip    { color: var(--c-apropos); }
+
+.nav-item .chip .i { width: 1.05rem; height: 1.05rem; }
+.nav-item[aria-current="page"] .chip { background: color-mix(in srgb, currentColor 20%, transparent); }

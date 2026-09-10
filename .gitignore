@@ -36,3 +36,8 @@ docs/*.pdf
 Thumbs.db
 desktop.ini
 ~$*
+
+# Descriptifs officiels de l ATIH : 41 Mo de documents publics, regeneres
+# par tools/telecharger_formats_atih.py. Le moyen de les retrouver est
+# versionne, les documents eux-memes n ont pas leur place dans l historique.
+reference/atih/

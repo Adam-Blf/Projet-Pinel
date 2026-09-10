@@ -17,7 +17,10 @@ public static class AtihFormatIdentifier
         (new(@"rpsa", RegexOptions.IgnoreCase | RegexOptions.Compiled),  "RPSA"),
         (new(@"r3a", RegexOptions.IgnoreCase | RegexOptions.Compiled),   "R3A"),
         (new(@"fichsup[\-_.]?psy|fichsup|fic[\-_]?sup", RegexOptions.IgnoreCase | RegexOptions.Compiled), "FICHSUP-PSY"),
-        (new(@"edgar", RegexOptions.IgnoreCase | RegexOptions.Compiled), "EDGAR"),
+        // EDGAR volontairement absent : ce n'est pas un format de fichier mais
+        // une typologie d'actes ambulatoires (entretien, demarche, groupe,
+        // accompagnement, reunion) codee A L'INTERIEUR du RAA. Le declarer ici
+        // faisait reconnaitre comme un fichier ce qui est une valeur de champ.
         (new(@"ficum[\-_.]?psy|ficum", RegexOptions.IgnoreCase | RegexOptions.Compiled), "FICUM-PSY"),
         (new(@"rsf[\-_.]?ace[\-_.]?psy", RegexOptions.IgnoreCase | RegexOptions.Compiled), "RSF-ACE-PSY"),
 

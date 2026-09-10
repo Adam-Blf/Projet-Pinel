@@ -31,10 +31,10 @@ public sealed class ChainageTests : IDisposable
         var file = Path.Combine(_tempDir, "FV94_VID-HOSP_2024.txt");
         var lines = ipps.Select(ipp =>
         {
-            // VID-HOSP length 518, IPP [265..285), DDN [19..27)
-            var sb = new System.Text.StringBuilder(new string(' ', 518));
+            // VID-HOSP officiel 2026 : 520 caracteres, IPP [353..373), DDN [19..27)
+            var sb = new System.Text.StringBuilder(new string(' ', 520));
             var paddedIpp = ipp.PadRight(20)[..20];
-            for (int i = 0; i < paddedIpp.Length; i++) sb[265 + i] = paddedIpp[i];
+            for (int i = 0; i < paddedIpp.Length; i++) sb[353 + i] = paddedIpp[i];
             // Put a valid-looking NIR at the start so NIR validator stays happy.
             var nir = "199046234567891"; // 13-digit NIR + 2-digit key
             for (int i = 0; i < nir.Length && i < 15; i++) sb[i] = nir[i];
@@ -59,7 +59,14 @@ public sealed class ChainageTests : IDisposable
             (Path: vid, Format: "VID-HOSP"),
         }).ToList();
 
-        Assert.Contains(findings, f => f.Code == "ERR-CHAINAGE-MANQUANT" && f.Message.Contains("IPP-B"));
+        // L'anomalie doit être levée sur le fichier qui porte l'IPP orphelin.
+        Assert.Contains(findings, f => f.Code == "ERR-CHAINAGE-MANQUANT" && f.SourceFile == rpsB);
+
+        // Garde anti-régression : jusqu'au 28/08/2026 ce message recopiait la
+        // valeur de l'IPP. Les anomalies remontent à l'interface ET sont
+        // sérialisées dans un rapport JSON écrit sur disque, donc aucune ne doit
+        // porter d'identifiant patient en clair. Voir FindingRedaction.
+        Assert.DoesNotContain(findings, f => f.Message.Contains("IPP-B", StringComparison.Ordinal));
     }
 
     [Fact]

@@ -31,10 +31,11 @@ public sealed class AtihFormatIdentifierTests
     }
 
     [Fact]
-    public void Matrix_contains_all_23_core_formats()
+    public void Matrix_contains_the_22_verified_formats()
     {
-        // 23 canonical formats (matrix keeps the 23 live ones after de-dup).
-        Assert.Equal(23, AtihMatrix.All.Count);
+        // 22 formats depuis le 28/08/2026 : EDGAR a ete retire, ce n'est pas un
+        // format de fichier mais une typologie d'actes codee dans le RAA.
+        Assert.Equal(22, AtihMatrix.All.Count);
     }
 
     [Fact]

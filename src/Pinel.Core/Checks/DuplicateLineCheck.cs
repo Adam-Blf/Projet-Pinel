@@ -27,16 +27,20 @@ public sealed class DuplicateLineCheck : IFileCheck
     public IEnumerable<CheckFinding> Validate(string filePath, string formatName)
     {
         StreamReader? reader = null;
-        string? ioError = null;
+        string? readFailure = null;
         try { reader = new StreamReader(filePath, Latin1); }
-        catch (IOException ex) { ioError = ex.Message; }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            readFailure = FindingRedaction.ReadFailure(ex);
+        }
 
         if (reader is null)
         {
             yield return new CheckFinding(
                 "ERR-IO", CheckSeverity.Blocker,
-                $"Impossible de lire le fichier : {ioError}",
-                filePath, 0, formatName);
+                readFailure ?? FindingRedaction.ReadFailedMessage,
+                filePath, 0, formatName,
+                FixHint: FindingRedaction.ReadFailureHint);
             yield break;
         }
 

@@ -5,6 +5,63 @@ Département d'Information Médicale, GHT Psy Sud Paris.
 
 ---
 
+## Par où commencer ?
+
+Ce dossier contient quatre documents. Lequel lire en premier ?
+
+**Vous êtes technicien ou médecin du DIM**
+Commencez par ce Guide utilisateur. Lisez au minimum les chapitres 1 à 4. Il
+vous explique comment utiliser Pinel au quotidien.
+
+**La direction des ressources numériques (DRN) approuve le déploiement**
+Lisez le Dossier technique (03_DOSSIER_TECHNIQUE_DSI.md). Il porte l'architecture,
+les flux de données, les ports écoutés, la recette et les prérequis
+d'installation.
+
+**La personne déléguée à la protection des données (DPO) valide la conformité**
+Lisez le Dossier sécurité et conformité (04_SECURITE_ET_CONFORMITE.md). Il porte
+la conformité RGPD, la minimisation, les mesures de sécurité et les points à
+trancher avec la DRN.
+
+**Le DIM veut comprendre les règles métier appliquées**
+Lisez le Dossier fonctionnel (02_DOSSIER_FONCTIONNEL_DIM.md). Il porte le
+cahier des charges, la reconnaissance des fichiers, les contrôles qualité et les
+épisodes.
+
+Les quatre documents se croisent par des renvois de chapitres. Lisez selon votre
+rôle.
+
+---
+
+## Vue d'ensemble - Architecture des fichiers
+
+Trois fichiers jouent des rôles distincts dans la conversion :
+
+```
+Fichier ATIH en entrée (largeur fixe)
+           |
+           | Nom contient le sigle (RPS, RAA, etc.)
+           v
+Identification du format
+           |
+           +-----> Recherche d'un descriptif déposé
+           |
+Fichier descriptif ATIH (positions de champs)
+           |
+           v
+Descriptif trouvé (appliqué) OU Positions par défaut (embarquées)
+           |                           |
+           +---------------------------+
+           |
+           v
+Découpage selon les positions
+           |
+           v
+CSV produit (une colonne par champ)
+```
+
+---
+
 ## 1. Ce que fait Pinel
 
 Les fichiers transmis aux tutelles sont des fichiers texte à largeur fixe. Tout y
@@ -109,12 +166,34 @@ assistant d'importation et sans accents cassés.
 
 ### 4.3 Les descriptifs de format, à déposer une fois par an
 
-Le cahier des charges le souligne : les formats changent tous les ans. Pinel ne
-fige donc aucune position de champ dans son code. Il lit des descriptifs que
-vous déposez, recopiés des descriptifs officiels de l'ATIH.
+#### Pourquoi les descriptifs
 
-Un descriptif est un fichier texte nommé `RPS.format.csv`, à placer dans le
-dossier des descriptifs :
+Le cahier des charges le souligne : les formats changent tous les ans. Pinel
+embarque des positions de champ par défaut pour tous les formats. Ces positions
+proviennent d'un ancien processus d'extraction et peuvent devenir inexactes si le
+format a changé. Vous pouvez donc déposer un descriptif pour l'année en cours,
+recopié du document officiel de l'ATIH. Il remplacera les positions par défaut.
+
+#### Trois fichiers distincts
+
+Trois fichiers jouent des rôles différents. C'est là que naît la confusion.
+
+**Fichier ATIH en entrée - ce que vous fournissez**
+
+C'est le fichier à largeur fixe fourni par votre système d'information (un RPS ou
+RAA, par exemple). Aujourd'hui, Pinel déduit le format de ce fichier par son nom,
+en cherchant un sigle reconnu (RPS, RAA, RPSA, etc.). C'est une limite connue :
+le type d'enregistrement devrait se lire sur chaque ligne du fichier lui-même, pas
+sur le nom global du fichier. Cette lecture par ligne est en cours de correction.
+Elle lèvera cette limite. En attendant, nommez vos fichiers de manière explicite,
+par exemple `FV94_RPS_2025.txt`. L'année dans le nom est optionnelle.
+
+**Fichier de descriptif que vous déposez - les positions de vos champs**
+
+C'est un fichier texte séparé, à placer dans le dossier des descriptifs. Son nom
+suit la convention `NOMDUFORMAT.format.csv`, par exemple `RPS.format.csv`.
+
+Contenu :
 
 ```
 # format: RPS
@@ -125,26 +204,105 @@ IPP;22;20;Identifiant permanent du patient
 DATE_ACTE;42;8;Date de l'acte
 ```
 
-Les positions se lisent comme dans les documents de l'ATIH, le premier caractère
-de la ligne porte le numéro 1. Ajouter un millésime revient à déposer un
-fichier : aucune nouvelle version de Pinel n'est nécessaire.
+Ce descriptif est une copie du document officiel de l'ATIH. Les positions se
+lisent comme dans ce document : le premier caractère de la ligne porte le numéro 1.
 
-Tant qu'aucun descriptif n'est déposé pour un format, la conversion produit une
-colonne contenant la ligne brute, et le signale. Pinel préfère un CSV honnête à
-un découpage inventé.
+> **Les chiffres de l'exemple ci-dessus ne sont pas des valeurs de référence.**
+> Ils illustrent la forme du fichier, rien de plus. Ne les recopiez pas : les
+> positions réelles doivent être relevées dans le document de structure publié
+> par l'ATIH pour le format et le millésime que vous traitez. Une position
+> erronée décale toute la ligne et produit un CSV qui paraît correct.
+
+**CSV produit en sortie - le résultat**
+
+C'est le fichier que Pinel écrit pour vous, une fois le descriptif appliqué ou les
+positions par défaut utilisées. Une ligne par ligne du fichier ATIH, une colonne
+par champ décrit.
+
+#### Ce que vous faites concrètement
+
+1. Récupérez le document de l'ATIH pour le format concerné (RPS 2025, RAA 2025,
+   etc.).
+2. Créez un fichier texte nommé `RPS.format.csv` si c'est un RPS.
+3. Commencez par les deux lignes de commentaire : `# format: RPS` et
+   `# annee: 2025`.
+4. Énumérez une ligne par champ, avec quatre colonnes séparées par point-virgule :
+   nom du champ, numéro de début dans la ligne brute, nombre de caractères,
+   libellé compris par vous et votre équipe.
+5. Placez le fichier dans le dossier des descriptifs.
+6. Lancez la conversion dans Pinel. Le fichier de descriptif sera automatiquement
+   trouvé et appliqué.
+
+Ajouter un millésime revient à déposer un nouveau fichier : aucune nouvelle
+version de Pinel n'est nécessaire.
+
+#### Exemple commenté - RPS 2025
+
+Votre document ATIH vous dit :
+
+Champ FINESS : début colonne 1, longueur 9 caractères.
+
+Champ IPP : début colonne 22, longueur 20 caractères.
+
+Champ DATE_ACTE : début colonne 42, longueur 8 caractères.
+
+Vous écrivez le descriptif :
+
+```
+# format: RPS
+# annee: 2025
+nom;debut;longueur;libelle
+FINESS;1;9;FINESS de l'etablissement
+IPP;22;20;Identifiant permanent du patient
+DATE_ACTE;42;8;Date de l'acte au format AAAAMMJJ
+```
+
+À partir de la première ligne de vos données, Pinel lira 9 caractères à partir du
+début pour FINESS, 20 caractères à partir de la colonne 22 pour IPP, et
+8 caractères à partir de la colonne 42 pour DATE_ACTE.
+
+Le CSV produit aura une colonne par champ, plus trois colonnes de traçabilité en
+tête : FICHIER_SOURCE, NUM_LIGNE, FORMAT.
+
+#### Ce qui se passe si aucun descriptif n'est déposé
+
+Tant qu'aucun descriptif n'est déposé pour un format, la conversion utilise les
+positions par défaut embarquées dans Pinel. Si vous doutes de l'exactitude de ces
+positions, la conversion produit une seule colonne contenant la ligne brute. Pinel
+signale clairement ce choix : mieux vaut un CSV avec une colonne qu'un CSV
+découpe avec des positions fausses et aucune alerte.
+
+#### Limites connues
+
+**Identification du format par le nom du fichier.** Aujourd'hui, Pinel reconnaît
+le format en cherchant le sigle (RPS, RAA, etc.) dans le nom du fichier. Cela
+signifie que vous devez nommer vos fichiers de manière explicite. Un fichier
+nommé `donnees.txt` ne sera pas reconnu, même s'il contient un RPS. C'est une
+limite : le format devrait se lire sur chaque ligne du fichier lui-même, pas sur
+son nom. Cette correction est en cours.
+
+**Formats anonymes déclarés avec des positions d'identifiant.** Pinel déclare des
+positions d'IPP et de date de naissance pour les formats RPSA et R3A. Or, ces
+formats sont anonymes par construction : ils ne contiennent ni IPP ni date de
+naissance en clair (remplacés par une anonymisation irréversible selon l'arrêté du
+23 décembre 2016). Déposer un descriptif qui prétend extraire un IPP d'un fichier
+RPSA produira une colonne vide ou aberrante. C'est un défaut connu : les positions
+par défaut de ces deux formats ne correspondent pas à leur contenu réel.
 
 ### 4.4 Les formats reconnus
 
 | Domaine | Formats |
 |---|---|
-| Psychiatrie | RPS, RAA, RPSA, R3A, FICHSUP-PSY, EDGAR, FICUM-PSY, RSF-ACE-PSY |
+| Psychiatrie | RPS, RAA, RPSA, R3A, EDGAR, FICUM-PSY, RSF-ACE-PSY |
 | SSR et SMR | RHS, SSRHA, RAPSS, FICHCOMP-SMR |
 | HAD | RPSS, RAPSS-HAD, FICHCOMP-HAD, SSRHA-HAD |
 | Transversal | VID-HOSP, ANO-HOSP, FICHCOMP |
 | MCO | RSS, RSFA, RSFB, RSFC |
 
-Le format VID-IPP, cité dans le cahier des charges, n'est pas encore reconnu par
-son nom de fichier. Il le sera dès que son descriptif sera fourni.
+Le format FICHSUP-PSY a été supprimé au 1er janvier 2021 et remplacé par FICHCOMP.
+Pinel reconnaît toujours ce format pour les données antérieures. Le format VID-IPP,
+cité dans le cahier des charges, n'est pas encore reconnu par son nom de fichier.
+Il le sera dès que son descriptif sera fourni.
 
 ---
 
@@ -283,7 +441,7 @@ fenêtre, c'est de cela qu'il s'agit.
 
 | Symptôme | Cause probable | Solution |
 |---|---|---|
-| Un fichier apparaît en INCONNU | Le nom ne permet pas d'identifier le format | Renommer selon la convention ATIH, en faisant apparaître le format et l'année |
+| Un fichier apparaît en INCONNU | Le nom ne permet pas d'identifier le format | Renommer en incluant le sigle du format (RPS, RAA, etc.) dans le nom du fichier, voir 4.3 |
 | Le dossier est refusé | Emplacement non déclaré | Ajouter le dossier dans Emplacements autorisés |
 | Le CSV contient une seule colonne de texte | Aucun descriptif déposé pour ce format | Déposer le descriptif officiel, voir 4.3 |
 | Aucun épisode calculé | Le descriptif ne déclare ni identifiant ni date | Compléter le descriptif du format concerné |

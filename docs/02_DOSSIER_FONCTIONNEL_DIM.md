@@ -56,11 +56,14 @@ son domaine et son année d'apparition.
 
 | Domaine | Formats |
 |---|---|
-| Psychiatrie | RPS, RAA, RPSA, R3A, FICHSUP-PSY, EDGAR, FICUM-PSY, RSF-ACE-PSY |
+| Psychiatrie | RPS, RAA, RPSA, R3A, EDGAR, FICUM-PSY, RSF-ACE-PSY |
 | SSR et SMR | RHS, SSRHA, RAPSS, FICHCOMP-SMR |
 | HAD | RPSS, RAPSS-HAD, FICHCOMP-HAD, SSRHA-HAD |
 | Transversal | VID-HOSP, ANO-HOSP, FICHCOMP |
 | MCO | RSS, RSFA, RSFB, RSFC |
+
+Le format FICHSUP-PSY a été supprimé au 1er janvier 2021 et remplacé par FICHCOMP.
+Pinel reconnaît toujours ce format pour les données antérieures.
 
 Le format RSF-ACE du cahier des charges est traité sous deux entrées, RSF-ACE-PSY
 pour l'activité externe psychiatrique et RSFA pour l'activité externe MCO. Le
@@ -72,10 +75,11 @@ autres fichiers complémentaires sont traités par l'entrée générique FICHCOM
 
 ### 3.2 Les descriptifs de format, réponse au changement annuel
 
-Le cahier des charges souligne que les formats changent chaque année. Aucune
-position de champ n'est donc écrite dans le code de l'application. Le découpage
-est piloté par des descriptifs que le DIM dépose, recopiés des descriptifs
-officiels de l'ATIH.
+Le cahier des charges souligne que les formats changent chaque année. Pinel
+embarque les positions de tous les formats reconnus, issues d'un ancien processus
+d'extraction. Le DIM peut déposer des descriptifs pour une année donnée, recopiés
+des descriptifs officiels de l'ATIH. Ces descriptifs remplacent les positions par
+défaut.
 
 Un descriptif est un fichier texte, une ligne par champ :
 
@@ -106,8 +110,25 @@ indicateur d'ordre des octets. Trois colonnes de traçabilité en tête, fichier
 source, numéro de ligne et format, puis une colonne par champ décrit.
 
 Les valeurs commençant par un caractère qu'Excel interpréterait comme une
-formule sont neutralisées. Un fichier de sortie n'écrase jamais un fichier
-existant : un suffixe numérique est ajouté.
+formule sont neutralisées. Si un fichier de sortie de même nom existe déjà, il
+sera écrasé. Le DIM doit gérer l'organisation de ses dossiers de sortie et
+conserver ses originaux en lieu sûr.
+
+### 3.4 Limites connues sur les formats
+
+**Formats anonymes déclarés avec des positions d'identifiant.** Pinel déclare des
+positions d'IPP (identifiant permanent du patient) et de date de naissance pour
+les formats RPSA et R3A. Or, ces formats sont anonymes par construction : ils ne
+contiennent ni IPP ni date de naissance en clair. Ces champs sont remplacés par
+une anonymisation irréversible selon l'arrêté du 23 décembre 2016. Déposer un
+descriptif qui prétend extraire un IPP d'un fichier RPSA produira une colonne
+vide ou aberrante. C'est un défaut connu : les positions par défaut de ces deux
+formats ne correspondent pas à leur contenu réel.
+
+**Identification du format par le nom du fichier.** Aujourd'hui, Pinel reconnaît
+le format en cherchant le sigle dans le nom du fichier. Le type d'enregistrement
+devrait se lire sur chaque ligne du fichier lui-même, pas sur son nom global.
+Cette lecture par ligne est en cours de correction et lèvera cette limite.
 
 ---
 

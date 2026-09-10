@@ -31,6 +31,17 @@ public sealed class AtihParser
             yield break;
         }
 
+        // Le descriptif officiel de l'ATIH ne declare aucun identifiant patient
+        // exploitable pour ce format : soit il n'en porte pas, soit l'IPP y a
+        // ete remplace par un hachage irreversible (RPSA, R3A, sorties de
+        // PIVOINE). Lire les octets qui se trouvent aux positions nominales
+        // reviendrait a classer une cle d'anonymisation comme un identifiant de
+        // patient, c'est-a-dire a refaire le lien que MAGIC et PIVOINE coupent.
+        if (!format.CarriesPatientIdentifiers)
+        {
+            yield break;
+        }
+
         var effective = DetectVariant(filePath, format);
 
         using var reader = new StreamReader(filePath, Latin1);
