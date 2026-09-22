@@ -1,0 +1,32 @@
+# format: RSF_C_HONORAIRE-PSY
+# annee: 2026
+# source: formats_psy_2026_0.xlsx
+nom;debut;longueur;libelle
+TYPE_D_ENREGISTREMENT;1;1;Type d'enregistrement
+NUMERO_FINESS_D_INSCRIPTION_EPMSI;2;9;Numéro FINESS d’inscription ePMSI
+FILLER;11;9;Filler
+NUMERO_D_ENTREE;20;9;Numéro d'entrée
+N_IMMATRICULATION_ASSURE;29;13;N° immatriculation assuré
+CLE_DU_N_IMMATRICULATION;42;2;Clé du n° immatriculation
+RANG_DE_BENEFICIAIRE;44;3;Rang de bénéficiaire
+N_FACTURE;47;9;N° facture
+N_IMMATRICULATION_INDIVIDUEL;56;13;N° immatriculation individuel
+CLE_DU_N_IMMATRICULATION_INDIVIDUEL;69;2;Clé du n° immatriculation individuel
+MODE_DE_TRAITEMENT;71;2;Mode de traitement
+DISCIPLINE_DE_PRESTATION_EX_DMT;73;3;Discipline de prestation (ex DMT)
+JUSTIFICATION_EXO_TM;76;1;Justification exo TM
+SPECIALITE_EXECUTANT;77;2;Spécialité exécutant
+DATE_DE_L_ACTE;79;8;Date de l'acte
+CODE_ACTE;87;5;Code acte
+QUANTITE;92;2;Quantité
+COEFFICIENT;94;6;Coefficient
+DENOMBREMENT;100;2;Dénombrement
+PRIX_UNITAIRE;102;7;Prix Unitaire
+MONTANT_BASE_REMBOURSEMENT;109;7;Montant Base remboursement
+TAUX_REMBOURSEMENT;116;3;Taux Remboursement
+MONTANT_REMBOURSABLE_PAR_AMO;119;7;Montant Remboursable par AMO
+MONTANT_DES_HONORAIRE_DEPASSEMENT_COMPRI;126;7;Montant des honoraire (dépassement compris)
+MONTANT_REMBOURSABLE_PAR_AMC;133;6;Montant remboursable par AMC
+MONTANT_REMBOURSE_NOEMIE_RETOUR;139;8;Montant remboursé NOEMIE Retour
+NATURE_OPERATION_RECUPERATION_NOEMIE_RET;147;3;Nature opération récupération NOEMIE Retour
+FILLER_2;150;7;Filler

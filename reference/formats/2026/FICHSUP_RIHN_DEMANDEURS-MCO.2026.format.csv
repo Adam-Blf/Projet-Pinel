@@ -1,0 +1,12 @@
+# format: FICHSUP_RIHN_DEMANDEURS-MCO
+# annee: 2026
+# source: formats_mco_2026.xlsx
+nom;debut;longueur;libelle
+FINESS_ETABLISSEMENT_PAYEUR;1;9;Finess établissement payeur
+TYPE_DE_FICHIER;10;3;Type de fichier
+ANNEE;13;4;Année
+PERIODE;17;2;Période
+FINESS_ETABLISSEMENT_PRODUCTEUR;19;9;Finess établissement producteur
+CODE_ACTE;28;4;Code Acte
+NOMBRE;32;10;Nombre
+MONTANT;42;10;Montant

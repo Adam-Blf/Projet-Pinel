@@ -1,0 +1,6 @@
+# format: HOSP-FACT
+# annee: 2026
+# source: formats_psy_2026_0.xlsx
+nom;debut;longueur;libelle
+N_DE_SEJOUR;1;20;N° de séjour
+N_D_ENTREE;21;9;N° d’entrée

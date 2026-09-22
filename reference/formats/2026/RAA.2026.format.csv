@@ -1,0 +1,25 @@
+# format: RAA
+# annee: 2026
+# source: formats_psy_2026_0.xlsx
+# zone-repetee: oui
+nom;debut;longueur;libelle
+NUMERO_FINESS_D_INSCRIPTION_EPMSI;1;9;Numéro FINESS d’inscription ePMSI
+N_FINESS_GEOGRAPHIQUE;10;9;N° FINESS géographique
+N_DE_FORMAT;19;3;N° de format
+N_D_IDENTIFICATION_PERMANENT_DU_PATIENT;22;20;N° d’identification permanent du patient (IPP)
+DATE_DE_NAISSANCE_DU_PATIENT;42;8;Date de naissance du patient
+SEXE_DU_PATIENT;50;1;Sexe du patient
+CODE_POSTAL_DE_RESIDENCE;51;5;Code postal de résidence
+FORME_D_ACTIVITE;56;4;Forme d'activité
+N_D_UNITE_MEDICALE;60;4;N° d’unité médicale
+N_DE_SECTEUR_OU_DE_DISPOSITIF_INTERSECTO;64;5;N° de secteur ou de dispositif intersectoriel
+MODE_LEGAL_DE_SOINS;69;1;Mode légal de soins
+DATE_DE_L_ACTE;70;8;Date de l’acte
+NATURE_DE_L_ACTE;78;2;Nature de l’acte
+LIEU_DE_L_ACTE;80;3;Lieu de l’acte
+MODALITE_DE_REALISATION_DE_L_ACTE;83;1;Modalité de réalisation de l'acte
+CATEGORIE_PROFESSIONNELLE_DE_L_INTERVENA;84;1;Catégorie professionnelle de l’intervenant
+NOMBRE_D_INTERVENANTS;85;1;Nombre d’intervenants
+INDICATEUR_D_ACTIVITE_LIBERALE;86;1;Indicateur d’activité libérale
+DIAGNOSTIC_PRINCIPAL_OU_MOTIF_DE_PRISE_E;87;8;Diagnostic principal ou motif de prise en charge principale
+NOMBRE_DE_DIAGNOSTICS_ET_FACTEURS_ASSOCI;95;2;Nombre de diagnostics et facteurs associés

@@ -53,12 +53,13 @@ public sealed record FormatField(string Name, int Start, int Length, string Labe
 /// </remarks>
 public sealed class FormatLayout
 {
-    public FormatLayout(string format, int? year, IReadOnlyList<FormatField> fields, string source = "")
+    public FormatLayout(string format, int? year, IReadOnlyList<FormatField> fields, string source = "", bool hasRepeatZone = false)
     {
         Format = format;
         Year = year;
         Fields = fields;
         Source = source;
+        HasRepeatZone = hasRepeatZone;
     }
 
     /// <summary>Nom du format ATIH, tel que reconnu par l'identification de fichier.</summary>
@@ -72,6 +73,13 @@ public sealed class FormatLayout
 
     /// <summary>Chemin du fichier d'ou vient le descriptif, vide s'il est integre.</summary>
     public string Source { get; }
+
+    /// <summary>
+    /// Vrai quand le format se prolonge par une zone repetee (diagnostics
+    /// associes, actes) dont la longueur depend d'un compteur de la ligne : les
+    /// champs declares ne couvrent alors que la partie fixe.
+    /// </summary>
+    public bool HasRepeatZone { get; }
 
     /// <summary>Longueur minimale attendue d'une ligne complete.</summary>
     public int ExpectedLength => Fields.Count == 0 ? 0 : Fields.Max(f => f.End);
@@ -90,6 +98,7 @@ public sealed class FormatLayout
         var fields = new List<FormatField>();
         string? format = null;
         int? year = null;
+        bool repeatZone = false;
 
         foreach (var raw in File.ReadAllLines(path, Encoding.UTF8))
         {
@@ -107,6 +116,10 @@ public sealed class FormatLayout
                          && int.TryParse(comment[6..].Trim(), out var parsedYear))
                 {
                     year = parsedYear;
+                }
+                else if (comment.StartsWith("zone-repetee:", StringComparison.OrdinalIgnoreCase))
+                {
+                    repeatZone = comment[13..].Trim().Equals("oui", StringComparison.OrdinalIgnoreCase);
                 }
                 continue;
             }
@@ -130,6 +143,6 @@ public sealed class FormatLayout
         }
 
         format ??= Path.GetFileNameWithoutExtension(path).Split('.')[0].ToUpperInvariant();
-        return new FormatLayout(format, year, fields, path);
+        return new FormatLayout(format, year, fields, path, repeatZone);
     }
 }

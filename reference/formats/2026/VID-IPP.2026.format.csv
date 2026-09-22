@@ -1,0 +1,18 @@
+# format: VID-IPP
+# annee: 2026
+# source: formats_psy_2026_0.xlsx
+nom;debut;longueur;libelle
+N_IMMATRICULATION_ASSURE;1;13;N° immatriculation assuré
+CLE_DU_N_IMMATRICULATION;14;2;Clé du N° immatriculation
+DATE_DE_NAISSANCE_DU_BENEFICIAIRE;16;8;Date de naissance du bénéficiaire
+SEXE_DU_BENEFICIAIRE;24;1;Sexe du bénéficiaire
+FILLER;25;24;Filler
+N_FORMAT;49;4;N° format
+N_FINESS_D_INSCRIPTION_E_PMSI;53;9;N° FINESS d’inscription e-PMSI
+N_IMMATRICULATION_INDIVIDUEL;62;13;N° immatriculation individuel
+CLE_DU_N_IMMATRICULATION_INDIVIDUEL;75;2;Clé du N° immatriculation individuel
+RANG_DE_NAISSANCE;77;1;Rang de naissance
+RANG_DU_BENEFICIAIRE;78;3;Rang du bénéficiaire
+IPP;81;20;IPP
+FILLER_2;101;20;Filler
+IDENTIIFANT_NATIONAL_DE_SANTE_INS;121;15;Identiifant national de santé (INS)

@@ -1,0 +1,39 @@
+# format: RPS
+# annee: 2026
+# source: formats_psy_2026_0.xlsx
+# zone-repetee: oui
+nom;debut;longueur;libelle
+NUMERO_FINESS_D_INSCRIPTION_EPMSI;1;9;Numéro FINESS d’inscription ePMSI
+N_FINESS_GEOGRAPHIQUE;10;9;N° FINESS géographique
+N_DE_FORMAT;19;3;N° de format
+N_D_IDENTIFICATION_PERMANENT_DU_PATIENT;22;20;N° d’identification permanent du patient (IPP)
+DATE_DE_NAISSANCE_DU_PATIENT;42;8;Date de naissance du patient
+SEXE_DU_PATIENT;50;1;Sexe du patient
+CODE_POSTAL_DE_RESIDENCE;51;5;Code postal de résidence
+FORME_D_ACTIVITE;56;4;Forme d'activité
+N_DE_SEJOUR;60;20;N° de séjour
+DATE_D_ENTREE_DE_SEJOUR;80;8;Date d’entrée de séjour
+MODE_D_ENTREE_DE_SEJOUR;88;1;Mode d’entrée de séjour
+PROVENANCE;89;1;Provenance
+DATE_DE_SORTIE_DE_SEJOUR;90;8;Date de sortie de séjour
+MODE_DE_SORTIE_DE_SEJOUR;98;1;Mode de sortie de séjour
+DESTINATION;99;1;Destination
+N_D_UNITE_MEDICALE;100;4;N° d’unité médicale
+N_DE_SECTEUR_OU_DE_DISPOSITIF_INTERSECTO;104;5;N° de secteur ou de dispositif intersectoriel
+MODE_LEGAL_DE_SOINS;109;1;Mode légal de soins
+FILLER;110;1;Filler
+DATE_DE_DEBUT_DE_SEQUENCE;111;8;Date de début de séquence
+DATE_DE_FIN_DE_SEQUENCE;119;8;Date de fin de séquence
+NOMBRE_DE_JOURS_DE_PRESENCE;127;3;Nombre de jours de présence
+NOMBRE_DE_DEMI_JOURNEES_DE_PRESENCE;130;3;Nombre de demi-journées de présence
+NOMBRE_DE_JOURS_D_ISOLEMENT_DE_DUREE_2H;133;3;Nombre de jours d’isolement de durée >= 2h
+SCORE_DEPENDANCE_HABILLAGE_AVQ;136;1;Score dépendance habillage (AVQ)
+SCORE_DEPENDANCE_DEPLACEMENT_LOCOMOTION;137;1;Score dépendance déplacement/locomotion (AVQ)
+SCORE_DEPENDANCE_ALIMENTATION_AVQ;138;1;Score dépendance alimentation (AVQ)
+SCORE_DEPENDANCE_CONTINENCE_AVQ;139;1;Score dépendance continence (AVQ)
+SCORE_DEPENDANCE_COMPORTEMENT_AVQ;140;1;Score dépendance comportement (AVQ)
+SCORE_DEPENDANCE_COMMUNICATION_AVQ;141;1;Score dépendance communication (AVQ)
+INDICATEUR_D_ACCOMPAGNEMENT_THERAPEUTIQU;142;1;Indicateur d’accompagnement thérapeutique en milieu scolaire
+DIAGNOSTIC_PRINCIPAL_OU_MOTIF_DE_PRISE_E;143;8;Diagnostic principal ou motif de prise en charge principale
+NOMBRE_DE_DIAGNOSTICS_ET_FACTEURS_ASSOCI;151;2;Nombre de diagnostics et facteurs associés (nDA)
+NOMBRE_D_ACTES_CCAM_NZA;153;2;Nombre d’actes CCAM (nZA)

@@ -1,0 +1,31 @@
+# format: RSF_L_ACTES_BIO-PSY
+# annee: 2026
+# source: formats_psy_2026_0.xlsx
+nom;debut;longueur;libelle
+TYPE_D_ENREGISTREMENT;1;1;Type d'enregistrement
+NUMERO_FINESS_D_INSCRIPTION_EPMSI;2;9;Numéro FINESS d’inscription ePMSI
+FILLER;11;9;Filler
+NUMERO_D_ENTREE;20;9;Numéro d'entrée
+N_IMMATRICULATION_ASSURE;29;13;N° immatriculation assuré
+CLE_DU_N_IMMATRICULATION;42;2;Clé du n° immatriculation
+RANG_DE_BENEFICIAIRE;44;3;Rang de bénéficiaire
+N_FACTURE;47;9;N° facture
+N_IMMATRICULATION_INDIVIDUEL;56;13;N° immatriculation individuel
+CLE_DU_N_IMMATRICULATION_INDIVIDUEL;69;2;Clé du n° immatriculation individuel
+MODE_DE_TRAITEMENT;71;2;Mode de traitement
+DISCIPLINE_DE_PRESTATION_EX_DMT;73;3;Discipline de prestation (ex DMT)
+DATE_DE_L_ACTE_1;76;8;Date de l'acte 1
+QUANTITE_ACTE_1;84;2;Quantité acte 1
+CODE_ACTE_1;86;8;Code acte 1
+DATE_DE_L_ACTE_2;94;8;Date de l'acte 2
+QUANTITE_ACTE_2;102;2;Quantité acte 2
+CODE_ACTE_2;104;8;Code acte 2
+DATE_DE_L_ACTE_3;112;8;Date de l'acte 3
+QUANTITE_ACTE_3;120;2;Quantité acte 3
+CODE_ACTE_3;122;8;Code acte 3
+DATE_DE_L_ACTE_4;130;8;Date de l'acte 4
+QUANTITE_ACTE_4;138;2;Quantité acte 4
+CODE_ACTE_4;140;8;Code acte 4
+DATE_DE_L_ACTE_5;148;8;Date de l'acte 5
+QUANTITE_ACTE_5;156;2;Quantité acte 5
+CODE_ACTE_5;158;8;Code acte 5

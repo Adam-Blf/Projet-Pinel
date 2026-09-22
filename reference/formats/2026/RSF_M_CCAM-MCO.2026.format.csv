@@ -1,0 +1,43 @@
+# format: RSF_M_CCAM-MCO
+# annee: 2026
+# source: formats_mco_2026.xlsx
+nom;debut;longueur;libelle
+TYPE_D_ENREGISTREMENT;1;1;Type d'enregistrement
+NUMERO_FINESS_D_INSCRIPTION_EPMSI;2;9;Numéro FINESS d’inscription ePMSI
+FILLER;11;9;Filler
+NUMERO_DE_RSS;20;20;Numéro de RSS
+N_IMMATRICULATION_ASSURE;40;13;N° immatriculation assuré
+CLE_DU_N_IMMATRICULATION;53;2;Clé du n° immatriculation
+RANG_DE_BENEFICIAIRE;55;3;Rang de bénéficiaire
+N_FACTURE;58;9;N° facture
+N_IMMATRICULATION_INDIVIDUEL;67;13;N° immatriculation individuel
+CLE_DU_N_IMMATRICULATION_INDIVIDUEL;80;2;Clé du n° immatriculation individuel
+MODE_DE_TRAITEMENT;82;2;Mode de traitement
+DISCIPLINE_DE_PRESTATION_EX_DMT;84;3;Discipline de prestation (ex DMT)
+DATE_DE_L_ACTE;87;8;Date de l'acte
+CODE_CCAM;95;13;Code CCAM
+EXTENSION_DOCUMENTAIRE;108;1;Extension documentaire
+ACTIVITE;109;1;Activité
+PHASE;110;1;Phase
+MODIFICATEUR_1;111;1;Modificateur 1
+MODIFICATEUR_2;112;1;Modificateur 2
+MODIFICATEUR_3;113;1;Modificateur 3
+MODIFICATEUR_4;114;1;Modificateur 4
+ASSOCIATION_NON_PREVUE;115;1;Association non prévue
+CODE_REMBOURSEMENT_EXCEPTIONNEL;116;1;Code remboursement exceptionnel
+N_DENT_1;117;2;N° dent 1
+N_DENT_2;119;2;N° dent 2
+N_DENT_3;121;2;N° dent 3
+N_DENT_4;123;2;N° dent 4
+N_DENT_5;125;2;N° dent 5
+N_DENT_6;127;2;N° dent 6
+N_DENT_7;129;2;N° dent 7
+N_DENT_8;131;2;N° dent 8
+N_DENT_9;133;2;N° dent 9
+N_DENT_10;135;2;N° dent 10
+N_DENT_11;137;2;N° dent 11
+N_DENT_12;139;2;N° dent 12
+N_DENT_13;141;2;N° dent 13
+N_DENT_14;143;2;N° dent 14
+N_DENT_15;145;2;N° dent 15
+N_DENT_16;147;2;N° dent 16

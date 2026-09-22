@@ -1,0 +1,45 @@
+# format: RSF_ACE_A-MCO
+# annee: 2026
+# source: formats_mco_2026.xlsx
+nom;debut;longueur;libelle
+TYPE_D_ENREGISTREMENT;1;1;Type d'enregistrement
+NUMERO_FINESS_D_INSCRIPTION_EPMSI;2;9;Numéro FINESS d’inscription ePMSI
+NUMERO_FINESS_GEOGRAPHIQUE;11;9;Numéro FINESS géographique
+SEXE;20;1;Sexe
+CODE_CIVILITE;21;1;Code civilité
+N_IMMATRICULATION_ASSURE;22;13;N° immatriculation assuré
+CLE_DU_N_IMMATRICULATION;35;2;Clé du n° immatriculation
+RANG_DE_BENEFICIAIRE;37;3;Rang de bénéficiaire
+N_D_ENTREE;40;9;N° d'entrée
+N_IMMATRICULATION_INDIVIDUEL;49;13;N° immatriculation individuel
+CLE_DU_N_IMMATRICULATION_INDIVIDUEL;62;2;Clé du n° immatriculation individuel
+INDICATEUR_DU_PARCOURS_DE_SOINS;64;1;Indicateur du parcours de soins
+NATURE_OPERATION;65;1;Nature opération
+NATURE_ASSURANCE;66;2;Nature assurance
+TYPE_DE_CONTRAT_SOUSCRIT_AUPRES_D_UN_ORG;68;2;Type de contrat souscrit auprès d'un organisme complémentaire
+JUSTIFICATION_D_EXONERATION_DU_TM;70;1;Justification d'exonération du TM
+SEJOUR_FACTURABLE_A_L_ASSURANCE_MALADIE;71;1;Séjour facturable à l'assurance maladie
+FILLER;72;1;Filler
+MOTIF_DE_NON_FACTURATION_A_L_ASSURANCE_M;73;1;Motif de non facturation à l’assurance maladie
+CODE_GD_REGIME;74;2;Code Gd régime
+DATE_NAISSANCE;76;8;Date Naissance
+RANG_DE_NAISSANCE;84;1;Rang de naissance
+DATE_D_ENTREE;85;8;Date d'entrée
+DATE_DE_SORTIE;93;8;Date de sortie
+CODE_POSTAL_DU_LIEU_DE_RESIDENCE_DU_PATI;101;5;Code postal du lieu de résidence du patient
+TOTAL_BASE_REMBOURSEMENT_PRESTATION_HOSP;106;8;Total Base Remboursement Prestation hospitalière
+TOTAL_REMBOURSABLE_AMO_PRESTATION_HOSPIT;114;8;Total remboursable AMO Prestation hospitalières
+TOTAL_HONORAIRE_FACTURE;122;8;Total honoraire facturé
+TOTAL_HONORAIRE_REMBOURSABLE_AM;130;8;Total honoraire remboursable AM
+TOTAL_PARTICIPATION_ASSURE_AVANT_OC;138;8;Total participation assuré avant OC
+TOTAL_REMBOURSABLE_OC_POUR_LES_PH;146;8;Total remboursable OC pour les PH
+TOTAL_REMBOURSABLE_OC_POUR_LES_HONORAIRE;154;8;Total remboursable OC pour les honoraires
+MONTANT_TOTAL_FACTURE_POUR_PH;162;8;Montant total facturé pour PH
+FILLER_2;170;1;Filler
+PATIENT_BENEFICIAIRE_DE_LA_CMU;171;1;Patient bénéficiaire de la CMU
+VALORISE_PAR_FIDES;172;1;Valorisé par FIDES
+CODE_GESTION;173;2;Code gestion
+FILLER_3;175;9;Filler
+N_D_ORGANISME_COMPLEMENTAIRE;184;10;N° d’organisme complémentaire
+NUMERO_ACCIDENT_DU_TRAVAIL_OU_DATE_D_ACC;194;9;Numéro accident du travail ou date d’accident de droit commun
+MONTANT_TOTAL_DU_SEJOUR_FACTURE_AU_PATIE;203;8;Montant total du séjour facturé au patient

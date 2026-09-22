@@ -1,0 +1,18 @@
+# format: RSF_I_PRESTATION_HOSPIT-MCO
+# annee: 2026
+# source: formats_mco_2026.xlsx
+nom;debut;longueur;libelle
+TYPE_D_ENREGISTREMENT;1;1;Type d'enregistrement
+NUMERO_FINESS_D_INSCRIPTION_EPMSI;2;9;Numéro FINESS d’inscription ePMSI
+FILLER;11;9;Filler
+NUMERO_DE_RSS;20;20;Numéro de RSS
+N_IMMATRICULATION_ASSURE;40;13;N° immatriculation assuré
+CLE_DU_N_IMMATRICULATION;53;2;Clé du n° immatriculation
+RANG_DE_BENEFICIAIRE;55;3;Rang de bénéficiaire
+N_DE_FACTURE;58;9;N° de facture
+N_IMMATRICULATION_INDIVIDUEL;67;13;N° immatriculation individuel
+CLE_DU_N_IMMATRICULATION_INDIVIDUEL;80;2;Clé du n° immatriculation individuel
+DATE_DE_DEBUT_DE_SEJOUR;82;8;Date de début de séjour
+DATE_DE_FIN_DE_SEJOUR;90;8;Date de fin de séjour
+NATURE_D_INTERRUPTION_OU_DE_FIN_DE_SEJOU;98;1;Nature d'interruption ou de fin de séjour
+ETABLISSEMENT_DE_TRANSFERT_OU_DE_RETOUR;99;14;Etablissement de transfert ou de retour ou lieu d'exécution de l'acte

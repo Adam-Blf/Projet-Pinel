@@ -12,6 +12,28 @@ annonce ce qui n'existe pas encore ne sert plus à personne.
 
 ## Non publié
 
+### Ajouté (fichiers réels 2026)
+
+- `pinel formats-importer` : conversion des classeurs officiels de formats ATIH
+  (PSY, MCO) en descriptifs Pinel. Descriptifs 2026 versionnés dans
+  `reference/formats/2026`.
+- Reconnaissance d'un fichier par la longueur de ses lignes, rapportée à ses
+  compteurs de zones répétées, en plus du nom. Noms des exports Druides reconnus :
+  `vh_psy`, `vipp`, `ipp_`, `fc_ic`, `iso_`, `fc_htpart`, `tp_`, `*HOSP_PMSI*`.
+- Formats VID-IPP, HOSP-PMSI, HOSP-FACT, FICHCOMP isolement et FICHCOMP temps
+  partiel ajoutés au référentiel.
+- `pinel anonymiser` : copie pseudonymisée d'un lot PMSI, sous clé DPAPI propre
+  au poste, liste blanche au caractère, contrôle de fuite. Refuse d'écrire dans un
+  dossier synchronisé vers un nuage (Google Drive, OneDrive, Dropbox, iCloud).
+- `pinel roles` : liste des champs transformés par la pseudonymisation.
+
+### Corrigé (fichiers réels 2026)
+
+- VID-HOSP n'est pas à longueur fixe : 470 caractères plus 50 par discipline de
+  prestation (compteur en 467-470). Les lignes de 470, 570 et 620 caractères sont
+  conformes.
+- `PSY_RAA_HOSP_PMSI_*.txt` était lu comme un RAA.
+
 ### Modifié
 
 - Icônes : le jeu Icons8 en PNG est remplacé par Phosphor Icons (licence MIT, graisse

@@ -41,6 +41,15 @@ public static class AtihMatrix
         ["RPSA"]        = new("RPSA",        157,   0,   0,   0,   0, "Résumé Par Séquence Anonyme — sortie PIVOINE, sans identifiant patient", "PSY", 2007, CarriesPatientIdentifiers: false),
         ["R3A"]         = new("R3A",         139,   0,   0,   0,   0, "Résumé Activité Ambulatoire Anonyme — sortie PIVOINE, sans identifiant patient", "PSY", 2009, CarriesPatientIdentifiers: false),
 
+        // Fichiers de liaison et FICHCOMP PSY, verifies le 22/09/2026 sur
+        // "formats_psy_2026" et sur les longueurs des lots reels du DIM. VID-IPP
+        // porte le NIR et l'IPP (81-100), sa date de naissance est en 16-23.
+        ["VID-IPP"]      = new("VID-IPP",      135,  80, 100,  15,  23, "VID-IPP — chaînage des patients vus en ambulatoire", "PSY", 2023),
+        ["HOSP-PMSI"]    = new("HOSP-PMSI",     40,   0,   0,   0,   0, "HOSP-PMSI — lien numéro de séjour / numéro administratif, sans identifiant patient", "TRANSVERSAL", 2009, CarriesPatientIdentifiers: false),
+        ["HOSP-FACT"]    = new("HOSP-FACT",     29,   0,   0,   0,   0, "HOSP-FACT — lien séjour / numéro d'entrée, sans identifiant patient", "PSY", 2020, CarriesPatientIdentifiers: false),
+        ["FICHCOMP-ISO"] = new("FICHCOMP-ISO", 113,   0,   0,   0,   0, "FICHCOMP isolement et contention — rattaché au séjour, sans identifiant patient", "PSY", 2022, CarriesPatientIdentifiers: false),
+        ["FICHCOMP-TP"]  = new("FICHCOMP-TP",   47,   0,   0,   0,   0, "FICHCOMP temps partiel — rattaché au séjour, sans identifiant patient", "PSY", 2022, CarriesPatientIdentifiers: false),
+
         // PSY complementaires. Aucun ne porte d'identifiant patient.
         ["FICHSUP-PSY"] = new("FICHSUP-PSY",  83,   0,   0,   0,   0, "FichSup — recueil agrégé, supprimé en psychiatrie depuis le 01/01/2021", "PSY", 2012, CarriesPatientIdentifiers: false),
         ["FICUM-PSY"]   = new("FICUM-PSY",    38,   0,   0,   0,   0, "Fichier des unités médicales — référentiel d'UM, sans donnée patient", "PSY", 2017, CarriesPatientIdentifiers: false),

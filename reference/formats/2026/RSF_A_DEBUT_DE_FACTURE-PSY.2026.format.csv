@@ -1,0 +1,47 @@
+# format: RSF_A_DEBUT_DE_FACTURE-PSY
+# annee: 2026
+# source: formats_psy_2026_0.xlsx
+nom;debut;longueur;libelle
+TYPE_D_ENREGISTREMENT;1;1;Type d'enregistrement
+NUMERO_FINESS_D_INSCRIPTION_EPMSI;2;9;Numéro FINESS d’inscription ePMSI
+NUMERO_FINESS_DE_L_ETABLISSEMENT_SITE_GE;11;9;Numéro FINESS de l’établissement (site géographique)
+N_D_ENTREE;20;9;N° d’entrée
+SEXE;29;1;Sexe
+CODE_CIVILITE;30;1;Code civilité
+N_IMMATRICULATION_ASSURE;31;13;N° immatriculation assuré
+CLE_DU_N_IMMATRICULATION;44;2;Clé du n° immatriculation
+RANG_DE_BENEFICIAIRE;46;3;Rang de bénéficiaire
+N_DE_FACTURE;49;9;N° de facture
+N_IMMATRICULATION_INDIVIDUEL;58;13;N° immatriculation individuel
+CLE_DU_N_IMMATRICULATION_INDIVIDUEL;71;2;Clé du n° immatriculation individuel
+FILLER;73;1;Filler
+NATURE_OPERATION;74;1;Nature opération
+NATURE_ASSURANCE;75;2;Nature assurance
+TYPE_DE_CONTRAT_SOUSCRIT_AUPRES_D_UN_ORG;77;2;Type de contrat souscrit auprès d'un organisme complémentaire
+JUSTIFICATION_D_EXONERATION_DU_TM;79;1;Justification d'exonération du TM
+FILLER_2;80;1;Filler
+CODE_DE_PRISE_EN_CHARGE;81;1;Code de prise en charge
+FILLER_3;82;1;Filler
+CODE_GD_REGIME;83;2;Code Gd régime
+DATE_NAISSANCE;85;8;Date Naissance
+RANG_DE_NAISSANCE;93;1;Rang de naissance
+DATE_D_ENTREE;94;8;Date d'entrée
+DATE_DE_SORTIE;102;8;Date de sortie
+CODE_POSTAL_DU_LIEU_DE_RESIDENCE_DU_PATI;110;5;Code postal du lieu de résidence du patient
+TOTAL_BASE_REMBOURSEMENT_PRESTATION_HOSP;115;8;Total Base Remboursement Prestation hospitalière
+TOTAL_REMBOURSABLE_AMO_PRESTATION_HOSPIT;123;8;Total remboursable AMO Prestation hospitalières
+TOTAL_HONORAIRE_FACTURE;131;8;Total honoraire Facturé
+TOTAL_HONORAIRE_REMBOURSABLE_AM;139;8;Total honoraire remboursable AM
+TOTAL_PARTICIPATION_ASSURE_AVANT_OC;147;8;Total participation assuré avant OC
+TOTAL_REMBOURSABLE_OC_POUR_LES_PH;155;8;Total remboursable OC pour les PH
+TOTAL_REMBOURSABLE_OC_POUR_LES_HONORAIRE;163;8;Total remboursable OC pour les honoraires
+MONTANT_TOTAL_FACTURE_POUR_PH;171;8;Montant total facturé pour PH
+ETAT_DE_LIQUIDATION_DE_LA_FACTURE;179;1;Etat de liquidation de la facture
+PATIENT_BENEFICIAIRE_DE_LA_CMU;180;1;Patient bénéficiaire de la CMU
+CODE_GESTION;181;2;Code gestion
+FILLER_4;183;9;Filler
+N_D_ORGANISME_COMPLEMENTAIRE;192;10;N° d’organisme complémentaire
+NUMERO_ACCIDENT_DU_TRAVAIL_OU_DATE_D_ACC;202;9;Numéro accident du travail ou date d’accident de droit commun
+NUMERO_D_IDENTIFICATION_PERMANENT_DU_PAT;211;20;Numéro d’identification permanent du patient (IPP)
+IDENTIFIANT_NATIONAL_DE_SANTE_INS;231;15;Identifiant national de santé (INS)
+ART51;246;1;ART51

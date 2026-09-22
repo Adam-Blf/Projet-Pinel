@@ -1,0 +1,53 @@
+# format: RSS_GROUPE_FORMAT_123-MCO
+# annee: 2026
+# source: formats_mco_2026.xlsx
+# zone-repetee: oui
+nom;debut;longueur;libelle
+GROUPAGE_VERSION_DE_LA_CLASSIFICATION;1;2;Groupage : version de la classification
+GROUPAGE_N_DE_GHM;3;2;Groupage : n° de GHM
+N_GHM;5;4;N° GHM
+FILLER;9;1;Filler
+N_DE_VERSION_DU_FORMAT_DE_RSS;10;3;N° de version du format de RSS
+GROUPAGE_CODE_RETOUR;13;3;Groupage : code retour
+NUMERO_FINESS_D_INSCRIPTION_EPMSI;16;9;Numéro FINESS d’inscription ePMSI
+VERSION_DU_FORMAT_DU_RUM;25;3;Version du format du RUM
+N_DE_RSS;28;20;N° de RSS
+N_ADMINISTRATIF_LOCAL_DE_SEJOUR;48;20;N° Administratif local de séjour
+N_DE_RUM;68;10;N° de RUM
+DATE_DE_NAISSANCE;78;8;Date de naissance
+SEXE;86;1;Sexe
+NUMERO_DE_L_UNITE_MEDICALE;87;4;Numéro de l'unité médicale
+TYPE_D_AUTORISATION_DU_LIT_DEDIE;91;2;Type d'autorisation du lit dédié
+DATE_D_ENTREE_DANS_L_UNITE_MEDICALE;93;8;Date d'entrée dans l'unité médicale
+MODE_D_ENTREE_DANS_L_UNITE_MEDICALE;101;1;Mode d'entrée dans l'unité médicale
+PROVENANCE_SI_MODE_D_ENTREE_EST_MUTATION;102;1;Provenance (si mode d'entrée est mutation, transfert ou domicile)
+DATE_DE_SORTIE_DE_L_UNITE_MEDICALE;103;8;Date de sortie de l'unité médicale
+MODE_DE_SORTIE_DE_L_UNITE_MEDICALE;111;1;Mode de sortie de l'unité médicale
+DESTINATION_SI_MODE_DE_SORTIE_EST_MUTATI;112;1;Destination (si mode de sortie est mutation, transfert ou domicile)
+CODE_POSTAL_DE_RESIDENCE_OU_99_SUIVI_DU;113;5;Code postal de résidence (ou 99 suivi du code Insee du pays pour les patients résidant hors de France)
+POIDS_DU_NOUVEAU_NE_A_L_ENTREE_DE_L_UNIT;118;4;Poids du nouveau-né à l'entrée de l'unité médicale (en grammes)
+AGE_GESTATIONNEL_SEMAINES;122;2;Age gestationnel (semaines)
+DATE_DES_DERNIERES_REGLES;124;8;Date des dernières règles
+NOMBRE_DE_SEANCES;132;2;Nombre de séances
+NOMBRE_DE_DIAGNOSTICS_ASSOCIES_NDA_DANS;134;2;Nombre de diagnostics associés (nDA) dans ce RUM
+NOMBRE_DE_DONNEES_A_VISEE_DOCUMENTAIRE_N;136;2;Nombre de données à visée documentaire (nDAD) dans ce RUM
+NOMBRE_DE_ZONE_D_ACTES_NZA_DANS_CE_RUM;138;3;Nombre de zone d'actes (nZA) dans ce RUM
+DIAGNOSTIC_PRINCIPAL_DP;141;8;Diagnostic principal (DP)
+DIAGNOSTIC_RELIE_DR;149;8;Diagnostic relié (DR)
+IGS_2;157;3;IGS 2
+CONFIRMATION_DU_CODAGE_DU_RSS;160;1;Confirmation du codage du RSS
+TYPE_DE_MACHINE_EN_RADIOTHERAPIE;161;1;Type de machine en radiothérapie
+TYPE_DE_DOSIMETRIE;162;1;Type de dosimétrie
+NUMERO_D_INNOVATION;163;15;Numéro d'innovation
+CONVERSION_HOSPITALISATION_COMPLETE;178;1;Conversion hospitalisation complète
+PRISE_EN_CHARGE_RAAC;179;1;Prise en charge RAAC
+CONTEXTE_PATIENT_SURVEILLANCE_PARTICULIE;180;1;Contexte patient/Surveillance particulière
+ADMINISTRATION_D_UN_PRODUIT_DE_LA_RH;181;1;Administration d'un produit de la RH
+RESCRIT_TARIFAIRE;182;1;Rescrit tarifaire
+CATEGORIE_DU_NOMBRE_D_INTERVENTIONS_TOTA;183;1;Catégorie du nombre d'interventions totales
+NON_PROGRAMME_NP;184;1;Non Programmé (NP)
+PASSAGE_PAR_UNE_STRUCTURE_DES_URGENCES;185;1;Passage par une structure des urgences
+FILLER_2;186;4;Filler
+ZONE_RESERVEE;190;3;Zone réservée
+FILLER_3;193;13;Filler
+DA_N_1;206;8;DA n° 1

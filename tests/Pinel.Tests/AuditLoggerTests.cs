@@ -30,7 +30,18 @@ public sealed class AuditLoggerTests : IDisposable
             var logFiles = Directory.GetFiles(_tempDir, "*.log");
             if (logFiles.Length > 0)
             {
-                var lines = logFiles.SelectMany(File.ReadAllLines).ToList();
+                // L'ecrivain de fond peut tenir le fichier pendant la lecture :
+                // lecture partagee, et nouvel essai si le verrou est pris.
+                List<string> lines;
+                try
+                {
+                    lines = logFiles.SelectMany(ReadShared).ToList();
+                }
+                catch (IOException)
+                {
+                    Thread.Sleep(50);
+                    continue;
+                }
                 if (lines.Count > 0)
                 {
                     Assert.Contains(lines, l => l.Contains("/api/export") && l.Contains("\"status\":200"));
@@ -40,6 +51,13 @@ public sealed class AuditLoggerTests : IDisposable
             Thread.Sleep(50);
         }
         Assert.Fail("No audit entry written within 2.5 s");
+    }
+
+    private static IEnumerable<string> ReadShared(string path)
+    {
+        using var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
+        using var reader = new StreamReader(stream);
+        return reader.ReadToEnd().Split('\n', StringSplitOptions.RemoveEmptyEntries).ToList();
     }
 
     [Fact]

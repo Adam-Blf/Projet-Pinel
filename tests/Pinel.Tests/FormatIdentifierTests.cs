@@ -25,6 +25,19 @@ public sealed class AtihFormatIdentifierTests
     [InlineData("rapss_had_2024.txt", "RAPSS-HAD")]
     [InlineData("RSS_2024.txt", "RSS")]
     [InlineData("UNKNOWN_FORMAT.xlsx", null)]
+    // Noms reels des exports Druides, lots 2026 du DIM.
+    [InlineData("PSY_RAA_HOSP_PMSI_20260513110217.txt", "HOSP-PMSI")]
+    [InlineData("MCO_HOSP_PMSI_20260205113422 - Corriger.txt", "HOSP-PMSI")]
+    [InlineData("vh_psy.txt", "VID-HOSP")]
+    [InlineData("vh_psy_CORR_main.txt", "VID-HOSP")]
+    [InlineData("vipp_CORRIGE_main.txt", "VID-IPP")]
+    [InlineData("ipp_202605131120.txt", "VID-IPP")]
+    [InlineData("fc_ic.txt", "FICHCOMP-ISO")]
+    [InlineData("iso_202605131120.txt", "FICHCOMP-ISO")]
+    [InlineData("fc_htpart.txt", "FICHCOMP-TP")]
+    [InlineData("tp_202605131120.txt", "FICHCOMP-TP")]
+    [InlineData("rps_202605131120.txt", "RPS")]
+    [InlineData("raa_202605131120.txt", "RAA")]
     public void Identify_returns_expected_format(string filename, string? expected)
     {
         Assert.Equal(expected, AtihFormatIdentifier.Identify(filename));
@@ -33,9 +46,10 @@ public sealed class AtihFormatIdentifierTests
     [Fact]
     public void Matrix_contains_the_22_verified_formats()
     {
-        // 22 formats depuis le 28/08/2026 : EDGAR a ete retire, ce n'est pas un
-        // format de fichier mais une typologie d'actes codee dans le RAA.
-        Assert.Equal(22, AtihMatrix.All.Count);
+        // 22 formats le 28/08/2026 (EDGAR retire : typologie d'actes codee dans
+        // le RAA, pas un format de fichier), 27 le 22/09/2026 avec VID-IPP,
+        // HOSP-PMSI, HOSP-FACT et les FICHCOMP isolement et temps partiel.
+        Assert.Equal(27, AtihMatrix.All.Count);
     }
 
     [Fact]

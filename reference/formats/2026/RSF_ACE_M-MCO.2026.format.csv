@@ -1,0 +1,43 @@
+# format: RSF_ACE_M-MCO
+# annee: 2026
+# source: formats_mco_2026.xlsx
+nom;debut;longueur;libelle
+TYPE_D_ENREGISTREMENT;1;1;Type d'enregistrement
+NUMERO_FINESS_D_INSCRIPTION_EPMSI;2;9;Numéro FINESS d’inscription ePMSI
+NUMERO_FINESS_GEOGRAPHIQUE;11;9;Numéro FINESS géographique
+N_IMMATRICULATION_ASSURE;20;13;N° immatriculation assuré
+CLE_DU_N_IMMATRICULATION;33;2;Clé du n° immatriculation
+RANG_DE_BENEFICIAIRE;35;3;Rang de bénéficiaire
+N_D_ENTREE;38;9;N° d’entrée
+N_IMMATRICULATION_INDIVIDUEL;47;13;N° immatriculation individuel
+CLE_DU_N_IMMATRICULATION_INDIVIDUEL;60;2;Clé du n° immatriculation individuel
+MODE_DE_TRAITEMENT;62;2;Mode de traitement
+DISCIPLINE_DE_PRESTATION_EX_DMT;64;3;Discipline de prestation (ex DMT)
+DATE_DE_L_ACTE;67;8;Date de l'acte
+CODE_CCAM;75;13;Code CCAM
+EXTENSION_DOCUMENTAIRE;88;1;Extension documentaire
+ACTIVITE;89;1;Activité
+PHASE;90;1;Phase
+MODIFICATEUR_1;91;1;Modificateur 1
+MODIFICATEUR_2;92;1;Modificateur 2
+MODIFICATEUR_3;93;1;Modificateur 3
+MODIFICATEUR_4;94;1;Modificateur 4
+CODE_ASSOCIATION_D_ACTES_NON_PREVUE;95;1;Code association d'actes non prévue
+CODE_REMBOURSEMENT_SOUS_CONDITION;96;1;Code remboursement sous condition
+N_DENT_1;97;2;N° dent 1
+N_DENT_2;99;2;N° dent 2
+N_DENT_3;101;2;N° dent 3
+N_DENT_4;103;2;N° dent 4
+N_DENT_5;105;2;N° dent 5
+N_DENT_6;107;2;N° dent 6
+N_DENT_7;109;2;N° dent 7
+N_DENT_8;111;2;N° dent 8
+N_DENT_9;113;2;N° dent 9
+N_DENT_10;115;2;N° dent 10
+N_DENT_11;117;2;N° dent 11
+N_DENT_12;119;2;N° dent 12
+N_DENT_13;121;2;N° dent 13
+N_DENT_14;123;2;N° dent 14
+N_DENT_15;125;2;N° dent 15
+N_DENT_16;127;2;N° dent 16
+NUMERO_FACTURE;129;9;Numéro facture

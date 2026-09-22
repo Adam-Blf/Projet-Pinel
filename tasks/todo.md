@@ -22,6 +22,41 @@ manque. Voir ci-dessous.
 
 ---
 
+## Chantier 2026-09 : adaptation aux fichiers reels 2026 (checkpoint)
+
+Decisions d'Adam du 22/09/2026 : les fichiers de D:/2026 ne sont lus qu'apres
+pseudonymisation locale ; apprentissage en deux temps, regles tirees des
+corrections du DIM puis modele ML local.
+
+Fait (branche feat/fichiers-reels-2026) :
+- `AtihWorkbookImporter` + `pinel formats-importer` : classeurs ATIH 2026 PSY et
+  MCO convertis dans reference/formats/2026 (54 descriptifs).
+- `RecordSpec` : zones repetees RPS (8 x nDA, 23 x nZA), RAA (8 x nDA),
+  VID-HOSP (470 + 50 x N, compteur en 467-470). Les lignes VID-HOSP de 470, 570
+  et 620 caracteres sont conformes.
+- `ContentFormatDetector` : reconnaissance par longueur de ligne ; les noms
+  Druides (vh_psy, vipp, fc_ic, dim_rps, PSY_RAA_HOSP_PMSI) trompaient
+  l'identification par nom.
+- `PmsiAnonymizer` + `pinel anonymiser` : liste blanche au caractere, cle
+  DPAPI dans %LOCALAPPDATA%/Pinel/anonymisation.key, controle de fuite.
+  Tests : AnonymizationTests.
+- Execution du 22/09 : C:/Users/adamb/PinelDonnees/2026_brut -> 2026_pseudonymise, 440 fichiers, 2 min, zero fuite (18 montants ressemblant a un identifiant, masques). Donnees hors de Documents, synchronise Google Drive.
+
+Reste, dans l'ordre :
+1. Lire MANIFESTE.txt (fichiers ecartes, controle de fuite) ; zero fuite exige
+   avant toute lecture des copies.
+2. Adapter Pinel sur les copies : VID-HOSP a longueur variable dans les
+   controles existants, ANO-HOSP (1584 puis 1712 car. des M3, AtihMatrix dit
+   1064), RSS groupe format 123 (213 car.), identification par contenu branchee
+   sur le scan de l'application.
+3. Apprentissage des corrections : paires originale / corrigee du DIM
+   (vh_psy / vh_psy_CORR_main, vvd_raa / vvd_raa_CORR_main, vipp /
+   vipp_CORRIGE_main, fic_um / fic_um_CORR_main, raa / raa_corrige_main).
+4. Modele ML local (ML.NET), reentraine chaque mois sur le poste, apres
+   validation DPO et DSI.
+5. Factoriser les sept declarations locales de l'encodage ISO-8859-1 des
+   controles sur `PmsiEncoding.Latin1`.
+
 ## A REPONDRE AU MEDECIN, et c'est le plus urgent
 
 ### La reponse du 25/08 est a corriger

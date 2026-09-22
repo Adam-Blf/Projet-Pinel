@@ -1,0 +1,31 @@
+# format: RSF_ACE_L-MCO
+# annee: 2026
+# source: formats_mco_2026.xlsx
+nom;debut;longueur;libelle
+TYPE_D_ENREGISTREMENT;1;1;Type d'enregistrement
+NUMERO_FINESS_D_INSCRIPTION_EPMSI;2;9;Numéro FINESS d’inscription ePMSI
+NUMERO_FINESS_GEOGRAPHIQUE;11;9;Numéro FINESS géographique
+N_IMMATRICULATION_ASSURE;20;13;N° immatriculation assuré
+CLE_DU_N_IMMATRICULATION;33;2;Clé du n° immatriculation
+RANG_DE_BENEFICIAIRE;35;3;Rang de bénéficiaire
+NUMERO_D_ENTREE;38;9;Numéro d'entrée
+N_IMMATRICULATION_INDIVIDUEL;47;13;N° immatriculation individuel
+CLE_DU_N_IMMATRICULATION_INDIVIDUEL;60;2;Clé du n° immatriculation individuel
+MODE_DE_TRAITEMENT;62;2;Mode de traitement
+DISCIPLINE_DE_PRESTATION_EX_DMT;64;3;Discipline de prestation (ex DMT)
+DATE_DE_L_ACTE_1;67;8;Date de l'acte 1
+QUANTITE_ACTE_1;75;2;Quantité acte 1
+CODE_ACTE_1;77;8;Code acte 1
+DATE_DE_L_ACTE_2;85;8;Date de l'acte 2
+QUANTITE_ACTE_2;93;2;Quantité acte 2
+CODE_ACTE_2;95;8;Code acte 2
+DATE_DE_L_ACTE_3;103;8;Date de l'acte 3
+QUANTITE_ACTE_3;111;2;Quantité acte 3
+CODE_ACTE_3;113;8;Code acte 3
+DATE_DE_L_ACTE_4;121;8;Date de l'acte 4
+QUANTITE_ACTE_4;129;2;Quantité acte 4
+CODE_ACTE_4;131;8;Code acte 4
+DATE_DE_L_ACTE_5;139;8;Date de l'acte 5
+QUANTITE_ACTE_5;147;2;Quantité acte 5
+CODE_ACTE_5;149;8;Code acte 5
+NUMERO_DE_FACTURE;157;9;Numéro de facture
