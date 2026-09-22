@@ -57,7 +57,20 @@ public sealed class DoublonsEtAnneeTests : IDisposable
         File.WriteAllLines(file, Enumerable.Repeat(line, 26));
 
         var findings = new DuplicateLineCheck().Validate(file, "RPS").ToList();
-        Assert.Contains(findings, f => f.Code == "WARN-DOUBLON-BULK");
+        Assert.Contains(findings, f => f.Code == "ERR-DOUBLON-BULK" && f.Severity == CheckSeverity.Error);
+    }
+
+    [Fact]
+    public void Bulk_duplicates_in_raa_are_only_a_warning()
+    {
+        // Deux entretiens identiques le meme jour donnent deux lignes RAA identiques.
+        var line = BuildRps("IPP-AAA", "19900101");
+        var file = Path.Combine(_tempDir, "FV94_RAA_2024.txt");
+        File.WriteAllLines(file, Enumerable.Repeat(line, 26));
+
+        var findings = new DuplicateLineCheck().Validate(file, "RAA").ToList();
+        Assert.Contains(findings, f => f.Code == "WARN-DOUBLON-BULK" && f.Severity == CheckSeverity.Warning);
+        Assert.DoesNotContain(findings, f => f.Severity == CheckSeverity.Error);
     }
 
     [Fact]

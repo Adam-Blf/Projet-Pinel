@@ -33,6 +33,17 @@ annonce ce qui n'existe pas encore ne sert plus à personne.
   prestation (compteur en 467-470). Les lignes de 470, 570 et 620 caractères sont
   conformes.
 - `PSY_RAA_HOSP_PMSI_*.txt` était lu comme un RAA.
+- Contrôles passés sur un lot réel accepté par e-PMSI (M4, envoi 3) : 162 878
+  anomalies avant correction, 90 après.
+  - Chaînage : un RAA se chaîne par le VID-IPP, pas seulement par le VID-HOSP.
+    Un patient manquant ne produit plus qu'une anomalie, au lieu d'une par ligne.
+  - Date de naissance : le format officiel est JJMMAAAA (tous les descriptifs 2026),
+    le contrôle tenait l'inverse. L'inversion AAAAMMJJ reste signalée.
+  - FINESS : lu à sa position officielle par format (53 sur VID-HOSP et VID-IPP,
+    qui commencent par le NIR).
+  - Doublons : sur un RAA, des lignes identiques sont des actes répétés le même jour,
+    signalés en avertissement. Code `ERR-DOUBLON-BULK` pour les autres formats.
+- `pinel controler <dossier>` : décompte des anomalies par code, sans valeur de champ.
 
 ### Modifié
 

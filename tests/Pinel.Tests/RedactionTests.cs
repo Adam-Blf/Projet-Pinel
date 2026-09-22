@@ -20,7 +20,7 @@ public sealed class RedactionTests : IDisposable
     private const string LeakIpp = "IPP-FUITE-7788990011"; // 20 chars, letters and dash
     private const string LeakOrphanIpp = "IPP-ORPHELIN-9900112";
     private const string LeakDashIpp = "7788-990011-4422";
-    private const string LeakDdn = "25121990";             // DDMMYYYY instead of YYYYMMDD
+    private const string LeakDdn = "19901225";             // AAAAMMJJ au lieu de JJMMAAAA
     private const string LeakFiness = "9400001X2";         // 9 chars, one non-digit
 
     private readonly string _tempDir;
@@ -131,7 +131,7 @@ public sealed class RedactionTests : IDisposable
         var file = Write("FV94_RPS_2024.txt", Line(fmt.Length, (fmt.DdnStart, LeakDdn)));
 
         var findings = new BirthDateFormatCheck().Validate(file, "RPS").ToList();
-        var finding = Assert.Single(findings, f => f.Code == "WARN-DDN-DDMMYYYY");
+        var finding = Assert.Single(findings, f => f.Code == "WARN-DDN-AAAAMMJJ");
 
         Assert.DoesNotContain(LeakDdn, finding.Message, StringComparison.Ordinal);
         Assert.DoesNotContain("1990", finding.Message, StringComparison.Ordinal);

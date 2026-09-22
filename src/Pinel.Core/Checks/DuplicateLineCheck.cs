@@ -9,6 +9,12 @@ namespace Pinel.Core.Checks;
 /// appended records to an already-submitted file. DRUIDES does not
 /// always reject doublons - OVALIDE inflates the activity without
 /// warning and the valorisation PSY (VAP) is biased upward.
+/// <para>
+/// Exception du RAA : une ligne ne porte ni heure ni identifiant d'acte, deux
+/// entretiens identiques le meme jour donnent deux lignes identiques. Sur un
+/// lot reel accepte par e-PMSI (22/09/2026), 13 % des lignes RAA etaient dans
+/// ce cas. Le volume y reste signale, en avertissement et non en erreur.
+/// </para>
 /// </summary>
 public sealed class DuplicateLineCheck : IFileCheck
 {
@@ -81,11 +87,18 @@ public sealed class DuplicateLineCheck : IFileCheck
 
         if (totalDuplicates > 20)
         {
-            yield return new CheckFinding(
-                "WARN-DOUBLON-BULK", CheckSeverity.Error,
-                $"{totalDuplicates} lignes dupliquées dans le fichier - biais d'activité probable.",
-                filePath, 0, formatName,
-                FixHint: "Dé-dupliquer avant envoi DRUIDES pour ne pas fausser la VAP ou l'indicateur de file active.");
+            bool raa = string.Equals(formatName, "RAA", StringComparison.OrdinalIgnoreCase);
+            yield return raa
+                ? new CheckFinding(
+                    "WARN-DOUBLON-BULK", CheckSeverity.Warning,
+                    $"{totalDuplicates} lignes RAA identiques : actes répétés le même jour, ou export relancé.",
+                    filePath, 0, formatName,
+                    FixHint: "Un RAA ne distingue pas deux actes identiques du même jour : ne dédupliquer qu'après vérification du dossier.")
+                : new CheckFinding(
+                    "ERR-DOUBLON-BULK", CheckSeverity.Error,
+                    $"{totalDuplicates} lignes dupliquées dans le fichier - biais d'activité probable.",
+                    filePath, 0, formatName,
+                    FixHint: "Dé-dupliquer avant envoi DRUIDES pour ne pas fausser la VAP ou l'indicateur de file active.");
         }
     }
 

@@ -42,13 +42,15 @@ Fait (branche feat/fichiers-reels-2026) :
   Tests : AnonymizationTests.
 - Execution du 22/09 : C:/Users/adamb/PinelDonnees/2026_brut -> 2026_pseudonymise, 440 fichiers, 2 min, zero fuite (18 montants ressemblant a un identifiant, masques). Donnees hors de Documents, synchronise Google Drive.
 
+- Controles corriges sur le lot reel M4 envoi 3 : 162 878 anomalies -> 90.
+  Restent a montrer au DIM : 31 NIR non numeriques dans VID-HOSP, 1 annee de
+  naissance hors plage.
+
 Reste, dans l'ordre :
-1. Lire MANIFESTE.txt (fichiers ecartes, controle de fuite) ; zero fuite exige
-   avant toute lecture des copies.
-2. Adapter Pinel sur les copies : VID-HOSP a longueur variable dans les
-   controles existants, ANO-HOSP (1584 puis 1712 car. des M3, AtihMatrix dit
-   1064), RSS groupe format 123 (213 car.), identification par contenu branchee
-   sur le scan de l'application.
+2. Adapter Pinel sur les copies : ANO-HOSP (1584 puis 1712 car. des M3,
+   AtihMatrix dit 1064), RSS groupe format 123 (zones repetees),
+   identification par contenu branchee sur le scan de l'application (le scan
+   ne lit encore que le nom), VID-HOSP a longueur variable dans LineInspector.
 3. Apprentissage des corrections : paires originale / corrigee du DIM
    (vh_psy / vh_psy_CORR_main, vvd_raa / vvd_raa_CORR_main, vipp /
    vipp_CORRIGE_main, fic_um / fic_um_CORR_main, raa / raa_corrige_main).

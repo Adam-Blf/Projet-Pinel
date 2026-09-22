@@ -5,8 +5,9 @@ namespace Pinel.Core.Checks;
 
 /// <summary>
 /// Cross-references IPPs between the activity files (RPS, RAA, RHS, RSS,
-/// RPSS) and the chaînage file (VID-HOSP). Surfaces two DRUIDES failure
-/// modes documented by ATIH / lespmsi.com:
+/// RPSS) and the chaînage files (VID-HOSP, and VID-IPP since 2023 for the
+/// patients seen in ambulatory care). Surfaces two DRUIDES failure modes
+/// documented by ATIH / lespmsi.com:
 /// <list type="bullet">
 ///   <item><c>ERR-CHAINAGE-MANQUANT</c> - an IPP appears in activity files
 ///     but not in VID-HOSP - chaînage anonyme produit un code d'erreur
@@ -15,6 +16,13 @@ namespace Pinel.Core.Checks;
 ///     n'est référencé par aucun fichier d'activité du lot - export
 ///     inutile, souvent résidu d'un envoi précédent.</item>
 /// </list>
+/// <para>
+/// Mesure du 22/09/2026 sur un lot reel accepte par e-PMSI : en ne cherchant
+/// que dans le VID-HOSP, le controle levait 162 454 erreurs sur les RAA, une
+/// par ligne, alors que les patients vus en ambulatoire sont chaines par le
+/// VID-IPP. La reference est desormais la reunion des deux fichiers, et un
+/// patient manquant ne produit qu'une anomalie, a sa premiere ligne.
+/// </para>
 /// </summary>
 public sealed class ChainageCoverageCheck : ICrossFileCheck
 {
@@ -27,6 +35,9 @@ public sealed class ChainageCoverageCheck : ICrossFileCheck
     /// <summary>Upper bound on orphan findings, to keep the report readable.</summary>
     private const int OrphanCap = 200;
 
+    /// <summary>Plafond des patients manquants detailles ; au-dela, un decompte.</summary>
+    private const int MissingCap = 500;
+
     public string Name => "Chaînage VID-HOSP";
 
     static ChainageCoverageCheck()
@@ -38,14 +49,16 @@ public sealed class ChainageCoverageCheck : ICrossFileCheck
     {
         var vid = files.FirstOrDefault(f =>
             string.Equals(f.Format, "VID-HOSP", StringComparison.OrdinalIgnoreCase));
+        var vidIpp = files.FirstOrDefault(f =>
+            string.Equals(f.Format, "VID-IPP", StringComparison.OrdinalIgnoreCase));
 
         var activity = files
             .Where(f => ActivityFormats.Contains(f.Format))
             .ToList();
 
-        if (vid.Path is null && activity.Count == 0) yield break;
+        if (vid.Path is null && vidIpp.Path is null && activity.Count == 0) yield break;
 
-        if (vid.Path is null)
+        if (vid.Path is null && vidIpp.Path is null)
         {
             yield return new CheckFinding(
                 "ERR-CHAINAGE-VID-ABSENT", CheckSeverity.Error,
@@ -53,6 +66,12 @@ public sealed class ChainageCoverageCheck : ICrossFileCheck
                 activity[0].Path, 0, activity[0].Format,
                 FixHint: "Exporter le VID-HOSP depuis le SIH avant envoi DRUIDES.");
             yield break;
+        }
+
+        if (vid.Path is null)
+        {
+            // Lot purement ambulatoire : le VID-IPP suffit au chainage.
+            vid = vidIpp;
         }
 
         if (activity.Count == 0)
@@ -68,15 +87,26 @@ public sealed class ChainageCoverageCheck : ICrossFileCheck
         // Extract IPPs from VID-HOSP using its positional format, keeping the
         // line where each one was first seen: after redaction the line number is
         // the only locator left to the TIM, so it must be the real one.
-        var vidFormat = AtihMatrix.Require("VID-HOSP");
+        var vidFormat = AtihMatrix.Require(vid.Format);
         var vidIpps = new Dictionary<string, int>(StringComparer.Ordinal);
         foreach (var (ipp, lineNo) in ExtractIpps(vid.Path, vidFormat))
         {
             vidIpps.TryAdd(ipp, lineNo);
         }
+        var chained = new HashSet<string>(vidIpps.Keys, StringComparer.Ordinal);
+        if (vidIpp.Path is not null && vidIpp.Path != vid.Path)
+        {
+            foreach (var (ipp, _) in ExtractIpps(vidIpp.Path, AtihMatrix.Require("VID-IPP")))
+            {
+                chained.Add(ipp);
+            }
+        }
 
         // Cross-check each activity file.
         var activityIpps = new HashSet<string>(StringComparer.Ordinal);
+        var reported = new HashSet<string>(StringComparer.Ordinal);
+        int missingBeyondCap = 0;
+        (string Path, string Format) lastActivity = activity[0];
         foreach (var (path, format) in activity)
         {
             if (!AtihMatrix.All.TryGetValue(format, out var fmt)) continue;
@@ -84,17 +114,32 @@ public sealed class ChainageCoverageCheck : ICrossFileCheck
             foreach (var (ipp, lineNo) in ExtractIpps(path, fmt))
             {
                 activityIpps.Add(ipp);
-                if (!vidIpps.ContainsKey(ipp))
+                if (!chained.Contains(ipp) && reported.Add(ipp))
                 {
+                    if (reported.Count > MissingCap)
+                    {
+                        missingBeyondCap++;
+                        lastActivity = (path, format);
+                        continue;
+                    }
                     // Message carries the position, never the IPP: findings reach
                     // the UI and the JSON report on disk. See FindingRedaction.
                     yield return new CheckFinding(
                         "ERR-CHAINAGE-MANQUANT", CheckSeverity.Error,
-                        $"IPP présent dans {format} ({position}) mais absent du VID-HOSP.",
+                        $"IPP présent dans {format} ({position}) mais absent du VID-HOSP et du VID-IPP.",
                         path, lineNo, format,
                         FixHint: "Régénérer le VID-HOSP ou ajouter le patient au chaînage.");
                 }
             }
+        }
+
+        if (missingBeyondCap > 0)
+        {
+            yield return new CheckFinding(
+                "ERR-CHAINAGE-MANQUANT", CheckSeverity.Error,
+                $"{missingBeyondCap} autre(s) patient(s) sans chaînage, non détaillés au-delà de {MissingCap}.",
+                lastActivity.Path, 0, lastActivity.Format,
+                FixHint: "Vérifier que le VID-HOSP et le VID-IPP du même envoi sont bien dans le lot.");
         }
 
         // Orphans in VID-HOSP that nobody in the activity set references.

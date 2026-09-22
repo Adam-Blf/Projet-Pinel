@@ -4,20 +4,24 @@ using Pinel.Core.Formats;
 namespace Pinel.Core.Checks;
 
 /// <summary>
-/// Verifies that the DDN (Date De Naissance) field is an 8-digit
-/// YYYYMMDD string within a plausible range (1900-2099) and represents
-/// a valid calendar date. The most common DRUIDES rejection on PSY
-/// files is a DDN emitted as DDMMYYYY instead of YYYYMMDD - this
-/// detector catches that before upload.
+/// Verifie que la date de naissance est une date valide sur 8 chiffres au
+/// format JJMMAAAA, dans une plage plausible (1900-2099).
 /// </summary>
+/// <remarks>
+/// Tous les descriptifs ATIH 2026 qui portent une date de naissance (RPS, RAA,
+/// VID-HOSP, VID-IPP, VID-CHAINAGE, RSF) la declarent en JJMMAAAA. Jusqu'au
+/// 22/09/2026, ce controle tenait l'inverse (AAAAMMJJ) et signalait comme
+/// fautive chaque ligne d'un lot pourtant accepte par e-PMSI. L'inversion
+/// AAAAMMJJ reste reperee, en avertissement.
+/// </remarks>
 public sealed class BirthDateFormatCheck : IFileCheck
 {
     private static readonly Encoding Latin1 = Encoding.GetEncoding("ISO-8859-1");
 
-    /// <summary>ATIH encodes the DDN on 8 digits (YYYYMMDD).</summary>
+    /// <summary>L'ATIH code la date de naissance sur 8 chiffres, JJMMAAAA.</summary>
     private const int DdnDigits = 8;
 
-    public string Name => "DDN YYYYMMDD";
+    public string Name => "DDN JJMMAAAA";
 
     public IReadOnlySet<string>? AppliesTo => null; // every format has a DDN
 
@@ -89,14 +93,9 @@ public sealed class BirthDateFormatCheck : IFileCheck
     }
 
     /// <summary>
-    /// Returns null if the DDN is acceptable, otherwise a tuple describing
-    /// the anomaly. The heuristic privileges ATIH convention (YYYYMMDD) and
-    /// flags the classic DDMMYYYY misencoding as a warning, not a blocker,
-    /// because some legacy exports at Fondation Vallée used that layout in 2021.
-    /// <para>
-    /// <c>gap</c> describes the deviation without reproducing the date, which is
-    /// patient data: the caller appends it to the message verbatim.
-    /// </para>
+    /// Rend null si la date est acceptable, sinon l'anomalie. <c>gap</c> decrit
+    /// l'ecart sans reproduire la date, qui est une donnee patient : l'appelant
+    /// l'ajoute tel quel au message.
     /// </summary>
     private static (string code, CheckSeverity severity, string message, string gap, string fixHint)? ClassifyDdn(string ddn)
     {
@@ -105,42 +104,38 @@ public sealed class BirthDateFormatCheck : IFileCheck
             return ("ERR-DDN-NON-NUMERIC", CheckSeverity.Error,
                 "DDN non numérique ou de longueur incorrecte",
                 FindingRedaction.DigitGap(DdnDigits, ddn),
-                "Attendu : 8 chiffres au format YYYYMMDD.");
+                "Attendu : 8 chiffres au format JJMMAAAA.");
         }
 
-        var year = int.Parse(ddn[..4]);
-        var month = int.Parse(ddn[4..6]);
-        var day = int.Parse(ddn[6..8]);
-
-        if (year is >= 1900 and <= 2099 && month is >= 1 and <= 12 && day is >= 1 and <= 31)
+        if (IsDate(int.Parse(ddn[4..]), int.Parse(ddn[2..4]), int.Parse(ddn[..2])))
         {
-            try
-            {
-                _ = new DateOnly(year, month, day);
-                return null; // valid
-            }
-            catch (ArgumentOutOfRangeException)
-            {
-                return ("ERR-DDN-DAY", CheckSeverity.Error,
-                    "Jour ou mois invalide dans la DDN",
-                    "le quantième lu n'existe pas dans le mois lu",
-                    "Corriger la date dans le logiciel source.");
-            }
+            return null;
         }
 
-        // Try DDMMYYYY: last 4 could be the year.
-        var tailYear = int.Parse(ddn[4..]);
-        if (tailYear is >= 1900 and <= 2099)
+        // Inversion classique : l'annee en tete (AAAAMMJJ).
+        if (IsDate(int.Parse(ddn[..4]), int.Parse(ddn[4..6]), int.Parse(ddn[6..])))
         {
-            return ("WARN-DDN-DDMMYYYY", CheckSeverity.Warning,
-                "DDN au format DDMMYYYY au lieu de YYYYMMDD (ATIH)",
-                "les 4 derniers chiffres forment une année plausible, les 4 premiers non",
-                "Réencoder la DDN en YYYYMMDD avant envoi DRUIDES / e-PMSI.");
+            return ("WARN-DDN-AAAAMMJJ", CheckSeverity.Warning,
+                "DDN au format AAAAMMJJ au lieu de JJMMAAAA (ATIH)",
+                "les 4 premiers chiffres forment une année plausible, les 4 derniers non",
+                "Réencoder la DDN en JJMMAAAA avant envoi DRUIDES / e-PMSI.");
         }
 
-        return ("ERR-DDN-YEAR", CheckSeverity.Error,
-            "Année de naissance hors plage",
-            "millésime attendu entre 1900 et 2099, valeur lue en dehors",
-            "Vérifier la saisie du patient dans le SIH.");
+        var year = int.Parse(ddn[4..]);
+        if (year is < 1900 or > 2099)
+        {
+            return ("ERR-DDN-YEAR", CheckSeverity.Error,
+                "Année de naissance hors plage",
+                "millésime attendu entre 1900 et 2099, valeur lue en dehors",
+                "Vérifier la saisie du patient dans le SIH.");
+        }
+
+        return ("ERR-DDN-DAY", CheckSeverity.Error,
+            "Jour ou mois invalide dans la DDN",
+            "le quantième lu n'existe pas dans le mois lu",
+            "Corriger la date dans le logiciel source.");
     }
+
+    private static bool IsDate(int year, int month, int day) =>
+        year is >= 1900 and <= 2099 && month is >= 1 and <= 12 && day >= 1 && day <= DateTime.DaysInMonth(year, month);
 }

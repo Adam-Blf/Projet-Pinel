@@ -8,8 +8,13 @@ namespace Pinel.Core.Checks;
 /// Checks that every record carries a plausible 9-digit FINESS code.
 /// DRUIDES and the ATIH e-PMSI portal reject files where the FINESS is
 /// missing, shorter/longer than 9 digits, or contains non-digit characters.
-/// The FINESS position is format-specific - we target the formats most
-/// likely to carry it (VID-HOSP, RSF-ACE-PSY, RPSA, RAA).
+/// La position du FINESS depend du format. Elle est prise dans les
+/// descriptifs ATIH 2026 : en tete pour RPS, RAA et FICHCOMP, apres le type
+/// d'enregistrement pour RSF, en 53-61 pour VID-HOSP et VID-IPP, qui
+/// commencent par le NIR. Lire le FINESS en tete d'un VID-HOSP revenait a
+/// controler le NIR sous le nom de FINESS (constate le 22/09/2026 sur un lot
+/// reel). ANO-HOSP est retire : sa position n'est etablie sur aucun
+/// descriptif officiel.
 /// </summary>
 public sealed class FinessCheck : IFileCheck
 {
@@ -21,10 +26,18 @@ public sealed class FinessCheck : IFileCheck
 
     public string Name => "FINESS format";
 
-    public IReadOnlySet<string>? AppliesTo { get; } = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
-    {
-        "VID-HOSP", "ANO-HOSP", "RPSA", "R3A", "RSF-ACE-PSY",
-    };
+    /// <summary>Position (index 0) du FINESS d'inscription e-PMSI, par format.</summary>
+    private static readonly IReadOnlyDictionary<string, int> FinessOffset =
+        new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["RPS"] = 0, ["RAA"] = 0, ["RPSA"] = 0, ["R3A"] = 0,
+            ["FICHCOMP"] = 0, ["FICHCOMP-ISO"] = 0, ["FICHCOMP-TP"] = 0,
+            ["RSF-ACE-PSY"] = 1,
+            ["VID-HOSP"] = 52, ["VID-IPP"] = 52,
+        };
+
+    public IReadOnlySet<string>? AppliesTo { get; } =
+        new HashSet<string>(FinessOffset.Keys, StringComparer.OrdinalIgnoreCase);
 
     static FinessCheck()
     {
@@ -33,7 +46,7 @@ public sealed class FinessCheck : IFileCheck
 
     public IEnumerable<CheckFinding> Validate(string filePath, string formatName)
     {
-        if (!AtihMatrix.All.ContainsKey(formatName))
+        if (!AtihMatrix.All.ContainsKey(formatName) || !FinessOffset.TryGetValue(formatName, out var offset))
         {
             yield break;
         }
@@ -62,12 +75,11 @@ public sealed class FinessCheck : IFileCheck
             while (reader.ReadLine() is { } line)
             {
                 lineNo++;
-                // FINESS is conventionally the first 9 characters of ATIH records.
-                if (line.Length < FinessLength)
+                if (line.Length < offset + FinessLength)
                 {
                     continue;
                 }
-                var finess = line[..FinessLength].Trim();
+                var finess = line.Substring(offset, FinessLength).Trim();
                 if (finess.Length == 0)
                 {
                     continue; // common padding line
@@ -78,7 +90,7 @@ public sealed class FinessCheck : IFileCheck
                     // UI and the JSON report on disk. See FindingRedaction.
                     yield return new CheckFinding(
                         "ERR-FINESS-FORMAT", CheckSeverity.Error,
-                        $"N° FINESS invalide ({FindingRedaction.Position(0, FinessLength)}) : "
+                        $"N° FINESS invalide ({FindingRedaction.Position(offset, FinessLength)}) : "
                         + $"{FindingRedaction.DigitGap(FinessLength, finess)}.",
                         filePath, lineNo, formatName,
                         FixHint: "Vérifier le paramétrage FINESS dans le logiciel métier.");

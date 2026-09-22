@@ -32,6 +32,7 @@ internal static class CommandLine
             {
                 "formats-importer" when args.Length == 5 => ImportFormats(args[1], int.Parse(args[2]), args[3], args[4]),
                 "roles" when args.Length == 2 => RolesCommand.Run(args[1]),
+                "controler" when args.Length == 2 => CheckCommand.Run(args[1]),
                 "anonymiser" when args.Length == 4 => AnonymizeCommand.Run(args[1], args[2], args[3]),
                 _ => Fail(Usage),
             };
