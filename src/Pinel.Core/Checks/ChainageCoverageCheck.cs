@@ -68,18 +68,17 @@ public sealed class ChainageCoverageCheck : ICrossFileCheck
             yield break;
         }
 
-        if (vid.Path is null)
-        {
-            // Lot purement ambulatoire : le VID-IPP suffit au chainage.
-            vid = vidIpp;
-        }
+        // Lot purement ambulatoire : le VID-IPP suffit au chainage. L'un des deux
+        // est present, le cas contraire est traite plus haut.
+        var reference = vid.Path is not null ? vid : vidIpp;
+        var referencePath = reference.Path!;
 
         if (activity.Count == 0)
         {
             yield return new CheckFinding(
                 "WARN-CHAINAGE-NO-ACTIVITY", CheckSeverity.Warning,
                 "VID-HOSP présent mais aucun fichier d'activité (RPS/RAA/RHS/RPSS) à chaîner.",
-                vid.Path, 0, vid.Format,
+                referencePath, 0, reference.Format,
                 FixHint: "Ajouter les fichiers d'activité au lot, ou retirer le VID-HOSP.");
             yield break;
         }
@@ -87,14 +86,14 @@ public sealed class ChainageCoverageCheck : ICrossFileCheck
         // Extract IPPs from VID-HOSP using its positional format, keeping the
         // line where each one was first seen: after redaction the line number is
         // the only locator left to the TIM, so it must be the real one.
-        var vidFormat = AtihMatrix.Require(vid.Format);
+        var vidFormat = AtihMatrix.Require(reference.Format);
         var vidIpps = new Dictionary<string, int>(StringComparer.Ordinal);
-        foreach (var (ipp, lineNo) in ExtractIpps(vid.Path, vidFormat))
+        foreach (var (ipp, lineNo) in ExtractIpps(referencePath, vidFormat))
         {
             vidIpps.TryAdd(ipp, lineNo);
         }
         var chained = new HashSet<string>(vidIpps.Keys, StringComparer.Ordinal);
-        if (vidIpp.Path is not null && vidIpp.Path != vid.Path)
+        if (vidIpp.Path is not null && vidIpp.Path != referencePath)
         {
             foreach (var (ipp, _) in ExtractIpps(vidIpp.Path, AtihMatrix.Require("VID-IPP")))
             {
@@ -153,7 +152,7 @@ public sealed class ChainageCoverageCheck : ICrossFileCheck
             yield return new CheckFinding(
                 "WARN-CHAINAGE-ORPHAN", CheckSeverity.Warning,
                 $"IPP présent dans VID-HOSP ({vidPosition}) mais absent des fichiers d'activité.",
-                vid.Path, orphan.Value, vid.Format,
+                referencePath, orphan.Value, reference.Format,
                 FixHint: "Vérifier si c'est un résidu d'un envoi précédent à purger.");
         }
     }

@@ -30,16 +30,7 @@ internal static class AnonymizeCommand
                 "pseudonymisees, ne peuvent pas y etre deposees. Choisir un dossier local non synchronise.");
         }
 
-        var registry = new LayoutRegistry(Array.Empty<FormatLayout>());
-        if (registry.LoadDirectory(formatsDirectory) == 0)
-        {
-            throw new IOException($"Aucun descriptif dans {formatsDirectory}");
-        }
-        var specs = registry.Formats
-            .Select(f => registry.Resolve(f))
-            .OfType<FormatLayout>()
-            .Select(RecordSpec.For)
-            .ToList();
+        var specs = Specs.Load(formatsDirectory);
 
         var anonymizer = new PmsiAnonymizer(new Pseudonymizer(KeyStore.LoadOrCreate()), specs);
         var report = anonymizer.Run(source, target);
