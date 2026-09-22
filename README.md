@@ -63,6 +63,8 @@ graph TB
 |--------|---|
 | `src/Pinel.Core` | Logique métier : formats ATIH, épisodes ambulatoires, contrôles de qualité, entrées/sorties fichiers |
 | `src/Pinel.Desktop` | Interface WPF, serveur HTTP local, authentification, pont WebView2 vers Pinel.Core |
+| `src/Pinel.Cli` | Outils en ligne de commande : import des formats ATIH, pseudonymisation, contrôles, apprentissage des corrections |
+| `reference/formats/2026` | Descriptifs Pinel tirés des classeurs officiels ATIH 2026 (PSY et MCO) |
 | `web/` | Pages HTML, CSS, JavaScript de l'interface utilisateur |
 | `tests/Pinel.Tests` | Tous les tests xUnit couvrant Pinel.Core |
 | `docs/` | Quatre documents destinés à différents lecteurs |
@@ -94,6 +96,25 @@ dotnet publish src/Pinel.Desktop/Pinel.Desktop.csproj -c Release
 ```
 
 L'exécutable se trouve ensuite dans `src/Pinel.Desktop/bin/Release/net8.0-windows/win-x64/publish/Pinel.exe`. Aucune installation requise, aucun droit administrateur.
+
+---
+
+## Outils en ligne de commande
+
+`dotnet run --project src/Pinel.Cli --` suivi de la commande. Aucune commande n'affiche de valeur de champ : seuls des chemins, des formats et des décomptes sortent sur la console.
+
+| Commande | Rôle |
+|---|---|
+| `formats-importer <classeur.xlsx> <année> <domaine> <sortie>` | Convertit un classeur officiel de formats ATIH en descriptifs Pinel, un par feuille |
+| `anonymiser <source> <cible> <descriptifs>` | Copie pseudonymisée d'un lot PMSI, sous clé DPAPI propre au poste. Refuse une cible synchronisée vers un nuage |
+| `controler <dossier>` | Passe les contrôles qualité et compte les anomalies par code |
+| `apprendre <dossier> <regles.json> <descriptifs>` | Tire les corrections régulières du DIM des paires origine / corrigé (`_CORR_main`, `_corrige_main`, ` - Corriger`) |
+| `regles <regles.json>` | Liste les règles apprises, leur confiance et leur statut |
+| `regle <regles.json> <n> valider, rejeter ou proposer` | Décision du DIM sur une règle |
+| `suggerer <dossier> <regles.json> <descriptifs> [copies]` | Compte les lignes d'un lot concernées par les règles ; les copies n'appliquent que les règles validées |
+| `roles <descriptifs>` | Liste les champs que la pseudonymisation transforme |
+
+**Données de santé.** Les lots réels ne sont lus qu'en local, dans un dossier de travail hors de tout dossier synchronisé : `Documents` peut remonter en entier vers un nuage grand public, non certifié HDS. `anonymiser` refuse une telle cible.
 
 ---
 

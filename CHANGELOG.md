@@ -44,6 +44,15 @@ annonce ce qui n'existe pas encore ne sert plus à personne.
   - Doublons : sur un RAA, des lignes identiques sont des actes répétés le même jour,
     signalés en avertissement. Code `ERR-DOUBLON-BULK` pour les autres formats.
 - `pinel controler <dossier>` : décompte des anomalies par code, sans valeur de champ.
+- Apprentissage des corrections du DIM (`pinel apprendre`, `regles`, `regle`,
+  `suggerer`). Pinel retrouve les paires origine / corrigé de l'arborescence de
+  travail, aligne les lignes et en tire des règles « champ A → B, quand K = V ».
+  La mémoire des règles cumule les observations d'un mois sur l'autre ; une règle
+  que le DIM cesse d'appliquer perd sa confiance ; une correction recopiée dans
+  plusieurs envois ne compte qu'une fois. Seules les règles validées par le DIM
+  corrigent une copie. Premier apprentissage sur les lots 2026 : 40 règles, dont
+  VID-HOSP facturable 1 → 0 et motif → 9 (959 cas, 100 %), forme d'activité
+  31 → 33 par UM, nombre d'intervenants plafonné selon la nature de l'acte.
 
 ### Modifié
 

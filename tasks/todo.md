@@ -51,9 +51,13 @@ Reste, dans l'ordre :
    AtihMatrix dit 1064), RSS groupe format 123 (zones repetees),
    identification par contenu branchee sur le scan de l'application (le scan
    ne lit encore que le nom), VID-HOSP a longueur variable dans LineInspector.
-3. Apprentissage des corrections : paires originale / corrigee du DIM
-   (vh_psy / vh_psy_CORR_main, vvd_raa / vvd_raa_CORR_main, vipp /
-   vipp_CORRIGE_main, fic_um / fic_um_CORR_main, raa / raa_corrige_main).
+3. FAIT (22/09) : apprentissage des corrections, 40 regles dans
+   C:/Users/adamb/PinelDonnees/regles-apprises.json. A FAIRE PAR LE DIM : relire
+   les regles (`pinel regles`) et valider ou rejeter. Non automatisable, a
+   signaler : un NIR assure partage par 217 patients dans le VID-IPP de M1
+   (valeur bouche-trou), rempli a la main patient par patient.
+   Suppressions de lignes RAA (135 a 599 par mois) : non deterministes, a
+   confier au modele ML (etape 4).
 4. Modele ML local (ML.NET), reentraine chaque mois sur le poste, apres
    validation DPO et DSI.
 5. Factoriser les sept declarations locales de l'encodage ISO-8859-1 des
