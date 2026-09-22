@@ -163,9 +163,13 @@ dont une seule, `41-49`, couvre 14 formats. Meilleur exemple du defaut : `RSF-AC
   logiciel cree par un salarie ou un apprenti dans l'exercice de ses fonctions. Adam a indique
   le 28/08/2026 qu'il considere posseder le code pour le moment. A faire trancher par les
   affaires juridiques de l'etablissement avant toute mise en production.
-- **Attribution Icons8.** 22 icones embarquees, licence gratuite exigeant un lien visible.
-  Un ecran "A propos" a ete demande pour porter l'attribution. Le poste n'ayant pas de reseau,
-  le lien ne sera pas cliquable : l'URL est affichee en texte lisible en plus du lien.
+- **Attribution Icons8 : levee le 22/09/2026 pour l'interface.** Les icones de l'application
+  sont passees a Phosphor (MIT), le texte de licence est dans "A propos". Reste : les deux
+  marques de couverture des PDF (`docs/icons/guide.png`, `docs/icons/securite.png`, via
+  `docs/generate_pdf.py`) sont encore des PNG Icons8, a remplacer par leur equivalent
+  Phosphor rendu en PNG. Les captures `docs/screenshots/` montrent l'ancienne interface et
+  sont a refaire depuis l'application lancee (le service local est requis pour les ecrans
+  remplis).
 - **Duree de conservation** des journaux et des fichiers exportes : non fixee. A acter avec la
   Direction des Ressources Numeriques.
 

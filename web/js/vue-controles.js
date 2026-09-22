@@ -15,10 +15,7 @@
     var summary = result.synthese || {};
     var anomalies = result.anomalies || [];
 
-    var counters = Object.keys(summary).map(function (level) {
-      return '<div class="kpi"><div class="label">' + dom.escapeHtml(level) + '</div><div class="value">' +
-        summary[level] + '</div></div>';
-    }).join('');
+    var counters = dom.kpiCards(Object.keys(summary).map(function (level) { return [level, summary[level]]; }));
 
     var rows = anomalies.slice(0, 200).map(function (finding) {
       return '<tr><td>' + dom.escapeHtml(finding.sourceFile || '') + '</td>' +
@@ -30,9 +27,12 @@
     dom.$('card-controles').innerHTML =
       '<h3>Résultat</h3><div class="grid cols-4">' + counters + '</div>' +
       (anomalies.length
-        ? '<div class="table-wrap" style="margin-top:var(--s3)"><table><thead><tr><th>Fichier</th>' +
-          '<th class="num">Ligne</th><th>Code</th><th>Anomalie</th></tr></thead><tbody>' + rows + '</tbody></table></div>'
-        : '<div class="note" style="margin-top:var(--s3)">Aucune anomalie sur le lot.</div>');
+        ? '<div class="table-wrap mt-3"><table><thead><tr><th>Fichier</th>' +
+          '<th class="num">Ligne</th><th>Code</th><th>Anomalie</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
+          (anomalies.length > 200
+            ? '<p class="hint mt-3">Affichage limité aux 200 premières anomalies sur ' + anomalies.length + '.</p>'
+            : '')
+        : '<div class="note mt-3">Aucune anomalie sur le lot.</div>');
     dom.toast(anomalies.length + ' anomalie(s).');
   }
 

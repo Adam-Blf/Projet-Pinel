@@ -28,21 +28,23 @@
     dom.$('card-structure').innerHTML =
       '<h3>' + dom.escapeHtml(result.filename) + '</h3>' +
       '<p class="hint">Colonnes reconnues : ' + dom.escapeHtml((result.headers || []).join(', ')) + '</p>' +
-      '<div class="grid cols-4">' +
-      '<div class="kpi"><div class="label">Unités</div><div class="value">' + (summary.totalNodes || 0) + '</div></div>' +
-      '<div class="kpi"><div class="label">Racines</div><div class="value">' + (summary.roots || 0) + '</div></div>' +
-      '<div class="kpi"><div class="label">Profondeur</div><div class="value">' + (summary.maxDepth || 0) + '</div></div>' +
-      '</div>' +
-      '<div class="table-wrap" style="margin-top:var(--s3)"><table>' +
+      '<div class="grid cols-4">' + dom.kpiCards([
+        ['Unités', summary.totalNodes || 0],
+        ['Racines', summary.roots || 0],
+        ['Profondeur', summary.maxDepth || 0]
+      ]) + '</div>' +
+      '<div class="table-wrap mt-3"><table>' +
       '<thead><tr><th>Type de secteur ARS</th><th class="num">Unités</th></tr></thead>' +
       '<tbody>' + (rows || '<tr><td colspan="2" class="empty">Aucun secteur ARS identifié dans le fichier.</td></tr>') +
       '</tbody></table></div>' +
-      '<div class="row" style="margin-top:var(--s3)">' +
-      '<button class="btn secondary" id="btn-structure-export" type="button">Exporter la structure à plat</button>' +
+      '<div class="row mt-3">' +
+      '<button class="btn secondary" id="btn-structure-export" type="button">' +
+      '<span class="i" data-icon="download-simple"></span> Exporter la structure à plat</button>' +
       '</div>';
 
     var exportButton = dom.$('btn-structure-export');
     if (exportButton) {
+      window.Pinel.nav.paintIcons(exportButton);
       exportButton.addEventListener('click', api.guard(async function () {
         var out = await api.call('/api/structure/export', { method: 'POST', body: { fichier: file } });
         dom.toast(out.lignes + ' unité(s) exportée(s) vers ' + out.sortie);

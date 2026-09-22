@@ -18,11 +18,11 @@
     dom.$('card-fichcomp').innerHTML =
       '<h3>Classeur nettoyé</h3>' +
       '<p class="path">' + dom.escapeHtml(result.sortie) + '</p>' +
-      '<div class="grid cols-4">' +
-      '<div class="kpi"><div class="label">Lignes lues</div><div class="value">' + result.lignesLues + '</div></div>' +
-      '<div class="kpi"><div class="label">En-têtes retirés</div><div class="value">' + result.lignesRetirees + '</div></div>' +
-      '<div class="kpi"><div class="label">Dates complétées</div><div class="value">' + result.datesCompletees + '</div></div>' +
-      '</div>';
+      '<div class="grid cols-4">' + dom.kpiCards([
+        ['Lignes lues', result.lignesLues],
+        ['En-têtes retirés', result.lignesRetirees],
+        ['Dates complétées', result.datesCompletees]
+      ]) + '</div>';
     dom.toast('Classeur transports nettoyé.');
   }
 
@@ -35,12 +35,12 @@
     });
 
     var rows = (result.anomalies || []).map(function (issue) {
-      return '<tr><td class="num">' + issue.lineNumber + '</td><td>' + dom.escapeHtml(issue.message) + '</td></tr>';
+      return '<tr><td class="num">' + dom.escapeHtml(issue.lineNumber) + '</td><td>' + dom.escapeHtml(issue.message) + '</td></tr>';
     }).join('');
 
     dom.$('card-fichcomp').innerHTML =
       '<h3>' + dom.escapeHtml(result.type) + '</h3>' +
-      '<p class="hint">' + result.lignes + ' ligne(s) contrôlée(s).</p>' +
+      '<p class="hint">' + dom.escapeHtml(result.lignes) + ' ligne(s) contrôlée(s).</p>' +
       (result.conforme
         ? '<div class="note">Aucune anomalie détectée.</div>'
         : '<div class="table-wrap"><table><thead><tr><th class="num">Ligne</th><th>Anomalie</th></tr></thead><tbody>' +

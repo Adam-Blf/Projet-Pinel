@@ -23,7 +23,7 @@
 
     body.innerHTML = list.map(function (entry) {
       var dates = (entry.options || []).map(function (o) {
-        return dom.escapeHtml(o.ddn) + ' (' + o.occurrences + ')';
+        return dom.escapeHtml(o.ddn) + ' (' + dom.escapeHtml(o.occurrences) + ')';
       }).join(', ');
       return '<tr><td class="mono">' + dom.escapeHtml(entry.ipp) + '</td>' +
         '<td class="mono">' + dom.escapeHtml(entry.pivot) + '</td>' +

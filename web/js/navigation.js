@@ -42,11 +42,7 @@
 
   function paintIcons(root) {
     dom.els('[data-icon]', root).forEach(function (node) {
-      var name = node.getAttribute('data-icon');
-      var url = 'url("icons/' + name + '.png")';
-      node.style.webkitMaskImage = url;
-      node.style.maskImage = url;
-      node.setAttribute('aria-hidden', 'true');
+      dom.paintIcon(node, node.getAttribute('data-icon'));
     });
   }
 

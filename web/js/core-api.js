@@ -84,12 +84,26 @@
 
   // Enveloppe un gestionnaire d'événement asynchrone : toute erreur non
   // rattrapée se termine par une notification lisible plutôt qu'une
-  // exception silencieuse dans la console.
+  // exception silencieuse dans la console. Le bouton cliqué passe en état
+  // occupé (désactivé, aria-busy, icône tournante) jusqu'à la fin de
+  // l'appel : un double clic sur "Traiter" ne lance pas deux lots.
   function guard(handler) {
-    return function () {
+    return function (event) {
+      var button = event && event.currentTarget && event.currentTarget.tagName === 'BUTTON'
+        ? event.currentTarget : null;
+      if (button) {
+        if (button.getAttribute('aria-busy') === 'true') return;
+        button.setAttribute('aria-busy', 'true');
+        button.disabled = true;
+      }
       Promise.resolve()
         .then(handler)
-        .catch(function (error) { dom.toast('Erreur : ' + error.message); });
+        .catch(function (error) { dom.toast('Erreur : ' + error.message, 'error'); })
+        .then(function () {
+          if (!button) return;
+          button.removeAttribute('aria-busy');
+          button.disabled = false;
+        });
     };
   }
 

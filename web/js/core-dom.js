@@ -33,17 +33,31 @@
     $(targetId).innerHTML = kpiCards(entries);
   }
 
-  // Notification annoncée par le lecteur d'écran via role="status" : le
-  // texte est posé avant de retirer l'attribut hidden, ce qui garantit
-  // l'annonce même si le message reprend le précédent mot pour mot.
-  function toast(message) {
-    var box = $('toast');
-    box.hidden = true;
-    box.textContent = message;
-    box.hidden = false;
-    clearTimeout(toast._timer);
-    toast._timer = setTimeout(function () { box.hidden = true; }, 5000);
+  // Pose un glyphe Phosphor en masque CSS sur un élément .i ; le fichier
+  // SVG doit figurer dans la liste de tools/vendor_assets.py.
+  function paintIcon(node, name) {
+    var url = 'url("icons/' + name + '.svg")';
+    node.style.webkitMaskImage = url;
+    node.style.maskImage = url;
+    node.setAttribute('aria-hidden', 'true');
   }
 
-  window.Pinel.dom = { $: $, el: el, els: els, escapeHtml: escapeHtml, kpiCards: kpiCards, kpis: kpis, toast: toast };
+  // Notification annoncée par le lecteur d'écran via role="status" : le
+  // texte est posé avant de retirer l'attribut hidden, ce qui garantit
+  // l'annonce même si le message reprend le précédent mot pour mot. Une
+  // erreur reste affichée plus longtemps, le temps d'être lue en entier.
+  function toast(message, kind) {
+    var box = $('toast');
+    var error = kind === 'error';
+    box.hidden = true;
+    box.classList.toggle('error', error);
+    box.innerHTML = '<span class="i"></span><span></span>';
+    paintIcon(box.firstChild, error ? 'warning-circle' : 'check-circle');
+    box.lastChild.textContent = message;
+    box.hidden = false;
+    clearTimeout(toast._timer);
+    toast._timer = setTimeout(function () { box.hidden = true; }, error ? 9000 : 5000);
+  }
+
+  window.Pinel.dom = { $: $, el: el, els: els, escapeHtml: escapeHtml, kpiCards: kpiCards, kpis: kpis, paintIcon: paintIcon, toast: toast };
 })();

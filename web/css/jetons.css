@@ -43,6 +43,8 @@
      thème de la page : elle ne suit pas --ink/--canvas. */
   --toast-bg: #202428;
   --toast-ink: #e7f0f5;
+  --toast-ok: #7fd1c4;
+  --toast-error: #f5a3a3;
 
   /* Variantes "-ink" des couleurs de statut générique, indépendantes des
      couleurs de section. --teal-ink est assombri par rapport à --teal : sur
@@ -65,6 +67,13 @@
   --t-lg: 1.19rem;
   --t-xl: 1.52rem;
   --t-2xl: 1.93rem;
+
+  /* Pile à chasse fixe des chemins, du journal et des identifiants : polices
+     système Windows, présentes sur tout poste du GHT, rien à embarquer. */
+  --font-mono: Consolas, "Cascadia Mono", "Courier New", monospace;
+
+  --ease-out: cubic-bezier(.2, .8, .2, 1);
+  --dur: .18s;
 
   --radius: 10px;
   --radius-lg: 16px;
@@ -99,34 +108,36 @@
   --accent-ink: var(--c-moulinette-ink);
 }
 
-/* Laisse le navigateur choisir les widgets natifs (case à cocher, liste
-   déroulante, curseur de champ numérique) adaptés au thème actif. */
-:root { color-scheme: light dark; }
+/* Thème : js/theme.js pose data-theme="light" ou "dark" sur <html> avant le
+   premier rendu, d'après le choix enregistré ou, à défaut, le réglage du
+   système. Un seul bloc de valeurs sombres, jamais dupliqué dans une media
+   query. color-scheme laisse le moteur peindre les widgets natifs (case à
+   cocher, liste déroulante, barres de défilement) dans le bon thème. */
+:root { color-scheme: light; }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --ink: #eef1f4;
-    --surface: #1c232a;
-    --canvas: #12171c;
-    --line: #2c343b;
-    --muted: #9aa7af;
-    --field-border: #70808f;
-    --focus: var(--ocre);
-    --shadow: 0 1px 2px rgba(0, 0, 0, .5), 0 8px 24px rgba(0, 0, 0, .4);
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --ink: #eef1f4;
+  --surface: #1c232a;
+  --canvas: #12171c;
+  --line: #2c343b;
+  --muted: #9aa7af;
+  --field-border: #70808f;
+  --focus: var(--ocre);
+  --shadow: 0 1px 2px rgba(0, 0, 0, .5), 0 8px 24px rgba(0, 0, 0, .4);
 
-    --teal-ink: color-mix(in srgb, var(--teal) 74%, white);
-    --warning-ink: color-mix(in srgb, var(--warning) 70%, white);
+  --teal-ink: color-mix(in srgb, var(--teal) 74%, white);
+  --warning-ink: color-mix(in srgb, var(--warning) 70%, white);
 
-    --c-moulinette-ink: color-mix(in srgb, var(--c-moulinette) 60%, white);
-    --c-episodes-ink: color-mix(in srgb, var(--c-episodes) 74%, white);
-    --c-structure-ink: color-mix(in srgb, var(--c-structure) 78%, white);
-    --c-fichcomp-ink: color-mix(in srgb, var(--c-fichcomp) 70%, white);
-    --c-identito-ink: color-mix(in srgb, var(--c-identito) 62%, white);
-    --c-controles-ink: color-mix(in srgb, var(--c-controles) 74%, white);
-    --c-dossiers-ink: color-mix(in srgb, var(--c-dossiers) 70%, white);
-    --c-journal-ink: color-mix(in srgb, var(--c-journal) 72%, white);
-    --c-apropos-ink: color-mix(in srgb, var(--c-apropos) 56%, white);
-  }
+  --c-moulinette-ink: color-mix(in srgb, var(--c-moulinette) 60%, white);
+  --c-episodes-ink: color-mix(in srgb, var(--c-episodes) 74%, white);
+  --c-structure-ink: color-mix(in srgb, var(--c-structure) 78%, white);
+  --c-fichcomp-ink: color-mix(in srgb, var(--c-fichcomp) 70%, white);
+  --c-identito-ink: color-mix(in srgb, var(--c-identito) 62%, white);
+  --c-controles-ink: color-mix(in srgb, var(--c-controles) 74%, white);
+  --c-dossiers-ink: color-mix(in srgb, var(--c-dossiers) 70%, white);
+  --c-journal-ink: color-mix(in srgb, var(--c-journal) 72%, white);
+  --c-apropos-ink: color-mix(in srgb, var(--c-apropos) 56%, white);
 }
 
 * { box-sizing: border-box; }
@@ -146,7 +157,6 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-code, .mono, .num {
-  font-variant-numeric: tabular-nums;
-  letter-spacing: -.01em;
-}
+.num { font-variant-numeric: tabular-nums; }
+
+code, .mono { font-family: var(--font-mono); font-size: .95em; }

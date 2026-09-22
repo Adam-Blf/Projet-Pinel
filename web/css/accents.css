@@ -17,23 +17,27 @@
 .app[data-accent="journal"]    { --accent: var(--c-journal);    --accent-ink: var(--c-journal-ink); }
 .app[data-accent="apropos"]    { --accent: var(--c-apropos);    --accent-ink: var(--c-apropos-ink); }
 
-/* Chaque entrée de navigation garde sa couleur, active ou non : l'icône
-   reste un repère graphique (contraste non textuel), la couleur de texte
-   de l'entrée active passe par -ink pour rester lisible en thème sombre. */
-.nav-item[data-view="moulinette"] .i { color: var(--c-moulinette); }
-.nav-item[data-view="episodes"] .i   { color: var(--c-episodes); }
-.nav-item[data-view="structure"] .i  { color: var(--c-structure); }
-.nav-item[data-view="fichcomp"] .i   { color: var(--c-fichcomp); }
-.nav-item[data-view="identito"] .i   { color: var(--c-identito); }
-.nav-item[data-view="controles"] .i  { color: var(--c-controles); }
-.nav-item[data-view="dossiers"] .i   { color: var(--c-dossiers); }
-.nav-item[data-view="journal"] .i    { color: var(--c-journal); }
-.nav-item[data-view="apropos"] .i    { color: var(--c-apropos); }
+/* Chaque entrée de navigation garde sa couleur, active ou non : la pastille
+   reste un repère graphique (contraste non textuel >= 3:1). Elle passe par
+   la variante -ink, sans quoi le bleu marine de la conversion disparaît sur
+   le fond sombre. */
+.nav-item[data-view="moulinette"] .chip { color: var(--c-moulinette-ink); }
+.nav-item[data-view="episodes"] .chip   { color: var(--c-episodes-ink); }
+.nav-item[data-view="structure"] .chip  { color: var(--c-structure-ink); }
+.nav-item[data-view="fichcomp"] .chip   { color: var(--c-fichcomp-ink); }
+.nav-item[data-view="identito"] .chip   { color: var(--c-identito-ink); }
+.nav-item[data-view="controles"] .chip  { color: var(--c-controles-ink); }
+.nav-item[data-view="dossiers"] .chip   { color: var(--c-dossiers-ink); }
+.nav-item[data-view="journal"] .chip    { color: var(--c-journal-ink); }
+.nav-item[data-view="apropos"] .chip    { color: var(--c-apropos-ink); }
 
-.nav-item[aria-current="page"] {
+/* Entrée active : navigation.js pose aria-selected (patron ARIA tabs), c'est
+   donc lui que le style lit. Un sélecteur sur un attribut que personne ne
+   pose ne marque jamais rien. */
+.nav-item[aria-selected="true"] {
   border-left-color: var(--accent-ink);
   color: var(--accent-ink);
-  background: color-mix(in srgb, var(--accent) 9%, transparent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
 }
 
 /* Filet de couleur sous la barre de titre. */
@@ -52,17 +56,8 @@
   flex: none;
   border-radius: 8px;
   background: color-mix(in srgb, currentColor 12%, transparent);
+  transition: background-color var(--dur) ease;
 }
 
-.nav-item[data-view="moulinette"] .chip { color: var(--c-moulinette); }
-.nav-item[data-view="episodes"] .chip   { color: var(--c-episodes); }
-.nav-item[data-view="structure"] .chip  { color: var(--c-structure); }
-.nav-item[data-view="fichcomp"] .chip   { color: var(--c-fichcomp); }
-.nav-item[data-view="identito"] .chip   { color: var(--c-identito); }
-.nav-item[data-view="controles"] .chip  { color: var(--c-controles); }
-.nav-item[data-view="dossiers"] .chip   { color: var(--c-dossiers); }
-.nav-item[data-view="journal"] .chip    { color: var(--c-journal); }
-.nav-item[data-view="apropos"] .chip    { color: var(--c-apropos); }
-
-.nav-item .chip .i { width: 1.05rem; height: 1.05rem; }
-.nav-item[aria-current="page"] .chip { background: color-mix(in srgb, currentColor 20%, transparent); }
+.nav-item .chip .i { width: 1.15rem; height: 1.15rem; }
+.nav-item[aria-selected="true"] .chip { background: color-mix(in srgb, currentColor 22%, transparent); }

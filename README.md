@@ -14,7 +14,7 @@ Pinel convertit les fichiers au format national ATIH (largeur fixe) en CSV explo
 graph TB
     subgraph Desktop["Application Bureau .NET 8"]
         WPF["Interface WPF"]
-        Bridge["Pont HTTP<br/>127.0.0.1:5000<br/>Authentification par jeton"]
+        Bridge["Pont HTTP<br/>127.0.0.1:8787<br/>Authentification par jeton"]
     end
 
     subgraph Web["Interface HTML Embarquée"]

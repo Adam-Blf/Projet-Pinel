@@ -40,7 +40,7 @@
     var result = await api.call('/api/scanner', { method: 'POST' });
     renderFiles(result.fichiers || []);
     dom.kpis('kpi-moulinette', [
-      ['Fichiers', result.total || 0], ['Lignes lues', '—'], ['IPP uniques', '—'], ['Conflits', '—']
+      ['Fichiers', result.total || 0], ['Lignes lues', '-'], ['IPP uniques', '-'], ['Conflits', '-']
     ]);
     dom.toast(result.total + ' fichier(s) détecté(s).');
   }

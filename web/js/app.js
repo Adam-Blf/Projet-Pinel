@@ -28,6 +28,7 @@
 
   function start() {
     nav.paintIcons(document);
+    window.Pinel.theme.wire();
     nav.wire();
     wireReset();
     syncAproposVersion();

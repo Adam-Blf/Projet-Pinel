@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="css/composants.css">
   <link rel="stylesheet" href="css/accents.css">
   <link rel="stylesheet" href="css/accessibilite.css">
+  <script src="js/theme.js"></script>
 </head>
 
 <body>
@@ -26,24 +27,26 @@
       <nav class="nav-shell" aria-label="Navigation principale">
         <div class="nav" role="tablist" aria-orientation="vertical">
           <div class="nav-group" role="presentation">Traitement des données PMSI</div>
-          <button class="nav-item" role="tab" id="tab-moulinette" data-view="moulinette" aria-controls="view-moulinette" aria-selected="true" tabindex="0"><span class="chip"><span class="i" data-icon="file-down"></span></span> Conversion des formats ATIH <span class="badge" id="badge-fichiers">0</span></button>
-          <button class="nav-item" role="tab" id="tab-episodes" data-view="episodes" aria-controls="view-episodes" aria-selected="false" tabindex="-1"><span class="chip"><span class="i" data-icon="history"></span></span> Épisodes de prise en charge</button>
-          <button class="nav-item" role="tab" id="tab-structure" data-view="structure" aria-controls="view-structure" aria-selected="false" tabindex="-1"><span class="chip"><span class="i" data-icon="git-branch"></span></span> Structure du GHT</button>
-          <button class="nav-item" role="tab" id="tab-fichcomp" data-view="fichcomp" aria-controls="view-fichcomp" aria-selected="false" tabindex="-1"><span class="chip"><span class="i" data-icon="table-2"></span></span> Transports et fichiers complémentaires</button>
+          <button class="nav-item" role="tab" id="tab-moulinette" data-view="moulinette" aria-controls="view-moulinette" aria-selected="true" tabindex="0"><span class="chip"><span class="i" data-icon="file-arrow-down"></span></span> Conversion des formats ATIH <span class="badge" id="badge-fichiers">0</span></button>
+          <button class="nav-item" role="tab" id="tab-episodes" data-view="episodes" aria-controls="view-episodes" aria-selected="false" tabindex="-1"><span class="chip"><span class="i" data-icon="clock-counter-clockwise"></span></span> Épisodes de prise en charge</button>
+          <button class="nav-item" role="tab" id="tab-structure" data-view="structure" aria-controls="view-structure" aria-selected="false" tabindex="-1"><span class="chip"><span class="i" data-icon="tree-structure"></span></span> Structure du GHT</button>
+          <button class="nav-item" role="tab" id="tab-fichcomp" data-view="fichcomp" aria-controls="view-fichcomp" aria-selected="false" tabindex="-1"><span class="chip"><span class="i" data-icon="ambulance"></span></span> Transports et fichiers complémentaires</button>
 
           <div class="nav-group" role="presentation">Qualité et conformité</div>
-          <button class="nav-item" role="tab" id="tab-identito" data-view="identito" aria-controls="view-identito" aria-selected="false" tabindex="-1"><span class="chip"><span class="i" data-icon="users-2"></span></span> Identitovigilance <span class="badge" id="badge-conflits">0</span></button>
-          <button class="nav-item" role="tab" id="tab-controles" data-view="controles" aria-controls="view-controles" aria-selected="false" tabindex="-1"><span class="chip"><span class="i" data-icon="check-circle"></span></span> Contrôles qualité</button>
+          <button class="nav-item" role="tab" id="tab-identito" data-view="identito" aria-controls="view-identito" aria-selected="false" tabindex="-1"><span class="chip"><span class="i" data-icon="identification-card"></span></span> Identitovigilance <span class="badge" id="badge-conflits">0</span></button>
+          <button class="nav-item" role="tab" id="tab-controles" data-view="controles" aria-controls="view-controles" aria-selected="false" tabindex="-1"><span class="chip"><span class="i" data-icon="list-checks"></span></span> Contrôles qualité</button>
 
           <div class="nav-group" role="presentation">Configuration</div>
-          <button class="nav-item" role="tab" id="tab-dossiers" data-view="dossiers" aria-controls="view-dossiers" aria-selected="false" tabindex="-1"><span class="chip"><span class="i" data-icon="folders"></span></span> Emplacements autorisés</button>
-          <button class="nav-item" role="tab" id="tab-journal" data-view="journal" aria-controls="view-journal" aria-selected="false" tabindex="-1"><span class="chip"><span class="i" data-icon="info"></span></span> Traçabilité</button>
-          <button class="nav-item" role="tab" id="tab-apropos" data-view="apropos" aria-controls="view-apropos" aria-selected="false" tabindex="-1"><span class="chip"><span class="i" data-icon="file-text"></span></span> À propos</button>
+          <button class="nav-item" role="tab" id="tab-dossiers" data-view="dossiers" aria-controls="view-dossiers" aria-selected="false" tabindex="-1"><span class="chip"><span class="i" data-icon="folder-lock"></span></span> Emplacements autorisés</button>
+          <button class="nav-item" role="tab" id="tab-journal" data-view="journal" aria-controls="view-journal" aria-selected="false" tabindex="-1"><span class="chip"><span class="i" data-icon="scroll"></span></span> Traçabilité</button>
+          <button class="nav-item" role="tab" id="tab-apropos" data-view="apropos" aria-controls="view-apropos" aria-selected="false" tabindex="-1"><span class="chip"><span class="i" data-icon="info"></span></span> À propos</button>
         </div>
       </nav>
 
       <div class="sidebar-foot">
         <span id="version">Version 1.0.0</span>
+        <span class="spacer"></span>
+        <button class="icon-btn" id="btn-theme" type="button" aria-label="Changer de thème"><span class="i" data-icon="moon"></span></button>
       </div>
     </aside>
 
@@ -54,7 +57,7 @@
           <p id="view-subtitle">Cahier des charges DIM, point 1 - fichiers au format national convertis en CSV exploitable</p>
         </div>
         <div class="spacer"></div>
-        <button class="btn ghost" id="btn-reset" type="button"><span class="i" data-icon="power"></span> Réinitialiser</button>
+        <button class="btn ghost" id="btn-reset" type="button"><span class="i" data-icon="arrow-counter-clockwise"></span> Réinitialiser</button>
       </header>
 
       <!-- ── Conversion des formats ATIH ───────────────────────────────── -->
@@ -64,9 +67,9 @@
           <p class="hint">Les fichiers sont lus dans les dossiers de travail autorisés. Le traitement reste sur le poste.</p>
           <div class="row">
             <button class="btn" id="btn-ajouter-dossier" type="button"><span class="i" data-icon="folder-plus"></span> Ajouter un dossier</button>
-            <button class="btn secondary" id="btn-scanner" type="button"><span class="i" data-icon="search"></span> Scanner</button>
-            <button class="btn secondary" id="btn-traiter" type="button"><span class="i" data-icon="zap"></span> Traiter</button>
-            <button class="btn" id="btn-export-csv" type="button"><span class="i" data-icon="download"></span> Exporter en CSV</button>
+            <button class="btn secondary" id="btn-scanner" type="button"><span class="i" data-icon="magnifying-glass"></span> Scanner</button>
+            <button class="btn secondary" id="btn-traiter" type="button"><span class="i" data-icon="lightning"></span> Traiter</button>
+            <button class="btn" id="btn-export-csv" type="button"><span class="i" data-icon="download-simple"></span> Exporter en CSV</button>
           </div>
         </div>
 
@@ -92,13 +95,13 @@
           <p class="hint">Un épisode regroupe les journées consécutives d'un même patient, dans une même unité médicale et un même site. Le recueil étant annuel, un épisode se ferme au 31 décembre.</p>
           <div class="row">
             <label class="check">Tolérance
-              <input type="number" id="episode-tolerance" value="0" min="0" max="30" style="width:5rem">
+              <input type="number" id="episode-tolerance" value="0" min="0" max="30" class="narrow">
               jour(s) sans venue
             </label>
             <label class="check"><input type="checkbox" id="episode-um" checked> Rupture au changement d'UM</label>
             <label class="check"><input type="checkbox" id="episode-site" checked> Rupture au changement de site</label>
             <label class="check"><input type="checkbox" id="episode-annee" checked> Fermeture au 31 décembre</label>
-            <button class="btn" id="btn-episodes" type="button"><span class="i" data-icon="history"></span> Calculer les épisodes</button>
+            <button class="btn" id="btn-episodes" type="button"><span class="i" data-icon="clock-counter-clockwise"></span> Calculer les épisodes</button>
           </div>
         </div>
 
@@ -123,7 +126,7 @@
           <h3>Fichier de structure du GHT</h3>
           <p class="hint">CSV ou TSV. Les colonnes sont reconnues même si les intitulés varient.</p>
           <div class="row">
-            <button class="btn" id="btn-structure" type="button"><span class="i" data-icon="git-branch"></span> Choisir le fichier</button>
+            <button class="btn" id="btn-structure" type="button"><span class="i" data-icon="tree-structure"></span> Choisir le fichier</button>
           </div>
         </div>
         <div class="card" id="card-structure">
@@ -137,7 +140,7 @@
           <h3>Classeur transports</h3>
           <p class="hint">Retire les blocs d'en-tête répétés, propage la date de commande sur les lignes vides, et conserve l'original avec les lignes retirées en rouge. Le fichier d'origine n'est jamais modifié.</p>
           <div class="row">
-            <button class="btn" id="btn-fichcomp-nettoyer" type="button"><span class="i" data-icon="table-2"></span> Nettoyer un classeur transports</button>
+            <button class="btn" id="btn-fichcomp-nettoyer" type="button"><span class="i" data-icon="ambulance"></span> Nettoyer un classeur transports</button>
           </div>
         </div>
         <div class="card">
@@ -163,8 +166,8 @@
           <h3>Conflits de date de naissance</h3>
           <p class="hint">Un même identifiant patient portant plusieurs dates de naissance casse le chaînage.</p>
           <div class="row">
-            <button class="btn secondary" id="btn-collisions" type="button"><span class="i" data-icon="users-2"></span> Actualiser</button>
-            <button class="btn" id="btn-export-identite" type="button"><span class="i" data-icon="download"></span> Exporter en CSV</button>
+            <button class="btn secondary" id="btn-collisions" type="button"><span class="i" data-icon="arrow-counter-clockwise"></span> Actualiser</button>
+            <button class="btn" id="btn-export-identite" type="button"><span class="i" data-icon="download-simple"></span> Exporter en CSV</button>
           </div>
         </div>
         <div class="card">
@@ -201,7 +204,7 @@
           <div class="row">
             <button class="btn" id="btn-dossier-ajouter" type="button"><span class="i" data-icon="folder-plus"></span> Ajouter un dossier</button>
           </div>
-          <div class="table-wrap" style="margin-top:var(--s3)">
+          <div class="table-wrap mt-3">
             <table>
               <thead><tr><th>Dossier</th><th><span class="sr-only">Actions</span></th></tr></thead>
               <tbody id="tbody-dossiers">
@@ -215,13 +218,13 @@
           <div class="card">
             <h3>Dossier de sortie</h3>
             <p class="hint">Destination des CSV, des exports et des classeurs nettoyés.</p>
-            <p class="path" id="dossier-sortie">—</p>
+            <p class="path" id="dossier-sortie">Non défini</p>
             <button class="btn secondary" id="btn-dossier-sortie" type="button">Changer</button>
           </div>
           <div class="card">
             <h3>Descriptifs de format</h3>
             <p class="hint">Dossier où déposer les descriptifs officiels, un fichier par format et par année. Les formats changent tous les ans, aucune mise à jour de l'application n'est nécessaire.</p>
-            <p class="path" id="dossier-formats">—</p>
+            <p class="path" id="dossier-formats">Non défini</p>
             <button class="btn secondary" id="btn-dossier-formats" type="button">Changer</button>
           </div>
         </div>
@@ -232,7 +235,7 @@
         <div class="card">
           <h3>Journal d'audit</h3>
           <p class="hint">Trace horodatée des opérations sensibles. Aucune donnée patient n'y figure.</p>
-          <p class="path" id="chemin-audit">—</p>
+          <p class="path" id="chemin-audit">Non défini</p>
         </div>
         <div class="card">
           <h3>Journal de session</h3>
@@ -250,16 +253,19 @@
 
         <div class="card">
           <h3>Icônes</h3>
-          <p class="hint">Les pictogrammes de la navigation et des boutons proviennent d'Icons8, utilisés sous licence gratuite avec attribution.</p>
-          <p>Icônes par <a href="https://icons8.com" target="_blank" rel="noopener noreferrer">Icons8</a> - adresse : <span class="path">https://icons8.com</span></p>
+          <p class="hint">Les pictogrammes de la navigation et des boutons proviennent de Phosphor Icons, distribués sous licence MIT.</p>
+          <details class="disclosure" data-licence="legal/phosphor-mit.txt">
+            <summary>Lire le texte de la licence MIT (Phosphor Icons)</summary>
+            <pre class="license-text">Chargement du texte de la licence…</pre>
+          </details>
         </div>
 
         <div class="card">
           <h3>Polices</h3>
           <p class="hint">La police Montserrat est utilisée sous licence SIL Open Font License 1.1.</p>
-          <details class="disclosure" id="disclosure-montserrat">
+          <details class="disclosure" data-licence="legal/montserrat-ofl.txt">
             <summary>Lire le texte de la licence SIL OFL 1.1 (Montserrat)</summary>
-            <pre class="license-text" id="licence-montserrat">Chargement du texte de la licence…</pre>
+            <pre class="license-text">Chargement du texte de la licence…</pre>
           </details>
         </div>
 

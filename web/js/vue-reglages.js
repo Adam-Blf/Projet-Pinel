@@ -18,7 +18,7 @@
     body.innerHTML = (settings.dossiers || []).length
       ? settings.dossiers.map(function (folder) {
           return '<tr><td class="path">' + dom.escapeHtml(folder) + '</td>' +
-            '<td style="text-align:right"><button class="btn ghost" data-remove="' + dom.escapeHtml(folder) +
+            '<td class="align-end"><button class="btn ghost small" data-remove="' + dom.escapeHtml(folder) +
             '" type="button">Retirer</button></td></tr>';
         }).join('')
       : '<tr><td colspan="2" class="empty">Aucun dossier ajouté. Ajoutez un dossier pour autoriser Pinel à y ' +
@@ -32,8 +32,8 @@
       }));
     });
 
-    dom.$('dossier-sortie').textContent = settings.dossierSortie || '—';
-    dom.$('dossier-formats').textContent = settings.dossierFormats || '—';
+    dom.$('dossier-sortie').textContent = settings.dossierSortie || 'Non défini';
+    dom.$('dossier-formats').textContent = settings.dossierFormats || 'Non défini';
   }
 
   function wire() {
@@ -62,7 +62,7 @@
     }));
 
     window.addEventListener('pinel:view', function (event) {
-      if (event.detail === 'dossiers') loadSettings().catch(function (e) { dom.toast('Erreur : ' + e.message); });
+      if (event.detail === 'dossiers') loadSettings().catch(function (e) { dom.toast('Erreur : ' + e.message, 'error'); });
     });
   }
 

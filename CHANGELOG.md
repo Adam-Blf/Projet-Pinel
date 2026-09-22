@@ -12,8 +12,26 @@ annonce ce qui n'existe pas encore ne sert plus à personne.
 
 ## Non publié
 
+### Modifié
+
+- Icônes : le jeu Icons8 en PNG est remplacé par Phosphor Icons (licence MIT, graisse
+  regular), servi en SVG local, net à toute densité d'écran. Plus d'obligation de lien
+  d'attribution, le texte de la licence MIT est consultable dans « À propos ».
+- Polices : seuls les sous-ensembles latin et latin-ext de Montserrat sont embarqués
+  (cyrillique et vietnamien retirés, 63 Ko de moins). Chemins, journal et identifiants
+  passent en Consolas, police système à chasse fixe.
+- `tools/vendor_assets.py` rapatrie aussi les icônes, à version figée.
+
 ### Ajouté
 
+- Bascule de thème clair ou sombre en pied de menu. Sans choix enregistré, Pinel suit le
+  réglage de Windows, y compris s'il change en cours de session.
+- État occupé sur tout bouton qui appelle le service local : bouton désactivé, icône
+  tournante, `aria-busy`. Un double clic sur « Traiter » ne lance plus deux lots.
+- Notifications d'erreur distinguées des confirmations (couleur, icône, durée d'affichage
+  allongée à 9 secondes).
+- En-têtes de tableau collants et hauteur bornée : les 200 anomalies d'un lot restent
+  lisibles avec leurs intitulés de colonne. Mention explicite quand la liste est tronquée.
 - Production de la feuille FICHCOMP transports. Le classeur nettoyé porte désormais une
   troisième feuille au format attendu par le DIM, ses 19 colonnes renseignées depuis le
   rapport nettoyé. Auparavant, la sortie avait la structure d'une facture (désignation, unité,
@@ -28,6 +46,16 @@ annonce ce qui n'existe pas encore ne sert plus à personne.
   non corrigés et leur motif de report.
 
 ### Corrigé
+
+- L'entrée de menu active n'était jamais mise en évidence : le style lisait `aria-current`,
+  que personne ne posait, alors que la navigation pose `aria-selected`.
+- Le filet de couleur à gauche des compteurs n'apparaissait pas : la propriété raccourcie
+  `border`, déclarée après, l'écrasait.
+- En thème sombre, les pastilles d'icône du menu (bleu marine de la conversion notamment)
+  étaient presque invisibles. Elles passent par les variantes `-ink`, contraste non textuel
+  mesuré entre 4,5:1 et 13:1 dans les deux thèmes.
+- Valeurs issues du service local injectées sans échappement dans quatre écrans
+  (contrôles, structure, fichiers complémentaires, identitovigilance).
 
 - **Les positions de champs ont été confrontées aux descriptifs officiels de l'ATIH**, ce qui
   n'avait jamais été fait : elles venaient d'un script antérieur. Résultat, et il est nuancé.

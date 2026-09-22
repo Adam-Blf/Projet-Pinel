@@ -13,7 +13,7 @@
 
   async function loadJournal() {
     var audit = await api.call('/api/audit');
-    dom.$('chemin-audit').textContent = audit.chemin || '—';
+    dom.$('chemin-audit').textContent = audit.chemin || 'Non défini';
     var entries = await api.call('/api/journal');
     if (entries && entries.length) {
       dom.$('journal').textContent = entries.map(function (e) {
@@ -23,6 +23,6 @@
   }
 
   window.addEventListener('pinel:view', function (event) {
-    if (event.detail === 'journal') loadJournal().catch(function (e) { dom.toast('Erreur : ' + e.message); });
+    if (event.detail === 'journal') loadJournal().catch(function (e) { dom.toast('Erreur : ' + e.message, 'error'); });
   });
 })();
