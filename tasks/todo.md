@@ -58,8 +58,19 @@ Reste, dans l'ordre :
    (valeur bouche-trou), rempli a la main patient par patient.
    Suppressions de lignes RAA (135 a 599 par mois) : non deterministes, a
    confier au modele ML (etape 4).
-4. Modele ML local (ML.NET), reentraine chaque mois sur le poste, apres
-   validation DPO et DSI.
+4. EN COURS (pause du 22/09 au soir) : modele ML des suppressions RAA.
+   Fait : projet src/Pinel.Ml (ML.NET 5 + LightGBM), RaaFeatureBuilder,
+   DeletionModel (validation temporelle, champion / challenger, fiche modele),
+   commandes `pinel entrainer` et `pinel scorer`. Premier entrainement sur
+   M1-M3, controle sur M6 jamais vu : AUC 1,000, AUPRC 0,998 (hasard 0,005),
+   100 % de vraies suppressions sur les 500 lignes les plus suspectes.
+   Modele dans C:/Users/adamb/PinelDonnees/modele (hors depot, hors Drive).
+   Reprendre ici, dans l'ordre :
+   a. tests unitaires de Pinel.Ml (etiquetage, champion non degrade) ;
+   b. lancer `pinel scorer` sur M7 (jamais vu) et verifier la coherence ;
+   c. CHANGELOG, README (section ML), fiche vault, tache Notion ;
+   d. brancher regles et modele dans l'interface (ecran de revue du DIM) ;
+   e. avant tout usage sur donnees reelles hors ce poste : avis DPO et DSI.
 5. Factoriser les sept declarations locales de l'encodage ISO-8859-1 des
    controles sur `PmsiEncoding.Latin1`.
 

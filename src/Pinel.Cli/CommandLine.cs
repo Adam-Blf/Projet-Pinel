@@ -26,7 +26,11 @@ internal static class CommandLine
         "  pinel regle <regles.json> <numero> valider|rejeter|proposer\n" +
         "      Decision du DIM sur une regle : seules les regles validees corrigent une copie.\n" +
         "  pinel suggerer <dossier> <regles.json> <dossier-descriptifs> [dossier-copies]\n" +
-        "      Decompte les lignes d'un lot concernees par les regles ; ecrit les copies corrigees.";
+        "      Decompte les lignes d'un lot concernees par les regles ; ecrit les copies corrigees.\n" +
+        "  pinel entrainer <dossier> <dossier-modele> <dossier-descriptifs>\n" +
+        "      Entraine le modele des suppressions RAA ; ne remplace le modele en place que s'il fait mieux.\n" +
+        "  pinel scorer <dossier> <dossier-modele> <dossier-descriptifs> [rapport.csv]\n" +
+        "      Signale les lignes RAA que le DIM supprimerait probablement.";
 
     public static int Run(string[] args)
     {
@@ -45,6 +49,8 @@ internal static class CommandLine
                 "controler" when args.Length == 2 => CheckCommand.Run(args[1]),
                 "apprendre" when args.Length == 4 => LearnCommand.Learn(args[1], args[2], args[3]),
                 "regles" when args.Length == 2 => LearnCommand.Show(args[1]),
+                "entrainer" when args.Length == 4 => ModelCommand.Train(args[1], args[2], args[3]),
+                "scorer" when args.Length is 4 or 5 => ModelCommand.Score(args[1], args[2], args[3], args.Length == 5 ? args[4] : null),
                 "regle" when args.Length == 4 => LearnCommand.SetStatus(args[1], args[2], args[3]),
                 "suggerer" when args.Length is 4 or 5 => LearnCommand.Suggest(args[1], args[2], args[3], args.Length == 5 ? args[4] : null),
                 "anonymiser" when args.Length == 4 => AnonymizeCommand.Run(args[1], args[2], args[3]),

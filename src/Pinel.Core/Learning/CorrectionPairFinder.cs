@@ -104,7 +104,8 @@ public sealed class CorrectionPairFinder
         return name.Trim(' ', '_', '-');
     }
 
-    private static string MonthOf(string path)
+    /// <summary>Dossier du mois (« M 3 ») qui contient le fichier, ou son propre dossier.</summary>
+    public static string MonthOf(string path)
     {
         for (var dir = new DirectoryInfo(Path.GetDirectoryName(path)!); dir is not null; dir = dir.Parent)
         {

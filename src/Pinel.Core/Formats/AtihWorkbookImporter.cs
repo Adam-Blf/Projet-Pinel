@@ -196,7 +196,7 @@ public static class AtihWorkbookImporter
     }
 
     /// <summary>Majuscules sans accents, pour comparer des intitules.</summary>
-    internal static string Normalize(string text)
+    public static string Normalize(string text)
     {
         var decomposed = text.Trim().ToUpperInvariant().Normalize(NormalizationForm.FormD);
         var sb = new StringBuilder(decomposed.Length);
