@@ -44,3 +44,28 @@ matrice sans le descriptif officiel du millesime correspondant reviendrait a
 autoriser un decoupage devine, c'est-a-dire exactement le defaut corrige le
 28/08/2026. Tant qu'un descriptif n'est pas depose, la garde refuse les
 controles de position et le dit : c'est le comportement voulu.
+
+## La longueur varie aussi par DOMAINE, pas seulement par annee
+
+Releve le 23/09/2026 dans le classeur de suivi du service, feuille
+`VH_reformatage_MCO`, sur les seules colonnes de longueur :
+
+| Domaine | Longueur du VID-HOSP |
+|---|---|
+| MCO | 470 |
+| Psychiatrie | 520 |
+
+Les deux coexistent dans le meme envoi. Une matrice qui ne porte qu'une longueur
+par sigle ne peut donc pas etre juste, meme a millesime fixe. C'est une raison
+de plus pour que la garde refuse plutot que de deviner.
+
+## Provenance de ce relevé, et ce qu'il ne contient pas
+
+Les longueurs ci-dessus ont ete mesurees par programme sur les fichiers du lot
+et sur les seules colonnes numeriques du classeur. **Aucune valeur de champ, et
+aucune ligne de fichier, n'a ete recopiee ici ni ailleurs.**
+
+Avertissement pour qui reprendra ce travail : le classeur de suivi du service
+contient, dans UNE de ses quatorze feuilles, des lignes de VID-HOSP completes
+avec le NIR en clair. Il doit etre traite comme un fichier de donnees de sante,
+pas comme un document de gestion.
