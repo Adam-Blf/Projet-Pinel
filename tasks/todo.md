@@ -84,7 +84,10 @@ SUITE
 - Dossier DPO et DSI avant tout usage hors de ce poste.
 - Signature de code de l'installateur : aujourd'hui non signe, un EDR
   hospitalier peut le bloquer.
-- Merger la PR 2 une fois relue.
+- Deux captures de la documentation montrent encore le violet de la revue
+  (02_revue_des_corrections.png et 05_theme_sombre.png), la couleur est passee
+  a l'olive apres coup. A refaire au prochain passage sur l'interface : le
+  serveur de previsualisation a ete arrete par manque de memoire systeme.
 - Factoriser les sept declarations locales de l'encodage ISO-8859-1 des
   controles sur PmsiEncoding.Latin1.
 - Un test a echoue une fois le 23/09 pendant la copie de la cle, sous forte
