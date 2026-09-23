@@ -1,3 +1,5 @@
+using Pinel.Core.Security;
+
 namespace Pinel.Core.Formats;
 
 /// <summary>
@@ -36,8 +38,7 @@ public sealed class LayoutRegistry
 
     /// <summary>Dossier par defaut des descriptifs deposes par le DIM.</summary>
     public static string DefaultDirectory => Path.Combine(
-        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-        "Pinel", "formats");
+        PinelPaths.DataRoot, "formats");
 
     /// <summary>Formats pour lesquels au moins un descriptif est connu.</summary>
     public IEnumerable<string> Formats => _layouts.Keys;

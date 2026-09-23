@@ -1,5 +1,6 @@
 using System.IO;
 using System.Reflection;
+using Pinel.Core.Security;
 
 namespace Pinel.Desktop;
 
@@ -42,8 +43,7 @@ public static class FrontendAssets
 
         var version = assembly.GetName().Version?.ToString() ?? "dev";
         var target = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-            "Pinel", "interface", version);
+            PinelPaths.DataRoot, "interface", version);
 
         foreach (var name in resources)
         {

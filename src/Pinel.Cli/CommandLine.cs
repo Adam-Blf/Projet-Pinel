@@ -7,7 +7,12 @@ namespace Pinel.Cli;
 /// developpement. Aucune commande n'ecrit de donnee patient sur la console :
 /// seuls des chemins, des noms de format et des decomptes y figurent.
 /// </summary>
-internal static class CommandLine
+/// <remarks>
+/// Ces commandes sont aussi servies par Pinel.exe, l'application de bureau :
+/// un seul fichier a distribuer, qui ouvre la fenetre sans argument et joue
+/// l'outil demande avec un verbe connu. Voir <see cref="Verbs"/>.
+/// </summary>
+public static class CommandLine
 {
     private const string Usage =
         "Usage :\n" +
@@ -31,6 +36,13 @@ internal static class CommandLine
         "      Entraine le modele des suppressions RAA ; ne remplace le modele en place que s'il fait mieux.\n" +
         "  pinel scorer <dossier> <dossier-modele> <dossier-descriptifs> [rapport.csv]\n" +
         "      Signale les lignes RAA que le DIM supprimerait probablement.";
+
+    /// <summary>Verbes reconnus, pour qu'un lanceur sache si la ligne de commande lui est destinee.</summary>
+    public static readonly IReadOnlySet<string> Verbs = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+    {
+        "formats-importer", "roles", "anonymiser", "controler", "apprendre", "regles", "regle",
+        "suggerer", "entrainer", "scorer",
+    };
 
     public static int Run(string[] args)
     {

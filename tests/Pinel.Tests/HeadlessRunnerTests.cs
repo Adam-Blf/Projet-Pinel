@@ -115,8 +115,9 @@ public sealed class HeadlessRunnerTests
     {
         using var allowed = new TempFolder();
         allowed.WriteFile("RPS_FICHIER.txt", "contenu factice");
-        var defaultWorkspace = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Pinel", "travail");
+        // Le dossier de travail par defaut suit PinelPaths : les donnees ne
+        // vivent plus sous le nom du produit, que l'installateur s'approprie.
+        var defaultWorkspace = Path.Combine(Pinel.Core.Security.PinelPaths.DataRoot, "travail");
         Directory.CreateDirectory(defaultWorkspace);
         var before = Directory.GetFiles(defaultWorkspace, "rapport-pinel-*.json").ToHashSet();
 

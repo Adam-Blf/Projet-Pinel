@@ -41,3 +41,7 @@ desktop.ini
 # par tools/telecharger_formats_atih.py. Le moyen de les retrouver est
 # versionne, les documents eux-memes n ont pas leur place dans l historique.
 reference/atih/
+dist/
+publish/velopack/
+*.lic
+cle-privee.pem

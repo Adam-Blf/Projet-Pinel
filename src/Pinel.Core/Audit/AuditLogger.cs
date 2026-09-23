@@ -3,6 +3,7 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+using Pinel.Core.Security;
 
 namespace Pinel.Core.Audit;
 
@@ -53,8 +54,7 @@ public sealed class AuditLogger : IDisposable
     }
 
     private static string DefaultDirectory() => Path.Combine(
-        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-        "Pinel");
+        PinelPaths.DataRoot);
 
     /// <summary>
     /// Record a sensitive operation.

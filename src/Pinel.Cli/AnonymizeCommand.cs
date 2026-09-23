@@ -86,8 +86,7 @@ internal static class AnonymizeCommand
 /// </remarks>
 internal static class KeyStore
 {
-    private static readonly string KeyPath = Path.Combine(
-        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Pinel", "anonymisation.key");
+    private static readonly string KeyPath = PinelPaths.In("anonymisation.key");
 
     public static byte[] LoadOrCreate()
     {

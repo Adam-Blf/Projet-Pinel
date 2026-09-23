@@ -34,6 +34,14 @@ public sealed class WorkspaceSettings
     [JsonPropertyName("dossierFormats")]
     public string? FormatsFolder { get; set; }
 
+    /// <summary>
+    /// Identite de l'etablissement qui utilise Pinel. Aucune valeur par
+    /// defaut : l'outil sert n'importe quel departement d'information
+    /// medicale, et un FINESS ecrit en dur enverrait l'activite d'un
+    /// etablissement sous le numero d'un autre.
+    /// </summary>
+    public EstablishmentSettings Etablissement { get; set; } = new();
+
     private static readonly JsonSerializerOptions JsonOptions = new()
     {
         WriteIndented = true,
@@ -42,7 +50,7 @@ public sealed class WorkspaceSettings
 
     /// <summary>Repertoire applicatif local, hors donnees patient.</summary>
     public static string AppDirectory => Path.Combine(
-        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Pinel");
+        PinelPaths.DataRoot);
 
     public static string DefaultPath => Path.Combine(AppDirectory, "settings.json");
 
@@ -206,4 +214,35 @@ public sealed record FolderAdditionResult(FolderAdditionStatus Status, string? N
             "Ce chemin est un partage reseau entier, pas un dossier de travail. Choisissez un sous-dossier precis, par exemple \\\\serveur\\partage\\Rimp.",
         _ => "Dossier refuse.",
     };
+}
+
+/// <summary>
+/// Ce qui change d'un etablissement a l'autre : son nom, tel qu'il s'affiche
+/// dans l'application, et les constantes que l'ATIH attend dans les fichiers
+/// complementaires. Renseigne une fois, a l'installation, dans l'ecran des
+/// emplacements autorises.
+/// </summary>
+public sealed class EstablishmentSettings
+{
+    /// <summary>Nom affiche, par exemple « CH de Bourgogne - Departement d'information medicale ».</summary>
+    public string? Nom { get; set; }
+
+    /// <summary>FINESS d'inscription e-PMSI, neuf chiffres.</summary>
+    public string? FinessEPmsi { get; set; }
+
+    /// <summary>FINESS geographique de l'entite qui produit l'activite.</summary>
+    public string? FinessGeographique { get; set; }
+
+    /// <summary>Type de prestation des transports, deux caracteres.</summary>
+    public string? TypeDePrestation { get; set; }
+
+    /// <summary>Code forfait des transports.</summary>
+    public string? CodeForfait { get; set; }
+
+    /// <summary>Classe de distance des transports, deux caracteres.</summary>
+    public string? ClasseDistance { get; set; }
+
+    /// <summary>Vrai quand les constantes indispensables aux transports sont renseignees.</summary>
+    public bool Complete =>
+        !string.IsNullOrWhiteSpace(FinessEPmsi) && !string.IsNullOrWhiteSpace(FinessGeographique);
 }
