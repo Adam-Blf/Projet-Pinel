@@ -115,9 +115,30 @@ L'exécutable se trouve ensuite dans `src/Pinel.Desktop/bin/Release/net8.0-windo
 | `suggerer <dossier> <regles.json> <descriptifs> [copies]` | Compte les lignes d'un lot concernées par les règles ; les copies n'appliquent que les règles validées |
 | `entrainer <dossier> <modele> <descriptifs>` | Entraîne le modèle des suppressions RAA ; ne remplace le modèle en place que s'il fait mieux sur le même mois de contrôle |
 | `scorer <dossier> <modele> <descriptifs> [rapport.csv]` | Signale les lignes RAA que le DIM supprimerait probablement ; le rapport ne porte que des numéros de ligne et des probabilités |
+| `maj` | État de la mise à jour, sans ouvrir la fenêtre |
 | `roles <descriptifs>` | Liste les champs que la pseudonymisation transforme |
 
+Toutes ces commandes sont servies par le même `Pinel.exe` : sans argument il ouvre la fenêtre, avec un verbe il joue l'outil dans la console appelante.
+
 **Données de santé.** Les lots réels ne sont lus qu'en local, dans un dossier de travail hors de tout dossier synchronisé : `Documents` peut remonter en entier vers un nuage grand public, non certifié HDS. `anonymiser` refuse une telle cible.
+
+---
+
+## Installation et mises à jour
+
+`python tools/packager.py` produit `dist/Pinel-win-Setup.exe`, à distribuer une fois par poste. L'installation se fait sous le profil de l'utilisateur, sans droits d'administration.
+
+Les versions suivantes n'ont pas besoin de repasser sur les postes : `python tools/packager.py --publier "\\serveur\partage\pinel"` dépose la mise à jour sur un dossier du réseau, et chaque poste la prend depuis l'écran « À propos ». Seule la différence avec la version installée est téléchargée, de l'ordre de quelques dizaines de kilooctets. Aucun accès internet n'est nécessaire, et un poste isolé continue de fonctionner avec la version qu'il a déjà.
+
+Les données de travail vivent dans `%LOCALAPPDATA%\Pinel-DIM`, séparées du dossier d'installation : une désinstallation ne les emporte pas.
+
+---
+
+## Licence d'utilisation
+
+Pinel s'utilise sous licence, rattachée au FINESS d'inscription e-PMSI de l'établissement. La licence est un fichier signé, vérifié localement : aucun appel sortant, rien à activer en ligne. Elle s'importe depuis l'écran « À propos ».
+
+Sans licence valable, Pinel lit les fichiers et passe ses contrôles, mais n'écrit plus : pas d'export, pas de classeur nettoyé, pas de copie corrigée. Trente jours de tolérance suivent l'échéance, pour ne pas bloquer un département d'information médicale en pleine période de transmission.
 
 ---
 

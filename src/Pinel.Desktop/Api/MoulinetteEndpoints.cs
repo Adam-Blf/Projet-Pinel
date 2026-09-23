@@ -24,6 +24,8 @@ internal static class MoulinetteEndpoints
 
         app.MapPost("/api/export-csv", (PinelSession session) =>
         {
+            if (LicenseGate.Refuse(session) is { } refus) return refus;
+
             var destination = SafePath.TryRequire(session.Settings.ResolveOutputFolder());
             if (destination is null) return Results.StatusCode(403);
 

@@ -39,6 +39,8 @@ internal static class IdentityEndpoints
 
         app.MapPost("/api/export-identite", (PinelSession session) =>
         {
+            if (LicenseGate.Refuse(session) is { } refus) return refus;
+
             var destination = SafePath.TryRequire(session.Settings.ResolveOutputFolder());
             if (destination is null) return Results.StatusCode(403);
 
@@ -49,6 +51,8 @@ internal static class IdentityEndpoints
 
         app.MapPost("/api/export-assaini", (SanitizeRequest r, PinelSession session) =>
         {
+            if (LicenseGate.Refuse(session) is { } refus) return refus;
+
             var source = SafePath.TryRequire(r.Fichier ?? string.Empty);
             if (source is null) return Results.StatusCode(403);
             if (!File.Exists(source)) return Results.NotFound(new { error = "fichier introuvable" });

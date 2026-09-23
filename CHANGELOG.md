@@ -12,6 +12,46 @@ annonce ce qui n'existe pas encore ne sert plus à personne.
 
 ## Non publié
 
+### Ajouté (déploiement et diffusion)
+
+- Installateur et mises à jour (Velopack). Pinel s'installe sous le profil de
+  l'utilisateur, sans droits d'administration, et va chercher ses mises à jour
+  dans un dossier du réseau de l'établissement : aucun accès internet requis.
+  Une correction se pousse en 30 Ko par poste, grâce aux paquets différentiels,
+  contre 104 Mo pour un paquet complet. `tools/packager.py` fabrique
+  l'installateur et publie sur le partage.
+- Un seul exécutable : `Pinel.exe` ouvre la fenêtre sans argument et joue les
+  outils avec un verbe (`anonymiser`, `apprendre`, `entrainer`, `controler`,
+  `maj`...). `Pinel.Cli` devient une bibliothèque, il n'y a plus qu'un fichier
+  à distribuer.
+- Écran « Revue des corrections » : règles apprises avec leur confiance, décision
+  du DIM règle par règle, lignes concernées dans les dossiers de travail, et
+  lignes que le modèle signale. Rien n'est appliqué sans validation.
+- Identité de l'établissement dans les réglages (nom affiché, FINESS e-PMSI,
+  FINESS géographique, constantes des transports). Pinel ne suppose plus aucun
+  établissement : il sert n'importe quel département d'information médicale.
+- Licence d'utilisation vérifiée hors ligne, rattachée au FINESS d'inscription
+  e-PMSI, avec 30 jours de tolérance après l'échéance. Sans licence valable, la
+  lecture et les contrôles restent disponibles, seules les écritures de fichiers
+  s'arrêtent : un DIM ne perd jamais la vue sur ses propres données.
+  `tools/licence.py` émet les licences ; la clé privée reste hors du dépôt.
+- Icône dessinée pour l'application (`assets/icone-pinel.svg`), avec une variante
+  simplifiée en dessous de 32 pixels, et `tools/make_icon.py` qui produit l'icône
+  Windows, l'icône de l'onglet et les marques de couverture des PDF. Les deux
+  derniers pictogrammes Icons8 disparaissent avec elle.
+
+### Corrigé (déploiement)
+
+- Les données de travail quittent `%LOCALAPPDATA%\Pinel`, dossier dont
+  l'installateur est désormais propriétaire, pour `%LOCALAPPDATA%\Pinel-DIM`.
+  Une désinstallation aurait emporté les réglages, la clé de pseudonymisation,
+  les règles apprises et le modèle. Les données d'une installation antérieure
+  sont reprises automatiquement au premier démarrage.
+- Une application WPF n'a pas de sortie standard : les messages des outils en
+  ligne de commande partaient dans le vide. La console de l'appelant est
+  rattachée, avec son encodage, sinon les accents arrivaient illisibles.
+- L'icône précédente n'était pas carrée (128 x 117) et s'affichait étirée.
+
 ### Ajouté (fichiers réels 2026)
 
 - `pinel formats-importer` : conversion des classeurs officiels de formats ATIH

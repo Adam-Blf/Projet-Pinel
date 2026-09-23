@@ -13,6 +13,8 @@ internal static class FichcompEndpoints
     {
         app.MapPost("/api/fichcomp/nettoyer", (FileRequest r, PinelSession session) =>
         {
+            if (LicenseGate.Refuse(session) is { } refus) return refus;
+
             var file = SafePath.TryRequire(r.Fichier ?? string.Empty);
             if (file is null) return Results.StatusCode(403);
             if (!File.Exists(file)) return Results.NotFound(new { error = "fichier introuvable" });
