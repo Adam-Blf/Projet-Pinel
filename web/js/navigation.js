@@ -30,6 +30,8 @@
       'complémentaires avant transmission'],
     identito: ['Identitovigilance',
       'Identifiants patients porteurs de plusieurs dates de naissance'],
+    revue: ['Revue des corrections',
+      'Règles tirées de vos corrections, et lignes signalées par le modèle'],
     controles: ['Contrôles qualité',
       'Anomalies relevées avant transmission aux tutelles'],
     dossiers: ['Emplacements autorisés',

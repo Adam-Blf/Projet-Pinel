@@ -55,6 +55,7 @@ public static class BridgeHost
                   .WithHeaders("Content-Type", "Authorization")
                   .WithMethods("GET", "POST", "DELETE")));
         builder.Services.AddSingleton(session);
+        builder.Services.AddSingleton<UpdateService>();
         builder.Services.AddSingleton<LogBuffer>();
 
         var app = builder.Build();
@@ -117,6 +118,7 @@ public static class BridgeHost
         IdentityEndpoints.Map(app);
         StructureEndpoints.Map(app);
         FichcompEndpoints.Map(app);
+        ReviewEndpoints.Map(app);
         ToolsEndpoints.Map(app, callback);
 
         _ = Task.Run(() => app.RunAsync());

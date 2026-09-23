@@ -12,6 +12,7 @@
 .app[data-accent="structure"]  { --accent: var(--c-structure);  --accent-ink: var(--c-structure-ink); }
 .app[data-accent="fichcomp"]   { --accent: var(--c-fichcomp);   --accent-ink: var(--c-fichcomp-ink); }
 .app[data-accent="identito"]   { --accent: var(--c-identito);   --accent-ink: var(--c-identito-ink); }
+.app[data-accent="revue"]      { --accent: var(--c-revue);      --accent-ink: var(--c-revue-ink); }
 .app[data-accent="controles"]  { --accent: var(--c-controles);  --accent-ink: var(--c-controles-ink); }
 .app[data-accent="dossiers"]   { --accent: var(--c-dossiers);   --accent-ink: var(--c-dossiers-ink); }
 .app[data-accent="journal"]    { --accent: var(--c-journal);    --accent-ink: var(--c-journal-ink); }
@@ -26,6 +27,7 @@
 .nav-item[data-view="structure"] .chip  { color: var(--c-structure-ink); }
 .nav-item[data-view="fichcomp"] .chip   { color: var(--c-fichcomp-ink); }
 .nav-item[data-view="identito"] .chip   { color: var(--c-identito-ink); }
+.nav-item[data-view="revue"] .chip      { color: var(--c-revue-ink); }
 .nav-item[data-view="controles"] .chip  { color: var(--c-controles-ink); }
 .nav-item[data-view="dossiers"] .chip   { color: var(--c-dossiers-ink); }
 .nav-item[data-view="journal"] .chip    { color: var(--c-journal-ink); }

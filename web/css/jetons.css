@@ -87,6 +87,7 @@
   --c-structure: #0c7db6;
   --c-fichcomp: #92610a;
   --c-identito: #9b2c2c;
+  --c-revue: #6b3fa0;
   --c-controles: #1f7a4d;
   --c-dossiers: #3b5ea8;
   --c-journal: #5a6470;
@@ -101,6 +102,7 @@
   --c-structure-ink: var(--c-structure);
   --c-fichcomp-ink: var(--c-fichcomp);
   --c-identito-ink: var(--c-identito);
+  --c-revue-ink: var(--c-revue);
   --c-controles-ink: var(--c-controles);
   --c-dossiers-ink: var(--c-dossiers);
   --c-journal-ink: var(--c-journal);
@@ -134,6 +136,7 @@
   --c-structure-ink: color-mix(in srgb, var(--c-structure) 78%, white);
   --c-fichcomp-ink: color-mix(in srgb, var(--c-fichcomp) 70%, white);
   --c-identito-ink: color-mix(in srgb, var(--c-identito) 62%, white);
+  --c-revue-ink: color-mix(in srgb, var(--c-revue) 72%, white);
   --c-controles-ink: color-mix(in srgb, var(--c-controles) 74%, white);
   --c-dossiers-ink: color-mix(in srgb, var(--c-dossiers) 70%, white);
   --c-journal-ink: color-mix(in srgb, var(--c-journal) 72%, white);

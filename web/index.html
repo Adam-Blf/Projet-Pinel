@@ -21,7 +21,7 @@
     <aside class="sidebar">
       <div class="brand">
         <h1>Pinel</h1>
-        <p>GHT Psy Sud Paris<br>Département d'Information Médicale</p>
+        <p id="brand-etablissement">Département d'information médicale</p>
       </div>
 
       <nav class="nav-shell" aria-label="Navigation principale">
@@ -34,6 +34,7 @@
 
           <div class="nav-group" role="presentation">Qualité et conformité</div>
           <button class="nav-item" role="tab" id="tab-identito" data-view="identito" aria-controls="view-identito" aria-selected="false" tabindex="-1"><span class="chip"><span class="i" data-icon="identification-card"></span></span> Identitovigilance <span class="badge" id="badge-conflits">0</span></button>
+          <button class="nav-item" role="tab" id="tab-revue" data-view="revue" aria-controls="view-revue" aria-selected="false" tabindex="-1"><span class="chip"><span class="i" data-icon="list-checks"></span></span> Revue des corrections <span class="badge" id="badge-revue">0</span></button>
           <button class="nav-item" role="tab" id="tab-controles" data-view="controles" aria-controls="view-controles" aria-selected="false" tabindex="-1"><span class="chip"><span class="i" data-icon="list-checks"></span></span> Contrôles qualité</button>
 
           <div class="nav-group" role="presentation">Configuration</div>
@@ -182,6 +183,46 @@
         </div>
       </section>
 
+      <!-- ── Revue des corrections ──────────────────────────────────── -->
+      <section class="view stack" id="view-revue" role="tabpanel" aria-labelledby="tab-revue" tabindex="0" hidden>
+        <div class="card">
+          <h3>Corrections apprises de vos propres corrections</h3>
+          <p class="hint">Pinel compare vos fichiers d'origine à ceux que vous avez corrigés à la main, et en tire des règles. Une règle validée est proposée sur les lots suivants ; tant qu'elle est proposée, elle ne touche à rien.</p>
+          <div class="row">
+            <button class="btn secondary" id="btn-revue-recharger" type="button"><span class="i" data-icon="arrow-counter-clockwise"></span> Actualiser</button>
+            <button class="btn" id="btn-revue-suggestions" type="button"><span class="i" data-icon="magnifying-glass"></span> Chercher dans les dossiers de travail</button>
+          </div>
+        </div>
+
+        <div class="grid cols-4" id="kpi-revue"></div>
+
+        <div class="card">
+          <h3>Règles</h3>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Correction</th><th class="num">Confiance</th><th class="num">Cas</th><th>État</th><th><span class="sr-only">Décision</span></th></tr></thead>
+              <tbody id="tbody-regles">
+                <tr><td colspan="5" class="empty">Aucune règle apprise pour l'instant. Elles apparaissent après un apprentissage sur vos fichiers corrigés.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card" id="card-suggestions">
+          <h3>Lignes concernées dans les dossiers de travail</h3>
+          <div class="empty">Cliquez sur Chercher dans les dossiers de travail pour compter les lignes que chaque règle toucherait.</div>
+        </div>
+
+        <div class="card">
+          <h3>Lignes que le modèle signale</h3>
+          <p class="hint" id="revue-modele">Aucun modèle entraîné sur ce poste.</p>
+          <div class="row">
+            <button class="btn secondary" id="btn-revue-lignes" type="button"><span class="i" data-icon="list-checks"></span> Relever les lignes à revoir</button>
+          </div>
+          <div id="card-lignes-a-revoir"></div>
+        </div>
+      </section>
+
       <!-- ── Contrôles ──────────────────────────────────────────────── -->
       <section class="view stack" id="view-controles" role="tabpanel" aria-labelledby="tab-controles" tabindex="0" hidden>
         <div class="card">
@@ -211,6 +252,40 @@
                 <tr><td colspan="2" class="empty">Aucun dossier ajouté. Ajoutez un dossier pour autoriser Pinel à y lire et à y écrire.</td></tr>
               </tbody>
             </table>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Établissement</h3>
+          <p class="hint">Ces valeurs figurent telles quelles dans les fichiers transmis. Elles sont propres à votre établissement : Pinel n'en suppose aucune.</p>
+          <div class="grid cols-2">
+            <div>
+              <label class="field-label" for="etab-nom">Nom affiché</label>
+              <input type="text" id="etab-nom" placeholder="CH de … - Département d'information médicale" style="width:100%">
+            </div>
+            <div>
+              <label class="field-label" for="etab-finess-epmsi">FINESS d'inscription e-PMSI</label>
+              <input type="text" id="etab-finess-epmsi" inputmode="numeric" maxlength="9" placeholder="9 chiffres" style="width:100%">
+            </div>
+            <div>
+              <label class="field-label" for="etab-finess-geo">FINESS géographique</label>
+              <input type="text" id="etab-finess-geo" inputmode="numeric" maxlength="9" placeholder="9 chiffres" style="width:100%">
+            </div>
+            <div>
+              <label class="field-label" for="etab-prestation">Type de prestation (transports)</label>
+              <input type="text" id="etab-prestation" maxlength="2" placeholder="ex. 17" style="width:100%">
+            </div>
+            <div>
+              <label class="field-label" for="etab-forfait">Code forfait (transports)</label>
+              <input type="text" id="etab-forfait" maxlength="8" placeholder="ex. ST2" style="width:100%">
+            </div>
+            <div>
+              <label class="field-label" for="etab-distance">Classe de distance (transports)</label>
+              <input type="text" id="etab-distance" maxlength="2" placeholder="ex. 06" style="width:100%">
+            </div>
+          </div>
+          <div class="row mt-3">
+            <button class="btn" id="btn-etab-enregistrer" type="button"><span class="i" data-icon="check-circle"></span> Enregistrer</button>
           </div>
         </div>
 
@@ -247,8 +322,30 @@
       <section class="view stack" id="view-apropos" role="tabpanel" aria-labelledby="tab-apropos" tabindex="0" hidden>
         <div class="card">
           <h3>Pinel</h3>
-          <p class="hint">GHT Psy Sud Paris - Département d'Information Médicale.</p>
+          <p class="hint">Traitement des fichiers PMSI pour un département d'information médicale.</p>
           <p><span id="apropos-version">Version 1.0.0</span></p>
+        </div>
+
+        <div class="card">
+          <h3>Licence</h3>
+          <p class="hint">Pinel s'utilise sous licence, rattachée au FINESS d'inscription e-PMSI de votre établissement. La vérification est locale : aucun appel vers l'extérieur, et un poste sans réseau reste autonome.</p>
+          <p id="licence-etat">Vérification…</p>
+          <p class="path" id="licence-detail"></p>
+          <div class="row">
+            <button class="btn secondary" id="btn-licence-importer" type="button"><span class="i" data-icon="folder-lock"></span> Importer une licence</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Mise à jour</h3>
+          <p class="hint">Pinel s'installe sous votre profil, sans droits d'administration, et se met à jour depuis un dossier du réseau du GHT. Aucun accès à internet n'est nécessaire.</p>
+          <p id="maj-etat">Vérification…</p>
+          <p class="path" id="maj-dossier">Aucun dossier de mise à jour configuré.</p>
+          <div class="row">
+            <button class="btn secondary" id="btn-maj-verifier" type="button"><span class="i" data-icon="arrow-counter-clockwise"></span> Vérifier</button>
+            <button class="btn secondary" id="btn-maj-dossier" type="button"><span class="i" data-icon="folder-lock"></span> Choisir le dossier</button>
+            <button class="btn" id="btn-maj-installer" type="button" hidden><span class="i" data-icon="download-simple"></span> Installer et redémarrer</button>
+          </div>
         </div>
 
         <div class="card">
@@ -287,6 +384,7 @@
   <script src="js/vue-structure.js"></script>
   <script src="js/vue-fichcomp.js"></script>
   <script src="js/vue-identito.js"></script>
+  <script src="js/vue-revue.js"></script>
   <script src="js/vue-controles.js"></script>
   <script src="js/vue-reglages.js"></script>
   <script src="js/vue-journal.js"></script>

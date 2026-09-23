@@ -11,14 +11,16 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <AssemblyName>Pinel</AssemblyName>
     <AssemblyTitle>Pinel</AssemblyTitle>
-    <Company>GHT Psy Sud Paris - DIM</Company>
+    <Company>Adam Beloucif</Company>
     <Product>Pinel</Product>
     <Version>1.0.0</Version>
     <FileVersion>1.0.0</FileVersion>
     <AssemblyVersion>1.0.0</AssemblyVersion>
-    <Description>Pinel - traitement des fichiers PMSI, DIM du GHT Psy Sud Paris</Description>
+    <Description>Pinel - traitement des fichiers PMSI pour un departement d'information medicale</Description>
     <Copyright>Copyright (c) 2026 Adam Beloucif</Copyright>
     <RootNamespace>Pinel.Desktop</RootNamespace>
+    <!-- Point d'entree ecrit a la main : Velopack s'execute avant la fenetre. -->
+    <StartupObject>Pinel.Desktop.App</StartupObject>
 
     <!-- Un seul fichier distribuable, runtime embarque, rien a installer. -->
     <PublishReadyToRun>true</PublishReadyToRun>
@@ -38,15 +40,23 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3912.50" />
+    <PackageReference Include="Velopack" Version="1.2.158" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="app.ico" />
+    <ApplicationDefinition Remove="App.xaml" />
+    <Page Include="App.xaml" />
   </ItemGroup>
 
   <ItemGroup>
     <!-- Interface embarquee dans l'assembly : l'exe se distribue seul. -->
     <EmbeddedResource Include="..\..\web\**\*.*" LogicalName="web/%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Pinel.Ml\Pinel.Ml.csproj" />
+    <ProjectReference Include="..\Pinel.Cli\Pinel.Cli.csproj" />
   </ItemGroup>
 
 </Project>
