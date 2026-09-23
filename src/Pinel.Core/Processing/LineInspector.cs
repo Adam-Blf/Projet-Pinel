@@ -11,12 +11,7 @@ namespace Pinel.Core.Processing;
 /// </summary>
 public static class LineInspector
 {
-    private static readonly Encoding Latin1 = Encoding.GetEncoding("ISO-8859-1");
 
-    static LineInspector()
-    {
-        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-    }
 
     /// <summary>
     /// Loads line <paramref name="lineNumber"/> (1-indexed) from
@@ -36,7 +31,7 @@ public static class LineInspector
             Fields: new Dictionary<string, string>());
 
         string? rawLine = null;
-        using (var reader = new StreamReader(filePath, Latin1))
+        using (var reader = new StreamReader(filePath, PmsiEncoding.Latin1))
         {
             int current = 0;
             while (reader.ReadLine() is { } line)

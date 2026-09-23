@@ -1,0 +1,47 @@
+# format: RSF_A_DEBUT_DE_FACTURE-MCO
+# annee: 2026
+# source: formats_mco_2026.xlsx
+nom;debut;longueur;libelle
+TYPE_D_ENREGISTREMENT;1;1;Type d'enregistrement
+NUMERO_FINESS_D_INSCRIPTION_EPMSI;2;9;Numéro FINESS d’inscription ePMSI
+FILLER;11;9;Filler
+NUMERO_DE_RSS;20;20;Numéro de RSS
+SEXE;40;1;Sexe
+CODE_CIVILITE;41;1;Code civilité
+N_IMMATRICULATION_ASSURE;42;13;N° immatriculation assuré
+CLE_DU_N_IMMATRICULATION;55;2;Clé du n° immatriculation
+RANG_DE_BENEFICIAIRE;57;3;Rang de bénéficiaire
+N_DE_FACTURE;60;9;N° de facture
+N_IMMATRICULATION_INDIVIDUEL;69;13;N° immatriculation individuel
+CLE_DU_N_IMMATRICULATION_INDIVIDUEL;82;2;Clé du n° immatriculation individuel
+FILLER_2;84;1;Filler
+NATURE_OPERATION;85;1;Nature opération
+NATURE_ASSURANCE;86;2;Nature assurance
+TYPE_DE_CONTRAT_SOUSCRIT_AUPRES_D_UN_ORG;88;2;Type de contrat souscrit auprès d'un organisme complémentaire
+JUSTIFICATION_D_EXONERATION_DU_TM;90;1;Justification d'exonération du TM
+FILLER_3;91;1;Filler
+CODE_DE_PRISE_EN_CHARGE;92;1;Code de prise en charge
+FILLER_4;93;1;Filler
+CODE_GD_REGIME;94;2;Code Gd régime
+DATE_NAISSANCE;96;8;Date Naissance
+RANG_DE_NAISSANCE;104;1;Rang de naissance
+DATE_D_ENTREE;105;8;Date d'entrée
+DATE_DE_SORTIE;113;8;Date de sortie
+CODE_POSTAL_DU_LIEU_DE_RESIDENCE_DU_PATI;121;5;Code postal du lieu de résidence du patient
+TOTAL_BASE_REMBOURSEMENT_PRESTATION_HOSP;126;8;Total Base Remboursement Prestation hospitalière
+TOTAL_REMBOURSABLE_AMO_PRESTATION_HOSPIT;134;8;Total remboursable AMO Prestation hospitalières
+TOTAL_HONORAIRE_FACTURE;142;8;Total honoraire Facturé
+TOTAL_HONORAIRE_REMBOURSABLE_AM;150;8;Total honoraire remboursable AM
+TOTAL_PARTICIPATION_ASSURE_AVANT_OC;158;8;Total participation assuré avant OC
+TOTAL_REMBOURSABLE_OC_POUR_LES_PH;166;8;Total remboursable OC pour les PH
+TOTAL_REMBOURSABLE_OC_POUR_LES_HONORAIRE;174;8;Total remboursable OC pour les honoraires
+MONTANT_TOTAL_FACTURE_POUR_PH;182;8;Montant total facturé pour PH
+ETAT_DE_LIQUIDATION_DE_LA_FACTURE;190;1;Etat de liquidation de la facture
+PATIENT_BENEFICIAIRE_DE_LA_CMU;191;1;Patient bénéficiaire de la CMU
+CODE_GESTION;192;2;Code gestion
+N_DE_FACTURE_DU_SEJOUR_DE_LA_MERE;194;9;N° de facture du séjour de la mère
+N_D_ORGANISME_COMPLEMENTAIRE;203;10;N° d’organisme complémentaire
+NUMERO_ACCIDENT_DU_TRAVAIL_OU_DATE_D_ACC;213;9;Numéro accident du travail ou date d’accident de droit commun
+NUMERO_D_IDENTIFICATION_PERMANENT_DU_PAT;222;20;Numéro d’identification permanent du patient (IPP)
+IDENTIFIANT_NATIONAL_DE_SANTE_INS;242;15;Identifiant national de santé (INS)
+ART51;257;1;ART51

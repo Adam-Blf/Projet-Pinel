@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\Pinel.Core\Pinel.Core.csproj" />
+    <ProjectReference Include="..\Pinel.Ml\Pinel.Ml.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Security.Cryptography.ProtectedData" Version="10.0.12" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <!-- Bibliotheque : les outils sont servis par Pinel.exe, il n'y a qu'un
+         seul executable a distribuer au DIM. -->
+  </PropertyGroup>
+
+</Project>

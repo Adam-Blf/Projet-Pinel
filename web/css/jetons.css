@@ -1,0 +1,172 @@
+/*
+ * Pinel - jetons de conception (couleurs, espacements, typographie).
+ *
+ * Aucun framework, aucun CDN : tout est servi depuis le poste, exigence des
+ * stations DIM sans accès internet. Les espacements suivent une progression
+ * fondée sur le nombre d'or (1,618), la typographie est Montserrat, en une
+ * seule famille, avec des chiffres tabulaires pour les valeurs.
+ *
+ * Les couleurs de texte qui doivent rester lisibles sur les deux thèmes
+ * (clair et sombre) passent par une variante "-ink", vérifiée au ratio de
+ * contraste WCAG AA. La variante de base reste inchangée : elle sert aux
+ * fonds (boutons, badges), la variante "-ink" sert au texte et aux bordures
+ * porteuses de sens.
+ */
+
+:root {
+  /* Palette relevée sur le site institutionnel du GHT Psy Sud Paris :
+     bleu #253E80, bleu clair #0C7DB6, teal #1D7C96, fond bleuté #E7F0F5,
+     texte #202428, ocre #FCC764. */
+  --navy: #253e80;
+  --navy-dark: #1b2e60;
+  --teal: #1d7c96;
+  --sky: #0c7db6;
+  --ocre: #fcc764;
+  --warning: #92610a;
+  --ink: #202428;
+  --muted: #6b6b6b;
+  --line: #dde5ea;
+  --surface: #ffffff;
+  --canvas: #e7f0f5;
+  --shadow: 0 1px 2px rgba(32, 36, 40, .06), 0 8px 24px rgba(37, 62, 128, .07);
+
+  /* Bordure des champs de saisie, distincte du filet --line : un champ a
+     besoin d'un contour repérable (ratio non textuel >= 3:1) même quand rien
+     ne le distingue par la couleur de fond. */
+  --field-border: #748290;
+
+  /* Couleur d'anneau de focus, unique pour toute l'application : un repère
+     stable aide plus qu'un anneau qui change de teinte à chaque écran. */
+  --focus: var(--teal-ink);
+
+  /* La notification (toast) garde le même contraste fort quel que soit le
+     thème de la page : elle ne suit pas --ink/--canvas. */
+  --toast-bg: #202428;
+  --toast-ink: #e7f0f5;
+  --toast-ok: #7fd1c4;
+  --toast-error: #f5a3a3;
+
+  /* Variantes "-ink" des couleurs de statut générique, indépendantes des
+     couleurs de section. --teal-ink est assombri par rapport à --teal : sur
+     le fond teinté d'un badge, --teal brut ne tient que 4,00:1. */
+  --teal-ink: #196980;
+  --warning-ink: #835709;
+
+  /* Échelle d'espacement, raison phi. */
+  --s1: 0.35rem;
+  --s2: 0.57rem;
+  --s3: 0.92rem;
+  --s4: 1.49rem;
+  --s5: 2.41rem;
+  --s6: 3.90rem;
+
+  /* Échelle typographique, raison racine de phi, calée sur 16 px de texte
+     courant. Elle partait de 0,72 rem, soit 11,5 px sur les mentions, les
+     chemins et les en-têtes de tableau : trop fin pour une station de travail
+     hospitalière, où l'on lit des colonnes de chiffres toute la journée. */
+  --t-xs: 0.80rem;
+  --t-sm: 0.89rem;
+  --t-md: 1.00rem;
+  --t-lg: 1.27rem;
+  --t-xl: 1.62rem;
+  --t-2xl: 2.06rem;
+
+  /* Pile à chasse fixe des chemins, du journal et des identifiants : polices
+     système Windows, présentes sur tout poste du GHT, rien à embarquer. */
+  --font-mono: Consolas, "Cascadia Mono", "Courier New", monospace;
+
+  --ease-out: cubic-bezier(.2, .8, .2, 1);
+  --dur: .18s;
+
+  --radius: 10px;
+  --radius-lg: 16px;
+  --sidebar: 16.2rem;
+
+  /* Une couleur par chantier : la barre de titre, les icônes de navigation
+     et les compteurs prennent la teinte de la section ouverte, ce qui situe
+     l'utilisateur d'un coup d'œil. */
+  --c-moulinette: #253e80;
+  --c-episodes: #1d7c96;
+  --c-structure: #0c7db6;
+  --c-fichcomp: #92610a;
+  --c-identito: #9b2c2c;
+  /* Olive : la seule plage de teintes encore libre, entre l'ocre des
+     transports (38 degres) et le vert des controles (150 degres). Le violet
+     essaye d'abord tenait plus de l'interface generee que de la charte de
+     l'etablissement, et ne venait d'aucune couleur institutionnelle. */
+  --c-revue: #5f6d2b;
+  --c-controles: #1f7a4d;
+  --c-dossiers: #3b5ea8;
+  --c-journal: #5a6470;
+  --c-apropos: #1b2e60;
+  --accent: var(--c-moulinette);
+
+  /* Variantes "-ink" des couleurs de section : en thème clair elles valent
+     la couleur brute (déjà conforme), en thème sombre elles sont éclaircies
+     ci-dessous pour rester lisibles sur un fond sombre. */
+  --c-moulinette-ink: var(--c-moulinette);
+  --c-episodes-ink: var(--c-episodes);
+  --c-structure-ink: var(--c-structure);
+  --c-fichcomp-ink: var(--c-fichcomp);
+  --c-identito-ink: var(--c-identito);
+  --c-revue-ink: var(--c-revue);
+  --c-controles-ink: var(--c-controles);
+  --c-dossiers-ink: var(--c-dossiers);
+  --c-journal-ink: var(--c-journal);
+  --c-apropos-ink: var(--c-apropos);
+  --accent-ink: var(--c-moulinette-ink);
+}
+
+/* Thème : js/theme.js pose data-theme="light" ou "dark" sur <html> avant le
+   premier rendu, d'après le choix enregistré ou, à défaut, le réglage du
+   système. Un seul bloc de valeurs sombres, jamais dupliqué dans une media
+   query. color-scheme laisse le moteur peindre les widgets natifs (case à
+   cocher, liste déroulante, barres de défilement) dans le bon thème. */
+:root { color-scheme: light; }
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --ink: #eef1f4;
+  --surface: #1c232a;
+  --canvas: #12171c;
+  --line: #2c343b;
+  --muted: #9aa7af;
+  --field-border: #70808f;
+  --focus: var(--ocre);
+  --shadow: 0 1px 2px rgba(0, 0, 0, .5), 0 8px 24px rgba(0, 0, 0, .4);
+
+  --teal-ink: color-mix(in srgb, var(--teal) 74%, white);
+  --warning-ink: color-mix(in srgb, var(--warning) 70%, white);
+
+  --c-moulinette-ink: color-mix(in srgb, var(--c-moulinette) 60%, white);
+  --c-episodes-ink: color-mix(in srgb, var(--c-episodes) 74%, white);
+  --c-structure-ink: color-mix(in srgb, var(--c-structure) 78%, white);
+  --c-fichcomp-ink: color-mix(in srgb, var(--c-fichcomp) 70%, white);
+  --c-identito-ink: color-mix(in srgb, var(--c-identito) 62%, white);
+  --c-revue-ink: color-mix(in srgb, var(--c-revue) 72%, white);
+  --c-controles-ink: color-mix(in srgb, var(--c-controles) 74%, white);
+  --c-dossiers-ink: color-mix(in srgb, var(--c-dossiers) 70%, white);
+  --c-journal-ink: color-mix(in srgb, var(--c-journal) 72%, white);
+  --c-apropos-ink: color-mix(in srgb, var(--c-apropos) 56%, white);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: Montserrat, "Segoe UI", sans-serif;
+  font-size: var(--t-md);
+  line-height: 1.55;
+  color: var(--ink);
+  background: var(--canvas);
+  -webkit-font-smoothing: antialiased;
+}
+
+.num { font-variant-numeric: tabular-nums; }
+
+code, .mono { font-family: var(--font-mono); font-size: .95em; }

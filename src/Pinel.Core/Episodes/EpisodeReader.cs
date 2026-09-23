@@ -35,13 +35,7 @@ public sealed record EpisodeFieldNames(
 /// </remarks>
 public static class EpisodeReader
 {
-    private static readonly Encoding Latin1;
 
-    static EpisodeReader()
-    {
-        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-        Latin1 = Encoding.GetEncoding("ISO-8859-1");
-    }
 
     /// <summary>Vrai si le descriptif permet de construire des venues.</summary>
     public static bool IsUsable(FormatLayout layout, EpisodeFieldNames? names = null)
@@ -67,7 +61,7 @@ public static class EpisodeReader
         var fileName = Path.GetFileName(path);
         var visits = new List<AmbulatoryVisit>();
 
-        using var reader = new StreamReader(path, Latin1);
+        using var reader = new StreamReader(path, PmsiEncoding.Latin1);
         while (reader.ReadLine() is { } line)
         {
             if (line.Trim().Length == 0) continue;

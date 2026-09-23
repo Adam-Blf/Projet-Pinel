@@ -1,0 +1,143 @@
+/*
+ * Pinel - ossature de la page : barre latérale, zone de contenu, écrans.
+ */
+
+/* ── Ossature ─────────────────────────────────────────────────────────── */
+.app { display: flex; height: 100%; }
+
+.sidebar {
+  width: var(--sidebar);
+  flex: none;
+  background: var(--surface);
+  border-right: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+}
+
+.brand {
+  padding: var(--s4) var(--s4) var(--s3);
+  border-bottom: 1px solid var(--line);
+}
+
+.brand h1 {
+  margin: 0;
+  font-size: var(--t-lg);
+  font-weight: 800;
+  letter-spacing: -.02em;
+  color: var(--c-moulinette-ink);
+}
+
+.brand p {
+  margin: var(--s1) 0 0;
+  font-size: var(--t-xs);
+  line-height: 1.35;
+  color: var(--muted);
+}
+
+/* ── Navigation ───────────────────────────────────────────────────────── */
+/* .nav-shell est l'élément <nav> (repère de navigation) : il porte le nom
+   accessible. .nav, en dessous, porte le rôle tablist et le défilement :
+   séparer les deux évite qu'un rôle explicite écrase le repère de navigation
+   implicite de <nav>. */
+.nav-shell { display: flex; flex-direction: column; flex: 1; min-height: 0; }
+.nav { flex: 1; overflow-y: auto; padding: var(--s3) 0; }
+
+.nav-group {
+  padding: var(--s3) var(--s4) var(--s1);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  width: 100%;
+  min-height: 2.6rem;
+  padding: var(--s1) var(--s3);
+  border: 0;
+  border-left: 3px solid transparent;
+  background: none;
+  font: inherit;
+  font-size: var(--t-sm);
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color var(--dur) ease, color var(--dur) ease;
+}
+
+.nav-item:hover { background: var(--canvas); }
+
+/* Le menu défile : un anneau posé à l'extérieur serait rogné par le bord du
+   conteneur. On le rentre dans l'entrée. */
+.nav-item:focus-visible { outline-offset: -3px; }
+.nav-item .badge { margin-left: auto; }
+
+.sidebar-foot {
+  padding: var(--s3) var(--s4);
+  border-top: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  font-size: var(--t-xs);
+  color: var(--muted);
+}
+
+.sidebar-foot .spacer { flex: 1; }
+
+/* Bascule de thème : bouton carré, icône seule, nom accessible porté par
+   aria-label et tenu à jour par js/theme.js. */
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  transition: background-color var(--dur) ease;
+}
+
+.icon-btn:hover { background: var(--canvas); }
+
+/* ── Contenu ──────────────────────────────────────────────────────────── */
+.main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  padding: var(--s4) var(--s5) var(--s3);
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.topbar h2 { margin: 0; font-size: var(--t-xl); font-weight: 800; letter-spacing: -.02em; }
+.topbar p { margin: 0; font-size: var(--t-sm); color: var(--muted); }
+.topbar .spacer { flex: 1; }
+
+.view { flex: 1; overflow-y: auto; padding: var(--s5); }
+.view[hidden] { display: none; }
+
+/* Entrée d'écran : léger fondu montant, coupé par accessibilite.css pour qui
+   a demandé moins de mouvement. */
+.view:not([hidden]) { animation: view-in .22s var(--ease-out); }
+
+@keyframes view-in { from { opacity: 0; transform: translateY(.35rem); } }
+
+.stack > * + * { margin-top: var(--s4); }
+
+/* ── Fenêtre étroite (poste en demi-écran, écran 1280 px) ─────────────── */
+@media (max-width: 64rem) {
+  :root { --sidebar: 14rem; }
+  .topbar { padding: var(--s3) var(--s4); }
+  .view { padding: var(--s4); }
+}

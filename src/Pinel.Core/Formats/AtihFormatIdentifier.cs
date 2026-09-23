@@ -13,11 +13,24 @@ public static class AtihFormatIdentifier
 {
     private static readonly (Regex Pattern, string Format)[] Rules =
     {
+        // Fichiers de liaison et noms des exports Druides, releves sur les
+        // lots reels 2026 du DIM. En tete : "PSY_RAA_HOSP_PMSI" est un
+        // HOSP-PMSI, pas un RAA, et "vh_psy" un VID-HOSP.
+        (new(@"hosp[\-_.]?pmsi", RegexOptions.IgnoreCase | RegexOptions.Compiled), "HOSP-PMSI"),
+        (new(@"hosp[\-_.]?fact", RegexOptions.IgnoreCase | RegexOptions.Compiled), "HOSP-FACT"),
+        (new(@"vid[\-_.]?ipp|(^|[\-_ ])vipp|(^|[\-_ ])ipp_\d", RegexOptions.IgnoreCase | RegexOptions.Compiled), "VID-IPP"),
+        (new(@"(^|[\-_ ])vh[\-_.]", RegexOptions.IgnoreCase | RegexOptions.Compiled), "VID-HOSP"),
+        (new(@"fc[\-_.]?ic|(^|[\-_ ])iso_\d|fichcomp[\-_ ]?iso", RegexOptions.IgnoreCase | RegexOptions.Compiled), "FICHCOMP-ISO"),
+        (new(@"fc[\-_.]?htp|(^|[\-_ ])tp_\d|fichcomp[\-_ ]?(temps|tp)", RegexOptions.IgnoreCase | RegexOptions.Compiled), "FICHCOMP-TP"),
+
         // PSY spécifiques (haute priorité)
         (new(@"rpsa", RegexOptions.IgnoreCase | RegexOptions.Compiled),  "RPSA"),
         (new(@"r3a", RegexOptions.IgnoreCase | RegexOptions.Compiled),   "R3A"),
         (new(@"fichsup[\-_.]?psy|fichsup|fic[\-_]?sup", RegexOptions.IgnoreCase | RegexOptions.Compiled), "FICHSUP-PSY"),
-        (new(@"edgar", RegexOptions.IgnoreCase | RegexOptions.Compiled), "EDGAR"),
+        // EDGAR volontairement absent : ce n'est pas un format de fichier mais
+        // une typologie d'actes ambulatoires (entretien, demarche, groupe,
+        // accompagnement, reunion) codee A L'INTERIEUR du RAA. Le declarer ici
+        // faisait reconnaitre comme un fichier ce qui est une valeur de champ.
         (new(@"ficum[\-_.]?psy|ficum", RegexOptions.IgnoreCase | RegexOptions.Compiled), "FICUM-PSY"),
         (new(@"rsf[\-_.]?ace[\-_.]?psy", RegexOptions.IgnoreCase | RegexOptions.Compiled), "RSF-ACE-PSY"),
 

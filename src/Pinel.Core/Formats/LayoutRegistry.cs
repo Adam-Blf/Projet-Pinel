@@ -1,3 +1,5 @@
+using Pinel.Core.Security;
+
 namespace Pinel.Core.Formats;
 
 /// <summary>
@@ -36,8 +38,7 @@ public sealed class LayoutRegistry
 
     /// <summary>Dossier par defaut des descriptifs deposes par le DIM.</summary>
     public static string DefaultDirectory => Path.Combine(
-        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-        "Pinel", "formats");
+        PinelPaths.DataRoot, "formats");
 
     /// <summary>Formats pour lesquels au moins un descriptif est connu.</summary>
     public IEnumerable<string> Formats => _layouts.Keys;
@@ -119,6 +120,15 @@ public sealed class LayoutRegistry
     {
         foreach (var (name, spec) in AtihMatrix.All)
         {
+            // Un format dont le descriptif officiel ne declare aucun identifiant
+            // patient ne recoit PAS de gabarit par defaut. Sans gabarit, Resolve
+            // rend null et l'export bascule sur la colonne brute annoncee au
+            // chapitre 4.3 du guide, qui redevient ainsi atteignable.
+            if (!spec.CarriesPatientIdentifiers)
+            {
+                continue;
+            }
+
             var fields = new List<FormatField>
             {
                 new("IPP", spec.IppStart + 1, spec.IppLength, "Identifiant permanent du patient"),

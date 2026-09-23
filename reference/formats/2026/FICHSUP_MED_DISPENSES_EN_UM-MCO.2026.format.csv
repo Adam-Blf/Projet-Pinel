@@ -1,0 +1,10 @@
+# format: FICHSUP_MED_DISPENSES_EN_UM-MCO
+# annee: 2026
+# source: formats_mco_2026.xlsx
+nom;debut;longueur;libelle
+N_FINESS_D_INSCRIPTION_E_PMSI;1;9;N° FINESS d’inscription e-PMSI
+TYPE_DE_FICHIER;10;3;Type de fichier
+ANNEE;13;4;Année
+PERIODE;17;2;Période
+CODE_UCD;19;13;Code UCD
+MONTANT_TOTAL_TTC;32;9;Montant total TTC

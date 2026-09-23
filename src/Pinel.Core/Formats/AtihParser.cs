@@ -11,12 +11,7 @@ namespace Pinel.Core.Formats;
 public sealed class AtihParser
 {
     private const int MinLine = 50;
-    private static readonly Encoding Latin1 = Encoding.GetEncoding("ISO-8859-1");
 
-    static AtihParser()
-    {
-        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-    }
 
     /// <summary>
     /// Parses a file and yields one <see cref="PatientRecord"/> per valid line.
@@ -31,9 +26,20 @@ public sealed class AtihParser
             yield break;
         }
 
+        // Le descriptif officiel de l'ATIH ne declare aucun identifiant patient
+        // exploitable pour ce format : soit il n'en porte pas, soit l'IPP y a
+        // ete remplace par un hachage irreversible (RPSA, R3A, sorties de
+        // PIVOINE). Lire les octets qui se trouvent aux positions nominales
+        // reviendrait a classer une cle d'anonymisation comme un identifiant de
+        // patient, c'est-a-dire a refaire le lien que MAGIC et PIVOINE coupent.
+        if (!format.CarriesPatientIdentifiers)
+        {
+            yield break;
+        }
+
         var effective = DetectVariant(filePath, format);
 
-        using var reader = new StreamReader(filePath, Latin1);
+        using var reader = new StreamReader(filePath, PmsiEncoding.Latin1);
         int lineNo = 0;
         while (reader.ReadLine() is { } line)
         {
@@ -73,7 +79,7 @@ public sealed class AtihParser
         var lengths = new Dictionary<int, int>();
         try
         {
-            using var reader = new StreamReader(filePath, Latin1);
+            using var reader = new StreamReader(filePath, PmsiEncoding.Latin1);
             int sampled = 0;
             while (sampled < 100 && reader.ReadLine() is { } line)
             {

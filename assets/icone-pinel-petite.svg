@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Marque de Pinel, version des petites tailles (16, 24 et 32 pixels).
+
+  Meme idee que le dessin principal, moins de details : deux lignes au lieu de
+  trois, des barres plus epaisses et moins de segments. A 16 pixels, le dessin
+  complet donne une bouillie grise ou les barres se touchent ; ici il reste
+  deux lignes et un champ ocre, ce qui se lit encore.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" role="img" aria-label="Pinel">
+  <defs>
+    <linearGradient id="fond" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2b4794"/>
+      <stop offset="1" stop-color="#17264f"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="256" height="256" rx="48" fill="url(#fond)"/>
+
+  <g fill="#ffffff">
+    <rect x="44" y="74" width="96" height="34" rx="17"/>
+    <rect x="152" y="74" width="60" height="34" rx="17"/>
+  </g>
+
+  <g fill="#ffffff">
+    <rect x="44" y="148" width="60" height="34" rx="17"/>
+    <rect x="116" y="148" width="96" height="34" rx="17" fill="#fcc764"/>
+  </g>
+</svg>

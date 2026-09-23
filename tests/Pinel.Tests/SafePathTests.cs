@@ -73,4 +73,42 @@ public sealed class SafePathTests
         // O:\RIMP2 ne doit pas passer parce qu'il commence comme O:\RIMP.
         Assert.Null(SafePath.Resolve(@"O:\RIMP2\lot.txt", Roots));
     }
+
+    // Défaut 2 (audit) : SafePath.Resolve testait le préfixe de périphérique
+    // Win32 (\\?\ ou \\.\) sur la chaîne BRUTE, avant Path.GetFullPath. Une
+    // graphie en barres obliques ("//?/...") échappe à un test sur la chaîne
+    // brute, alors que Path.GetFullPath lui appose le même préfixe une fois
+    // normalisée. Le résultat final (refus) ne changeait pas - la
+    // comparaison de préfixe de la racine autorisée fermait quand même la
+    // porte - mais la garde ne faisait pas ce qu'elle annonçait. Les quatre
+    // cas ci-dessous doivent tous rester refusés avant et après correction ;
+    // le test blanc-boîte suivant (Resolve_teste_le_prefixe_etendu_sur_le_chemin_normalise)
+    // prouve en plus QUE la vérification porte bien sur le chemin normalisé.
+    [Theory]
+    [InlineData("//?/C:/travail/pinel/../../secrets.txt", "prefixe étendu en barres obliques")]
+    [InlineData(@"\\?\C:\travail\pinel\..\..\secrets.txt", "forme avec point (traversée ..) sous préfixe étendu")]
+    [InlineData(@"C:\", "racine de volume nue")]
+    [InlineData(@"\\serveur-dim", "racine UNC nue")]
+    public void Reste_refuse_avant_et_apres_correction_du_prefixe_etendu(string candidate, string label)
+    {
+        Assert.Null(SafePath.Resolve(candidate, Roots));
+    }
+
+    [Fact]
+    public void Resolve_teste_le_prefixe_etendu_sur_le_chemin_normalise_pas_sur_la_chaine_brute()
+    {
+        // Caractérise le défaut lui-même : la chaîne brute en barres obliques
+        // ne porte pas le préfixe Win32, seul le chemin normalisé le porte.
+        const string candidate = "//?/C:/travail/pinel/../../secrets.txt";
+        Assert.False(candidate.StartsWith(@"\\?\", StringComparison.Ordinal));
+
+        var normalized = Path.GetFullPath(candidate);
+        Assert.True(normalized.StartsWith(@"\\?\", StringComparison.Ordinal));
+
+        // Preuve directe de la correction : SafePath.IsExtendedDevicePath
+        // n'existe (et n'est appelé sur le chemin normalisé) qu'après le
+        // correctif. Avant, ce test ne compile pas - c'est la vue rouge.
+        Assert.True(SafePath.IsExtendedDevicePath(normalized));
+        Assert.False(SafePath.IsExtendedDevicePath(candidate));
+    }
 }

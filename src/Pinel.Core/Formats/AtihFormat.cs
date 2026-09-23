@@ -14,6 +14,18 @@ namespace Pinel.Core.Formats;
 /// <param name="Description">Human-readable French description.</param>
 /// <param name="Field">PMSI field family (PSY, MCO, SSR, HAD, TRANSVERSAL).</param>
 /// <param name="Since">Year the format was introduced.</param>
+/// <param name="CarriesPatientIdentifiers">
+/// False when the official ATIH descriptor declares no usable patient
+/// identifier for this format. Two cases, both established on the 2026
+/// descriptors: files that simply carry none (FICHCOMP transports, the
+/// aggregated FICHSUP), and anonymised outputs of PIVOINE where the IPP has
+/// been replaced by an irreversible hash (RPSA, R3A). Reading a hash and
+/// filing it as an IPP would rebuild, in the patient index, the very link
+/// that MAGIC and PIVOINE exist to sever. Parsers must skip extraction
+/// entirely rather than store whatever bytes sit at the nominal offsets.
+/// Last parameter and defaulted to true, so every existing positional
+/// construction keeps compiling and behaving as before.
+/// </param>
 public sealed record AtihFormat(
     string Name,
     int Length,
@@ -23,7 +35,8 @@ public sealed record AtihFormat(
     int DdnEnd,
     string Description,
     string Field,
-    int Since)
+    int Since,
+    bool CarriesPatientIdentifiers = true)
 {
     public int IppLength => IppEnd - IppStart;
     public int DdnLength => DdnEnd - DdnStart;

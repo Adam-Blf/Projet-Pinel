@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Système de design - Pinel</title>
+  <!--
+    Page vivante du système : elle charge les mêmes feuilles de style que
+    l'application, jamais une copie. Un composant qui change ici a changé pour
+    de bon, et un écart se voit tout de suite. Elle n'est liée depuis aucun
+    écran : c'est une référence pour qui travaille sur l'interface.
+  -->
+  <link rel="stylesheet" href="fonts/fonts.css">
+  <link rel="stylesheet" href="css/jetons.css">
+  <link rel="stylesheet" href="css/mise-en-page.css">
+  <link rel="stylesheet" href="css/composants.css">
+  <link rel="stylesheet" href="css/accents.css">
+  <link rel="stylesheet" href="css/accessibilite.css">
+  <link rel="stylesheet" href="css/systeme.css">
+  <link rel="icon" href="icons/favicon.png">
+  <script src="js/theme.js"></script>
+</head>
+
+<body>
+  <div class="app" data-accent="moulinette">
+    <main class="main" id="contenu-principal" tabindex="-1">
+      <header class="topbar">
+        <div>
+          <h2>Système de design</h2>
+          <p>Jetons, primitives et états, tels que l'application les utilise</p>
+        </div>
+        <div class="spacer"></div>
+        <button class="icon-btn" id="btn-theme" type="button" aria-label="Changer de thème"><span class="i" data-icon="moon"></span></button>
+      </header>
+
+      <section class="view stack">
+        <div class="card">
+          <h3>Couleurs de section</h3>
+          <p class="hint">Chaque chantier porte sa couleur. Le fond utilise la teinte brute, le texte et les bordures passent par la variante lisible sur les deux thèmes.</p>
+          <div class="grid cols-4" id="palette"></div>
+        </div>
+
+        <div class="card">
+          <h3>Échelles</h3>
+          <p class="hint">Espacements de raison 1,618, tailles de texte de raison racine de 1,618. Deux suites, aucune valeur arbitraire.</p>
+          <div class="grid cols-2">
+            <div id="espacements"></div>
+            <div id="typographie"></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Boutons</h3>
+          <p class="hint">Un bouton plein par écran, le reste en secondaire. L'état occupé remplace l'icône par un indicateur tournant et bloque un second clic.</p>
+          <div class="row">
+            <button class="btn" type="button"><span class="i" data-icon="lightning"></span> Action principale</button>
+            <button class="btn secondary" type="button"><span class="i" data-icon="magnifying-glass"></span> Action secondaire</button>
+            <button class="btn ghost" type="button">Action discrète</button>
+            <button class="btn small" type="button">Petite</button>
+            <button class="btn" type="button" disabled>Indisponible</button>
+            <button class="btn" type="button" aria-busy="true" disabled><span class="i" data-icon="lightning"></span> En cours</button>
+            <button class="icon-btn" type="button" aria-label="Exemple"><span class="i" data-icon="sun"></span></button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Champs</h3>
+          <p class="hint">Une étiquette au-dessus de sa saisie, la saisie prend la largeur offerte. Aucune largeur posée au cas par cas.</p>
+          <div class="grid cols-3">
+            <div class="field">
+              <label class="field-label" for="demo-texte">Texte</label>
+              <input type="text" id="demo-texte" placeholder="Exemple">
+            </div>
+            <div class="field">
+              <label class="field-label" for="demo-liste">Liste</label>
+              <select id="demo-liste"><option>Premier choix</option><option>Second choix</option></select>
+            </div>
+            <div class="field">
+              <label class="field-label" for="demo-nombre">Nombre</label>
+              <input type="number" id="demo-nombre" class="narrow" value="0" min="0">
+            </div>
+          </div>
+          <div class="row mt-3">
+            <label class="check"><input type="checkbox" checked> Case cochée</label>
+            <label class="check"><input type="checkbox"> Case décochée</label>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Compteurs</h3>
+          <div class="grid cols-4" id="kpi-demo"></div>
+        </div>
+
+        <div class="card">
+          <h3>Tableau</h3>
+          <p class="hint">En-tête collant, hauteur bornée, chiffres alignés à droite en chasse fixe.</p>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Format</th><th>État</th><th class="num">Lignes</th><th>Chemin</th></tr></thead>
+              <tbody>
+                <tr><td>RPS</td><td><span class="badge ok">reconnu</span></td><td class="num">5 089</td><td class="path">D:\PMSI\M09\rps.txt</td></tr>
+                <tr><td>RAA</td><td><span class="badge ok">reconnu</span></td><td class="num">89 505</td><td class="path">D:\PMSI\M09\raa.txt</td></tr>
+                <tr><td>INCONNU</td><td><span class="badge warn">non reconnu</span></td><td class="num">142</td><td class="path">D:\PMSI\M09\divers.txt</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Messages</h3>
+          <div class="stack">
+            <div class="note">Information : ce que l'application vient de faire, ou ce qu'elle attend.</div>
+            <div class="note warn">Avertissement : la transmission passera, mais quelque chose mérite un regard.</div>
+            <div class="empty">État vide : ce qui manque, et le geste qui le remplit.</div>
+          </div>
+          <div class="row mt-3">
+            <button class="btn secondary" id="btn-toast" type="button">Notification</button>
+            <button class="btn ghost" id="btn-toast-erreur" type="button">Notification d'erreur</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+  <script src="js/core-dom.js"></script>
+  <script>
+    (function () {
+      'use strict';
+      var dom = window.Pinel.dom;
+
+      var SECTIONS = [
+        ['moulinette', 'Conversion'], ['episodes', 'Épisodes'], ['structure', 'Structure'],
+        ['fichcomp', 'Transports'], ['identito', 'Identitovigilance'], ['revue', 'Revue'],
+        ['controles', 'Contrôles'], ['dossiers', 'Emplacements'], ['journal', 'Traçabilité'], ['apropos', 'À propos']
+      ];
+
+      document.getElementById('palette').innerHTML = SECTIONS.map(function (s) {
+        return '<div class="kpi swatch" data-section="' + s[0] + '">' +
+          '<div class="label">' + s[1] + '</div>' +
+          '<div class="value">--c-' + s[0] + '</div></div>';
+      }).join('');
+
+      document.getElementById('espacements').innerHTML = '<p class="field-label">Espacements</p>' +
+        '<div class="echelle">' + [1, 2, 3, 4, 5, 6].map(function (n) {
+          return '<div class="mesure"><span class="nom">--s' + n + '</span>' +
+            '<span class="barre" data-espacement="' + n + '"></span></div>';
+        }).join('') + '</div>';
+
+      document.getElementById('typographie').innerHTML = '<p class="field-label">Typographie</p>' +
+        '<div class="echelle">' + ['xs', 'sm', 'md', 'lg', 'xl', '2xl'].map(function (t) {
+          return '<div class="mesure"><span class="nom">--t-' + t + '</span>' +
+            '<span class="exemple" data-taille="' + t + '">Montserrat</span></div>';
+        }).join('') + '</div>';
+
+      dom.kpis('kpi-demo', [['Fichiers', 12], ['Lignes lues', '89 505'], ['IPP uniques', '5 210'], ['Conflits', 0]]);
+
+      document.getElementById('btn-toast').addEventListener('click', function () {
+        dom.toast('Traitement terminé : 89 505 lignes.');
+      });
+      document.getElementById('btn-toast-erreur').addEventListener('click', function () {
+        dom.toast('Erreur : service local injoignable.', 'error');
+      });
+
+      dom.els('[data-icon]').forEach(function (node) { dom.paintIcon(node, node.getAttribute('data-icon')); });
+      window.Pinel.theme.wire();
+    })();
+  </script>
+</body>
+
+</html>

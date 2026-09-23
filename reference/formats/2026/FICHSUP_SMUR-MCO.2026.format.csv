@@ -1,0 +1,12 @@
+# format: FICHSUP_SMUR-MCO
+# annee: 2026
+# source: formats_mco_2026.xlsx
+nom;debut;longueur;libelle
+NUMERO_FINESS_D_INSCRIPTION_EPMSI;1;9;Numéro FINESS d’inscription ePMSI
+TYPE_DE_FICHIER;10;3;Type de fichier
+ANNEE;13;4;Année
+PERIODE;17;2;Période
+N_FINESS_D_IMPLANTATION_SMUR;19;9;N° FINESS d’implantation SMUR
+NOMBRE_DE_SORTIES_PRIMAIRES;28;6;Nombre de sorties primaires
+NOMBRE_DE_SORTIES_SECONDAIRES;34;6;Nombre de sorties secondaires
+NOMBRE_TIIH_TRANSFERT_INFIRMIER_INTER_HO;40;6;Nombre TIIH (transfert infirmier inter-hospitalier)

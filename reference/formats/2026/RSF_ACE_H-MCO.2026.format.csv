@@ -1,0 +1,23 @@
+# format: RSF_ACE_H-MCO
+# annee: 2026
+# source: formats_mco_2026.xlsx
+nom;debut;longueur;libelle
+TYPE_D_ENREGISTREMENT;1;1;Type d'enregistrement
+NUMERO_FINESS_D_INSCRIPTION_EPMSI;2;9;Numéro FINESS d’inscription ePMSI
+NUMERO_FINESS_GEOGRAPHIQUE;11;9;Numéro FINESS géographique
+N_IMMATRICULATION_ASSURE;20;13;N° immatriculation assuré
+CLE_DU_N_IMMATRICULATION;33;2;Clé du n° immatriculation
+RANG_DE_BENEFICIAIRE;35;3;Rang de bénéficiaire
+N_D_ENTREE;38;9;N° d'entrée
+N_IMMATRICULATION_INDIVIDUEL;47;13;N° immatriculation individuel
+CLE_DU_N_IMMATRICULATION_INDIVIDUEL;60;2;Clé du n° immatriculation individuel
+DATE_DE_DEBUT_DE_SEJOUR;62;8;Date de début de séjour
+CODE_UCD;70;7;Code UCD
+COEFFICIENT_DE_FRACTIONNEMENT;77;5;Coefficient de fractionnement
+PRIX_D_ACHAT_UNITAIRE_TTC;82;7;Prix d'achat unitaire TTC
+MONTANT_UNITAIRE_DE_L_ECART_INDEMNISABLE;89;7;Montant unitaire de l'écart indemnisable
+MONTANT_TOTAL_DE_L_ECART_INDEMNISABLE;96;7;Montant total de l'écart indemnisable
+QUANTITE;103;3;Quantité
+MONTANT_TOTAL_FACTURE_TTC;106;7;Montant total facturé TTC
+INDICATION;113;7;Indication
+NUMERO_FACTURE;120;9;Numéro facture

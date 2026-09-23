@@ -1,0 +1,13 @@
+# format: FICHSUP_RIHN_PRODUCTEURS-MCO
+# annee: 2026
+# source: formats_mco_2026.xlsx
+nom;debut;longueur;libelle
+FINESS_ETABLISSEMENT;1;9;Finess établissement
+TYPE_DE_FICHIER;10;3;Type de fichier
+ANNEE;13;4;Année
+PERIODE;17;2;Période
+IDENTIFICATION_DU_BENEFICIAIRE;19;9;Identification du bénéficiaire
+CODE_DE_L_ACTE;28;4;Code de l'acte
+NOMBRE_D_ACTES_REALISES_PAR_ACTE_ET_PAR;32;10;Nombre d’actes réalisés (par acte et par bénéficaire)
+NOMBRE_D_ACTES_FACTURES;42;10;Nombre d’actes facturés
+MONTANT_FACTURE;52;10;Montant facturé

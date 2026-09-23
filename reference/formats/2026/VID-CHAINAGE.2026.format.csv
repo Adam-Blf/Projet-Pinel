@@ -1,0 +1,21 @@
+# format: VID-CHAINAGE
+# annee: 2026
+# source: formats_psy_2026_0.xlsx
+nom;debut;longueur;libelle
+N_FORMAT_VID_CHAINAGE;1;4;N° format VID-CHAINAGE
+NUMERO_FINESS_D_INSCRIPTION_EPMSI;5;9;Numéro FINESS d’inscription ePMSI
+NUMERO_FINESS_DE_L_ETABLISSEMENT_SITE_GE;14;9;Numéro FINESS de l’établissement (site géographique)
+N_D_ENTREE;23;9;N° d’entrée
+SEXE;32;1;Sexe
+N_IMMATRICULATION_ASSURE;33;13;N° immatriculation assuré
+CLE_DU_N_IMMATRICULATION;46;2;Clé du n° immatriculation
+FILLER;48;60;Filler
+RANG_DE_BENEFICIAIRE;108;3;Rang de bénéficiaire
+N_IMMATRICULATION_INDIVIDUEL;111;13;N° immatriculation individuel
+CLE_DU_N_IMMATRICULATION_INDIVIDUEL;124;2;Clé du n° immatriculation individuel
+DATE_NAISSANCE;126;8;Date Naissance
+RANG_DE_NAISSANCE;134;1;Rang de naissance
+CODE_POSTAL_DU_LIEU_DE_RESIDENCE_DU_PATI;135;5;Code postal du lieu de résidence du patient
+NUMERO_D_IDENTIFICATION_PERMANENT_DU_PAT;140;20;Numéro d’identification permanent du patient (IPP)
+IDENTIFIANT_NATIONAL_DE_SANTE_INS;160;15;Identifiant national de santé (INS)
+ART51;175;1;ART51

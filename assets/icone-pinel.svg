@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Marque de Pinel.
+
+  Ce que le dessin raconte : trois lignes d'enregistrement a largeur fixe,
+  decoupees en champs de largeurs differentes, et un champ mis en evidence,
+  celui que le departement d'information medicale corrige. C'est exactement ce
+  que fait l'application, et cela reste lisible a 16 pixels, ou il ne reste que
+  trois barres et un point clair.
+
+  Couleurs relevees sur le site institutionnel du GHT Psy Sud Paris : bleu
+  #253e80, teal #1d7c96, ocre #fcc764.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" role="img" aria-label="Pinel">
+  <defs>
+    <linearGradient id="fond" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2b4794"/>
+      <stop offset="1" stop-color="#17264f"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="256" height="256" rx="56" fill="url(#fond)"/>
+
+  <!-- Premiere ligne : enregistrement complet. -->
+  <g fill="#ffffff">
+    <rect x="48" y="78" width="62" height="18" rx="9"/>
+    <rect x="118" y="78" width="38" height="18" rx="9"/>
+    <rect x="164" y="78" width="44" height="18" rx="9"/>
+  </g>
+
+  <!-- Deuxieme ligne : le champ corrige, en ocre. -->
+  <g fill="#ffffff">
+    <rect x="48" y="118" width="38" height="18" rx="9"/>
+    <rect x="94" y="118" width="62" height="18" rx="9" fill="#fcc764"/>
+    <rect x="164" y="118" width="26" height="18" rx="9"/>
+  </g>
+
+  <!-- Troisieme ligne : enregistrement suivant, plus court. -->
+  <g fill="#ffffff" opacity=".82">
+    <rect x="48" y="158" width="44" height="18" rx="9"/>
+    <rect x="100" y="158" width="56" height="18" rx="9"/>
+  </g>
+</svg>

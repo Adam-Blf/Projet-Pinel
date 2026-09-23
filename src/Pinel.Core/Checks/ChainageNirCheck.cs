@@ -18,7 +18,12 @@ namespace Pinel.Core.Checks;
 /// </summary>
 public sealed class ChainageNirCheck : IFileCheck
 {
-    private static readonly Encoding Latin1 = Encoding.GetEncoding("ISO-8859-1");
+
+    /// <summary>NIR occupies the first 13 characters of the record.</summary>
+    private const int NirLength = 13;
+
+    /// <summary>The 2-digit control key follows the NIR.</summary>
+    private const int KeyLength = 2;
 
     public string Name => "NIR VID-HOSP";
 
@@ -27,24 +32,24 @@ public sealed class ChainageNirCheck : IFileCheck
         "VID-HOSP", "ANO-HOSP",
     };
 
-    static ChainageNirCheck()
-    {
-        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-    }
 
     public IEnumerable<CheckFinding> Validate(string filePath, string formatName)
     {
         StreamReader? reader = null;
-        string? ioError = null;
-        try { reader = new StreamReader(filePath, Latin1); }
-        catch (IOException ex) { ioError = ex.Message; }
+        string? readFailure = null;
+        try { reader = new StreamReader(filePath, PmsiEncoding.Latin1); }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            readFailure = FindingRedaction.ReadFailure(ex);
+        }
 
         if (reader is null)
         {
             yield return new CheckFinding(
                 "ERR-IO", CheckSeverity.Blocker,
-                $"Impossible de lire le fichier : {ioError}",
-                filePath, 0, formatName);
+                readFailure ?? FindingRedaction.ReadFailedMessage,
+                filePath, 0, formatName,
+                FixHint: FindingRedaction.ReadFailureHint);
             yield break;
         }
 
@@ -55,10 +60,10 @@ public sealed class ChainageNirCheck : IFileCheck
             while (reader.ReadLine() is { } line)
             {
                 lineNo++;
-                if (line.Length < 15) continue;
+                if (line.Length < NirLength + KeyLength) continue;
 
-                var nir = line[..13].Trim();
-                var key = line.Length >= 15 ? line[13..15].Trim() : "";
+                var nir = line[..NirLength].Trim();
+                var key = line[NirLength..(NirLength + KeyLength)].Trim();
 
                 if (nir.Length == 0 || nir.All(c => c == '0'))
                 {
@@ -75,11 +80,15 @@ public sealed class ChainageNirCheck : IFileCheck
                     continue;
                 }
 
-                if (!nir.All(char.IsDigit))
+                // Message carries the GAP, never the NIR: findings reach the UI
+                // and the JSON report on disk. See FindingRedaction.
+                if (nir.Length != NirLength || !nir.All(char.IsDigit))
                 {
                     yield return new CheckFinding(
                         "ERR-VID-NIR-FORMAT", CheckSeverity.Error,
-                        $"NIR non numérique : « {nir} » - chaînage retournera code 400000.",
+                        $"NIR non conforme ({FindingRedaction.Position(0, NirLength)}) : "
+                        + $"{FindingRedaction.DigitGap(NirLength, nir)}. "
+                        + "Chaînage retournera le code 400000.",
                         filePath, lineNo, formatName,
                         FixHint: "Vérifier l'export NIR (espaces résiduels, clé mal alignée).");
                 }
@@ -88,7 +97,8 @@ public sealed class ChainageNirCheck : IFileCheck
                 {
                     yield return new CheckFinding(
                         "ERR-VID-NIR-KEY", CheckSeverity.Error,
-                        $"Clé de contrôle NIR non numérique : « {key} ».",
+                        $"Clé de contrôle NIR non conforme ({FindingRedaction.Position(NirLength, KeyLength)}) : "
+                        + $"{FindingRedaction.DigitGap(KeyLength, key)}.",
                         filePath, lineNo, formatName,
                         FixHint: "Vérifier que l'export inclut bien la clé 2-chiffres après le NIR 13-chiffres.");
                 }

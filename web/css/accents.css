@@ -1,0 +1,65 @@
+/*
+ * Pinel - couleur de section : chaque chantier (moulinette, épisodes,
+ * structure...) colore la barre de titre, l'icône active et les valeurs
+ * chiffrées, ce qui situe l'utilisateur d'un coup d'œil.
+ *
+ * --accent sert aux fonds pleins (boutons), --accent-ink sert au texte et
+ * aux bordures : la variante "-ink" est celle qui change en thème sombre,
+ * voir jetons.css.
+ */
+.app[data-accent="moulinette"] { --accent: var(--c-moulinette); --accent-ink: var(--c-moulinette-ink); }
+.app[data-accent="episodes"]   { --accent: var(--c-episodes);   --accent-ink: var(--c-episodes-ink); }
+.app[data-accent="structure"]  { --accent: var(--c-structure);  --accent-ink: var(--c-structure-ink); }
+.app[data-accent="fichcomp"]   { --accent: var(--c-fichcomp);   --accent-ink: var(--c-fichcomp-ink); }
+.app[data-accent="identito"]   { --accent: var(--c-identito);   --accent-ink: var(--c-identito-ink); }
+.app[data-accent="revue"]      { --accent: var(--c-revue);      --accent-ink: var(--c-revue-ink); }
+.app[data-accent="controles"]  { --accent: var(--c-controles);  --accent-ink: var(--c-controles-ink); }
+.app[data-accent="dossiers"]   { --accent: var(--c-dossiers);   --accent-ink: var(--c-dossiers-ink); }
+.app[data-accent="journal"]    { --accent: var(--c-journal);    --accent-ink: var(--c-journal-ink); }
+.app[data-accent="apropos"]    { --accent: var(--c-apropos);    --accent-ink: var(--c-apropos-ink); }
+
+/* Chaque entrée de navigation garde sa couleur, active ou non : la pastille
+   reste un repère graphique (contraste non textuel >= 3:1). Elle passe par
+   la variante -ink, sans quoi le bleu marine de la conversion disparaît sur
+   le fond sombre. */
+.nav-item[data-view="moulinette"] .chip { color: var(--c-moulinette-ink); }
+.nav-item[data-view="episodes"] .chip   { color: var(--c-episodes-ink); }
+.nav-item[data-view="structure"] .chip  { color: var(--c-structure-ink); }
+.nav-item[data-view="fichcomp"] .chip   { color: var(--c-fichcomp-ink); }
+.nav-item[data-view="identito"] .chip   { color: var(--c-identito-ink); }
+.nav-item[data-view="revue"] .chip      { color: var(--c-revue-ink); }
+.nav-item[data-view="controles"] .chip  { color: var(--c-controles-ink); }
+.nav-item[data-view="dossiers"] .chip   { color: var(--c-dossiers-ink); }
+.nav-item[data-view="journal"] .chip    { color: var(--c-journal-ink); }
+.nav-item[data-view="apropos"] .chip    { color: var(--c-apropos-ink); }
+
+/* Entrée active : navigation.js pose aria-selected (patron ARIA tabs), c'est
+   donc lui que le style lit. Un sélecteur sur un attribut que personne ne
+   pose ne marque jamais rien. */
+.nav-item[aria-selected="true"] {
+  border-left-color: var(--accent-ink);
+  color: var(--accent-ink);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+/* Filet de couleur sous la barre de titre. */
+.topbar { border-bottom-color: color-mix(in srgb, var(--accent) 35%, var(--line)); box-shadow: inset 0 -3px 0 -1px var(--accent); }
+.topbar h2 { color: var(--accent-ink); }
+
+.note { border-left-color: var(--accent); background: color-mix(in srgb, var(--accent) 8%, transparent); }
+
+/* ── Pastille d'icône de navigation ───────────────────────────────────── */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.9rem;
+  height: 1.9rem;
+  flex: none;
+  border-radius: 8px;
+  background: color-mix(in srgb, currentColor 12%, transparent);
+  transition: background-color var(--dur) ease;
+}
+
+.nav-item .chip .i { width: 1.15rem; height: 1.15rem; }
+.nav-item[aria-selected="true"] .chip { background: color-mix(in srgb, currentColor 22%, transparent); }

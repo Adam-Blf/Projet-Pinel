@@ -1,0 +1,37 @@
+# format: FICHCOMP-ISO
+# annee: 2026
+# source: formats_psy_2026_0.xlsx
+nom;debut;longueur;libelle
+N_FINESS_D_INSCRIPTION_EPMSI;1;9;N° FINESS d’inscription ePMSI
+N_FORMAT;10;2;N° Format
+N_DE_SEJOUR;12;20;N° de séjour
+N_DE_SEQUENCE;32;7;N° de séquence
+TYPE_DE_CONTENTION_ISOLEMENT;39;1;Type de contention/ isolement
+DATE_DE_DEBUT_DE_SEQUENCE;40;8;Date de début de séquence
+HEURE_DE_DEBUT_DE_SEQUENCE;48;4;Heure de début de séquence
+DATE_DE_FIN_DE_SEQUENCE;52;8;Date de fin de séquence
+HEURE_DE_FIN_DE_SEQUENCE;60;4;Heure de fin de séquence
+NUMERO_DE_LA_MESURE;64;7;Numéro de la mesure
+TYPE_DE_LA_MESURE;71;1;Type de la mesure
+DATE_DE_DEBUT_DE_LA_MESURE;72;8;Date de début de la mesure
+HEURE_DE_DEBUT_DE_LA_MESURE;80;4;Heure de début de la mesure
+DATE_DE_FIN_DE_LA_MESURE;84;8;Date de fin de la mesure
+HEURE_DE_FIN_DE_LA_MESURE;92;4;Heure de fin de la mesure
+MOTIF_VIOLENCE_OU_HETEOAGRESSIVITE;96;1;Motif : Violence ou Heteoagressivite
+MOTIF_SUICIDE_OU_TS;97;1;Motif : Suicide ou TS
+MOTIF_AUTOAGRESSIVITE_HORS_SUICIDE;98;1;Motif : Autoagressivité hors suicide
+MOTIF_ETAT_D_AGITATION_NON_DIRIGEE;99;1;Motif : Etat d agitation non dirigée
+MOTIF_AUTRES;100;1;Motif : Autres
+PATHOLOGIE_CHRONIQUE_SCHIZOPHRENIE;101;1;Pathologie chronique : Schizophrénie
+PATHOLOGIE_CHRONIQUE_EPISODE_MANIAQUE;102;1;Pathologie chronique : Épisode maniaque
+PATHOLOGIE_CHRONIQUE_TROUBLE_AFFECTIF_BI;103;1;Pathologie chronique : Trouble affectif bipolaire
+PATHOLOGIE_CHRONIQUE_EPISODE_DEPRESSIF;104;1;Pathologie chronique : Épisode dépressif
+PATHOLOGIE_CHRONIQUE_TROUBLE_DU_NEURODEV;105;1;Pathologie chronique : Trouble du Neurodéveloppement
+PATHOLOGIE_CHRONIQUE_TROUBLES_NEURO_DEGE;106;1;Pathologie chronique : Troubles Neuro-dégénératifs
+PATHOLOGIE_CHRONIQUE_TROUBLES_DEFICITAIR;107;1;Pathologie chronique : Troubles déficitaires
+PATHOLOGIE_CHRONIQUE_AUTRES;108;1;Pathologie chronique : Autres
+TROUBLE_SPECIFIQUE_DE_LA_PERSONNALITE;109;1;Trouble spécifique de la personnalité
+PRISE_DE_SUBSTANCE_TOXIQUE_INTOXICATION;110;1;Prise de substance toxique : Intoxication aigue
+PRISE_DE_SUBSTANCE_TOXIQUE_INTOXICATION_2;111;1;Prise de substance toxique : Intoxication chronique
+PATIENT_CONNU;112;1;Patient connu
+MODE_LEGAL_DE_SOINS;113;1;Mode légal de soins

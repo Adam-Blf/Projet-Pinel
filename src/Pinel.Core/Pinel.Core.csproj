@@ -16,6 +16,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <!-- Cle publique des licences : embarquee dans l'assembly, l'application
+         verifie une licence sans jamais pouvoir en fabriquer une. -->
+    <EmbeddedResource Include="Licensing\cle-publique.pem" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="ClosedXML" Version="0.105.0" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="10.0.6" />
   </ItemGroup>

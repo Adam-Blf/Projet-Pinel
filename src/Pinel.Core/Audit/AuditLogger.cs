@@ -1,7 +1,9 @@
 using System.Collections.Concurrent;
 using System.Globalization;
 using System.IO;
+using System.Text;
 using System.Threading.Tasks;
+using Pinel.Core.Security;
 
 namespace Pinel.Core.Audit;
 
@@ -52,15 +54,39 @@ public sealed class AuditLogger : IDisposable
     }
 
     private static string DefaultDirectory() => Path.Combine(
-        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-        "Pinel");
+        PinelPaths.DataRoot);
 
     /// <summary>
-    /// Record a sensitive operation. Patient-identifying data must never
-    /// be passed in <paramref name="detail"/> - restrict to endpoint,
-    /// HTTP method, status code, byte count, generic labels.
+    /// Record a sensitive operation.
+    /// <para>
+    /// Redaction rule of the audit log, enforced by <see cref="Sanitize"/>:
+    /// a FOLDER path is NOT patient data and may appear in
+    /// <paramref name="folder"/> or <paramref name="detail"/> - it is precisely
+    /// what makes an act imputable, since it names the workspace acted upon.
+    /// A patient identifier (IPP, NIR, date of birth, name) NEVER appears there
+    /// in clear text. Restrict <paramref name="detail"/> to generic labels:
+    /// operation performed, kind of export, record count.
+    /// </para>
+    /// <para>
+    /// <paramref name="detail"/> is optional so existing callers keep compiling,
+    /// but it is never written empty: an unfilled field is logged as
+    /// <see cref="UnspecifiedDetail"/> so a reader can tell "not documented"
+    /// from "stripped".
+    /// </para>
     /// </summary>
-    public void Record(string endpoint, string method, int status, long? bytes = null, string? detail = null)
+    /// <param name="endpoint">Bridge route that was called.</param>
+    /// <param name="method">HTTP method.</param>
+    /// <param name="status">HTTP status returned.</param>
+    /// <param name="bytes">Response size, when known.</param>
+    /// <param name="detail">What the act did, in generic terms.</param>
+    /// <param name="folder">Directory the act operated on, when applicable.</param>
+    public void Record(
+        string endpoint,
+        string method,
+        int status,
+        long? bytes = null,
+        string? detail = null,
+        string? folder = null)
     {
         var payload = new
         {
@@ -71,10 +97,55 @@ public sealed class AuditLogger : IDisposable
             method,
             status,
             bytes,
-            detail,
+            detail = string.IsNullOrWhiteSpace(detail) ? UnspecifiedDetail : Sanitize(detail),
+            folder = Sanitize(folder),
         };
         var line = System.Text.Json.JsonSerializer.Serialize(payload);
         _queue.TryAdd(line); // non-blocking; lossless unless shutdown
+    }
+
+    /// <summary>Value written when a caller documents no detail.</summary>
+    public const string UnspecifiedDetail = "non précisé";
+
+    /// <summary>Replacement written in place of a suspected identifier.</summary>
+    public const string RedactionMarker = "[masqué]";
+
+    /// <summary>
+    /// Shortest patient or establishment identifier handled by Pinel: FINESS is
+    /// 9 digits, IPP and NIR are longer. Below that threshold a digit run is a
+    /// count, a year or a size, and stays readable.
+    /// </summary>
+    private const int IdentifierDigitRun = 9;
+
+    /// <summary>
+    /// Mechanical enforcement of the rule documented on <see cref="Record"/>:
+    /// any run of <see cref="IdentifierDigitRun"/> digits or more is replaced by
+    /// <see cref="RedactionMarker"/>. Letters, separators and folder paths are
+    /// left untouched, so <c>D:\PMSI\2024</c> survives while
+    /// <c>IPP 2860675110042</c> does not.
+    /// </summary>
+    private static string? Sanitize(string? value)
+    {
+        if (string.IsNullOrEmpty(value)) return value;
+
+        var builder = new StringBuilder(value.Length);
+        int index = 0;
+        while (index < value.Length)
+        {
+            if (!char.IsDigit(value[index]))
+            {
+                builder.Append(value[index++]);
+                continue;
+            }
+
+            int start = index;
+            while (index < value.Length && char.IsDigit(value[index])) index++;
+
+            int run = index - start;
+            if (run >= IdentifierDigitRun) builder.Append(RedactionMarker);
+            else builder.Append(value, start, run);
+        }
+        return builder.ToString();
     }
 
     public string CurrentLogPath => Path.Combine(

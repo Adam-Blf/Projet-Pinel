@@ -28,7 +28,7 @@ public enum CheckSeverity
 /// <param name="SourceFile">Absolute path of the file where the finding was raised.</param>
 /// <param name="LineNumber">1-indexed line number in the source file, or 0 if file-level.</param>
 /// <param name="FormatName">Canonical ATIH format name (RPS, FICHSUP-PSY, etc.), or null if unknown.</param>
-/// <param name="FixHint">Optional actionable tip ("réencoder la DDN en YYYYMMDD").</param>
+/// <param name="FixHint">Optional actionable tip ("réencoder la DDN en JJMMAAAA").</param>
 public sealed record CheckFinding(
     string Code,
     CheckSeverity Severity,

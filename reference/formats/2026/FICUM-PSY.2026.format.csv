@@ -1,0 +1,11 @@
+# format: FICUM-PSY
+# annee: 2026
+# source: formats_psy_2026_0.xlsx
+nom;debut;longueur;libelle
+N_FORMAT;1;5;N° format
+N_DE_L_UNITE_MEDICALE;6;4;N° de l’unité médicale
+N_FINESS_GEOGRAPHIQUE;10;9;N° FINESS Géographique
+TYPE_D_UNITE;19;3;Type d'Unité
+TYPE_D_AUTORISATION_MENTION;22;1;Type d'autorisation / mention
+DATE_DE_DEBUT_D_EFFET_DU_TYPE_D_UNITE;23;8;Date de début d’effet du type d'unité
+DATE_DE_FIN_D_EFFET_DU_TYPE_D_UNITE;31;8;Date de fin d'effet du type d'unité

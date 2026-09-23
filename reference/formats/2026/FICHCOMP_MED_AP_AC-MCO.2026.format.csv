@@ -1,0 +1,14 @@
+# format: FICHCOMP_MED_AP_AC-MCO
+# annee: 2026
+# source: formats_mco_2026.xlsx
+nom;debut;longueur;libelle
+NUMERO_FINESS_D_INSCRIPTION_EPMSI;1;9;Numéro FINESS d’inscription ePMSI
+TYPE_DE_PRESTATION;10;2;Type de prestation
+NUMERO_ADMINISTRATIF_LOCAL_DE_SEJOUR;12;20;Numéro administratif local de séjour
+DATE_D_ADMINISTRATION;32;8;Date d'administration
+CODE_UCD;40;15;Code UCD
+NOMBRE_ADMINISTRE_EVENTUELLEMENT_FRACTIO;55;10;Nombre administré éventuellement fractionnaire (7+3)
+PRIX_D_ACHAT_MULTIPLIE_PAR_LE_NOMBRE_ADM;65;10;Prix d'achat multiplié par le nombre administré (7+3)
+VALIDATION_INITIALE_DE_LA_PRESCRIPTION_P;75;1;Validation initiale de la prescription par un centre de référence ou de compétence
+INDICATION;76;7;Indication
+FILLER;83;23;Filler

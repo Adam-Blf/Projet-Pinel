@@ -1,0 +1,23 @@
+# format: RSF_H_PRESTATIONS_HOSP-MCO
+# annee: 2026
+# source: formats_mco_2026.xlsx
+nom;debut;longueur;libelle
+TYPE_D_ENREGISTREMENT;1;1;Type d'enregistrement
+NUMERO_FINESS_D_INSCRIPTION_EPMSI;2;9;Numéro FINESS d’inscription ePMSI
+FILLER;11;9;Filler
+NUMERO_DE_RSS;20;20;Numéro de RSS
+N_IMMATRICULATION_ASSURE;40;13;N° immatriculation assuré
+CLE_DU_N_IMMATRICULATION;53;2;Clé du n° immatriculation
+RANG_DE_BENEFICIAIRE;55;3;Rang de bénéficiaire
+N_FACTURE;58;9;N° facture
+N_IMMATRICULATION_INDIVIDUEL;67;13;N° immatriculation individuel
+CLE_DU_N_IMMATRICULATION_INDIVIDUEL;80;2;Clé du n° immatriculation individuel
+DATE_DE_DEBUT_DE_SEJOUR;82;8;Date de début de séjour
+CODE_UCD;90;7;Code UCD
+INDICATION;97;7;Indication
+COEFFICIENT_DE_FRACTIONNEMENT;104;5;Coefficient de fractionnement
+PRIX_D_ACHAT_UNITAIRE_TTC;109;7;Prix d'achat unitaire TTC
+MONTANT_UNITAIRE_DE_L_ECART_INDEMNISABLE;116;7;Montant unitaire de l'écart indemnisable
+MONTANT_TOTAL_DE_L_ECART_INDEMNISABLE;123;7;Montant total de l'écart indemnisable
+QUANTITE;130;3;Quantité
+MONTANT_TOTAL_FACTURE_TTC;133;7;Montant total facturé TTC

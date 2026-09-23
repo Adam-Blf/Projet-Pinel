@@ -1,0 +1,35 @@
+# format: RSF_B_PRESTA_HOSPITALIERES-PSY
+# annee: 2026
+# source: formats_psy_2026_0.xlsx
+nom;debut;longueur;libelle
+TYPE_D_ENREGISTREMENT;1;1;Type d'enregistrement
+NUMERO_FINESS_D_INSCRIPTION_EPMSI;2;9;Numéro FINESS d’inscription ePMSI
+FILLER;11;9;Filler
+NUMERO_D_ENTREE;20;9;Numéro d'entrée
+N_IMMATRICULATION_ASSURE;29;13;N° immatriculation assuré
+CLE_DU_N_IMMATRICULATION;42;2;Clé du n° immatriculation
+RANG_DE_BENEFICIAIRE;44;3;Rang de bénéficiaire
+N_DE_FACTURE;47;9;N° de facture
+N_IMMATRICULATION_INDIVIDUEL;56;13;N° immatriculation individuel
+CLE_DU_N_IMMATRICULATION_INDIVIDUEL;69;2;Clé du n° immatriculation individuel
+MODE_DE_TRAITEMENT;71;2;Mode de traitement
+DISCIPLINE_DE_PRESTATION_EX_DMT;73;3;Discipline de prestation (ex DMT)
+JUSTIFICATION_EXONERATION_TM;76;1;Justification exonération TM
+FILLER_2;77;2;Filler
+DATE_DE_DEBUT_DE_SEJOUR;79;8;Date de début de séjour
+DATE_DE_FIN_DE_SEJOUR;87;8;Date de fin de séjour
+CODE_ACTE;95;5;Code acte
+QUANTITE;100;3;Quantité
+COEFFICIENT;103;5;Coefficient
+CODE_PRISE_EN_CHARGE_FJ;108;1;Code prise en charge FJ
+COEFFICIENT_MCO;109;5;Coefficient MCO
+FILLER_3;114;2;Filler
+PRIX_UNITAIRE;116;7;Prix Unitaire
+MONTANT_BASE_REMBOURSEMENT;123;8;Montant Base remboursement
+TAUX_REMBOURSEMENT;131;3;Taux Remboursement
+MONTANT_REMBOURSABLE_AMO;134;8;Montant Remboursable AMO
+MONTANT_TOTAL_FACTURE;142;8;Montant total Facturé
+MONTANT_REMBOURSABLE_AMC;150;7;Montant remboursable AMC
+N_GHS;157;4;N° GHS
+MONTANT_REMBOURSE_NOEMIE_RETOUR;161;8;Montant remboursé NOEMIE Retour
+NATURE_OPERATION_RECUPERATION_NOEMIE_RET;169;3;Nature opération récupération NOEMIE Retour

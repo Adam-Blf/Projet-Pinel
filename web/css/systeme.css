@@ -1,0 +1,60 @@
+/*
+ * Pinel - feuille de la page du système de design, chargée par elle seule.
+ *
+ * Elle existe pour une raison de principe : la page qui dit « aucune valeur en
+ * dur dans un écran » ne peut pas se permettre des styles en ligne. Ses
+ * démonstrations ont donc leurs classes, comme le reste de l'application.
+ */
+
+/* ── Nuancier ─────────────────────────────────────────────────────────── */
+.swatch { border-left-width: 3px; }
+.swatch .value { font-size: var(--t-md); }
+
+.swatch[data-section="moulinette"] { border-left-color: var(--c-moulinette); }
+.swatch[data-section="episodes"]   { border-left-color: var(--c-episodes); }
+.swatch[data-section="structure"]  { border-left-color: var(--c-structure); }
+.swatch[data-section="fichcomp"]   { border-left-color: var(--c-fichcomp); }
+.swatch[data-section="identito"]   { border-left-color: var(--c-identito); }
+.swatch[data-section="revue"]      { border-left-color: var(--c-revue); }
+.swatch[data-section="controles"]  { border-left-color: var(--c-controles); }
+.swatch[data-section="dossiers"]   { border-left-color: var(--c-dossiers); }
+.swatch[data-section="journal"]    { border-left-color: var(--c-journal); }
+.swatch[data-section="apropos"]    { border-left-color: var(--c-apropos); }
+
+.swatch[data-section="moulinette"] .value { color: var(--c-moulinette-ink); }
+.swatch[data-section="episodes"] .value   { color: var(--c-episodes-ink); }
+.swatch[data-section="structure"] .value  { color: var(--c-structure-ink); }
+.swatch[data-section="fichcomp"] .value   { color: var(--c-fichcomp-ink); }
+.swatch[data-section="identito"] .value   { color: var(--c-identito-ink); }
+.swatch[data-section="revue"] .value      { color: var(--c-revue-ink); }
+.swatch[data-section="controles"] .value  { color: var(--c-controles-ink); }
+.swatch[data-section="dossiers"] .value   { color: var(--c-dossiers-ink); }
+.swatch[data-section="journal"] .value    { color: var(--c-journal-ink); }
+.swatch[data-section="apropos"] .value    { color: var(--c-apropos-ink); }
+
+/* ── Échelles ─────────────────────────────────────────────────────────── */
+.echelle { display: flex; flex-direction: column; gap: var(--s2); padding: var(--s3) 0; }
+
+.echelle .mesure {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  padding: var(--s1) 0;
+}
+
+.echelle .mesure .nom { width: 4.5rem; flex: none; font-family: var(--font-mono); font-size: var(--t-xs); color: var(--muted); }
+
+.echelle .barre { height: .7rem; border-radius: 999px; background: var(--accent); }
+.echelle .barre[data-espacement="1"] { width: var(--s1); }
+.echelle .barre[data-espacement="2"] { width: var(--s2); }
+.echelle .barre[data-espacement="3"] { width: var(--s3); }
+.echelle .barre[data-espacement="4"] { width: var(--s4); }
+.echelle .barre[data-espacement="5"] { width: var(--s5); }
+.echelle .barre[data-espacement="6"] { width: var(--s6); }
+
+.echelle .exemple[data-taille="xs"]  { font-size: var(--t-xs); }
+.echelle .exemple[data-taille="sm"]  { font-size: var(--t-sm); }
+.echelle .exemple[data-taille="md"]  { font-size: var(--t-md); }
+.echelle .exemple[data-taille="lg"]  { font-size: var(--t-lg); }
+.echelle .exemple[data-taille="xl"]  { font-size: var(--t-xl); }
+.echelle .exemple[data-taille="2xl"] { font-size: var(--t-2xl); }

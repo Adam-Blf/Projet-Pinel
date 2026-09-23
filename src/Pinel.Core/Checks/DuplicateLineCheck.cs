@@ -1,5 +1,6 @@
 using System.Security.Cryptography;
 using System.Text;
+using Pinel.Core.Formats;
 
 namespace Pinel.Core.Checks;
 
@@ -9,34 +10,39 @@ namespace Pinel.Core.Checks;
 /// appended records to an already-submitted file. DRUIDES does not
 /// always reject doublons - OVALIDE inflates the activity without
 /// warning and the valorisation PSY (VAP) is biased upward.
+/// <para>
+/// Exception du RAA : une ligne ne porte ni heure ni identifiant d'acte, deux
+/// entretiens identiques le meme jour donnent deux lignes identiques. Sur un
+/// lot reel accepte par e-PMSI (22/09/2026), 13 % des lignes RAA etaient dans
+/// ce cas. Le volume y reste signale, en avertissement et non en erreur.
+/// </para>
 /// </summary>
 public sealed class DuplicateLineCheck : IFileCheck
 {
-    private static readonly Encoding Latin1 = Encoding.GetEncoding("ISO-8859-1");
 
     public string Name => "Doublons de lignes";
 
     /// <summary>Applies to all fixed-width ATIH formats (null = any).</summary>
     public IReadOnlySet<string>? AppliesTo => null;
 
-    static DuplicateLineCheck()
-    {
-        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-    }
 
     public IEnumerable<CheckFinding> Validate(string filePath, string formatName)
     {
         StreamReader? reader = null;
-        string? ioError = null;
-        try { reader = new StreamReader(filePath, Latin1); }
-        catch (IOException ex) { ioError = ex.Message; }
+        string? readFailure = null;
+        try { reader = new StreamReader(filePath, PmsiEncoding.Latin1); }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            readFailure = FindingRedaction.ReadFailure(ex);
+        }
 
         if (reader is null)
         {
             yield return new CheckFinding(
                 "ERR-IO", CheckSeverity.Blocker,
-                $"Impossible de lire le fichier : {ioError}",
-                filePath, 0, formatName);
+                readFailure ?? FindingRedaction.ReadFailedMessage,
+                filePath, 0, formatName,
+                FixHint: FindingRedaction.ReadFailureHint);
             yield break;
         }
 
@@ -77,11 +83,18 @@ public sealed class DuplicateLineCheck : IFileCheck
 
         if (totalDuplicates > 20)
         {
-            yield return new CheckFinding(
-                "WARN-DOUBLON-BULK", CheckSeverity.Error,
-                $"{totalDuplicates} lignes dupliquées dans le fichier - biais d'activité probable.",
-                filePath, 0, formatName,
-                FixHint: "Dé-dupliquer avant envoi DRUIDES pour ne pas fausser la VAP ou l'indicateur de file active.");
+            bool raa = string.Equals(formatName, "RAA", StringComparison.OrdinalIgnoreCase);
+            yield return raa
+                ? new CheckFinding(
+                    "WARN-DOUBLON-BULK", CheckSeverity.Warning,
+                    $"{totalDuplicates} lignes RAA identiques : actes répétés le même jour, ou export relancé.",
+                    filePath, 0, formatName,
+                    FixHint: "Un RAA ne distingue pas deux actes identiques du même jour : ne dédupliquer qu'après vérification du dossier.")
+                : new CheckFinding(
+                    "ERR-DOUBLON-BULK", CheckSeverity.Error,
+                    $"{totalDuplicates} lignes dupliquées dans le fichier - biais d'activité probable.",
+                    filePath, 0, formatName,
+                    FixHint: "Dé-dupliquer avant envoi DRUIDES pour ne pas fausser la VAP ou l'indicateur de file active.");
         }
     }
 

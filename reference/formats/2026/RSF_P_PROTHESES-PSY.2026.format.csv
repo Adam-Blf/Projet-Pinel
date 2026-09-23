@@ -1,0 +1,22 @@
+# format: RSF_P_PROTHESES-PSY
+# annee: 2026
+# source: formats_psy_2026_0.xlsx
+nom;debut;longueur;libelle
+TYPE_D_ENREGISTREMENT;1;1;Type d'enregistrement
+NUMERO_FINESS_D_INSCRIPTION_EPMSI;2;9;Numéro FINESS d’inscription ePMSI
+FILLER;11;9;Filler
+NUMERO_D_ENTREE;20;9;Numéro d'entrée
+N_IMMATRICULATION_ASSURE;29;13;N° immatriculation assuré
+CLE_DU_N_IMMATRICULATION;42;2;Clé du n° immatriculation
+RANG_DE_BENEFICIAIRE;44;3;Rang de bénéficiaire
+N_DE_FACTURE;47;9;N° de facture
+N_IMMATRICULATION_INDIVIDUEL;56;13;N° immatriculation individuel
+CLE_DU_N_IMMATRICULATION_INDIVIDUEL;69;2;Clé du n° immatriculation individuel
+DATE_DE_DEBUT_DE_SEJOUR;71;8;Date de début de séjour
+CODE_REFERENCE_LPP;79;13;Code référence LPP
+QUANTITE;92;2;Quantité
+TARIF_REFERENCE_LPP_PRIX_UNITAIRE_SUR_DE;94;7;Tarif référence LPP/ Prix Unitaire sur devis
+MONTANT_TOTAL_FACTURE;101;7;Montant total facturé
+PRIX_D_ACHAT_UNITAIRE;108;7;Prix d'achat unitaire
+MONTANT_UNITAIRE_DE_L_ECART_INDEMNISABLE;115;7;Montant unitaire de l'écart indemnisable
+MONTANT_TOTAL_DE_L_ECART_INDEMNISABLE;122;7;Montant total de l'écart indemnisable

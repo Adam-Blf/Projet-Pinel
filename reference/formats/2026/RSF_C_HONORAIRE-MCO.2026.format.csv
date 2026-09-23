@@ -1,0 +1,26 @@
+# format: RSF_C_HONORAIRE-MCO
+# annee: 2026
+# source: formats_mco_2026.xlsx
+# zone-repetee: oui
+nom;debut;longueur;libelle
+TYPE_D_ENREGISTREMENT;1;1;Type d'enregistrement
+NUMERO_FINESS_D_INSCRIPTION_EPMSI;2;9;Numéro FINESS d’inscription ePMSI
+FILLER;11;9;Filler
+NUMERO_DE_RSS;20;20;Numéro de RSS
+N_IMMATRICULATION_ASSURE;40;13;N° immatriculation assuré
+CLE_DU_N_IMMATRICULATION;53;2;Clé du n° immatriculation
+RANG_DE_BENEFICIAIRE;55;3;Rang de bénéficiaire
+N_FACTURE;58;9;N° facture
+N_IMMATRICULATION_INDIVIDUEL;67;13;N° immatriculation individuel
+CLE_DU_N_IMMATRICULATION_INDIVIDUEL;80;2;Clé du n° immatriculation individuel
+MODE_DE_TRAITEMENT;82;2;Mode de traitement
+DISCIPLINE_DE_PRESTATION_EX_DMT;84;3;Discipline de prestation (ex DMT)
+JUSTIFICATION_EXO_TM;87;1;Justification exo TM
+SPECIALITE_EXECUTANT;88;2;Spécialité exécutant
+DATE_DE_L_ACTE;90;8;Date de l'acte
+CODE_ACTE;98;5;Code acte
+QUANTITE;103;2;Quantité
+COEFFICIENT;105;6;Coefficient
+DENOMBREMENT;111;2;Dénombrement
+PRIX_UNITAIRE;113;7;Prix Unitaire
+MONTANT_BASE_REMBOURSEMENT;120;7;Montant Base remboursement

@@ -1,0 +1,6 @@
+# format: HOSP-PMSI
+# annee: 2026
+# source: formats_mco_2026.xlsx
+nom;debut;longueur;libelle
+N_DE_RSS;1;20;N° de RSS
+N_ADMINISTRATIF_DU_SEJOUR;21;20;N° administratif du séjour

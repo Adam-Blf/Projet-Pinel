@@ -1,0 +1,10 @@
+# format: FICHIER_D_INFORMATION_DES_UM-MCO
+# annee: 2026
+# source: formats_mco_2026.xlsx
+nom;debut;longueur;libelle
+N_DE_L_UNITE_MEDICALE;1;4;N° de l’unité médicale
+N_FINESS_GEOGRAPHIQUE;5;9;N° FINESS Géographique
+TYPE_D_AUTORISATION;14;3;Type d’autorisation
+DATE_D_EFFET_DE_L_AUTORISATION;17;8;Date d’effet de l’autorisation
+NOMBRE_DE_LITS;25;3;Nombre de lits
+MODE_D_HOSPITALISATION;28;1;Mode d’hospitalisation

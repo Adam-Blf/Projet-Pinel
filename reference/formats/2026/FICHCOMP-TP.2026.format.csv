@@ -1,0 +1,12 @@
+# format: FICHCOMP-TP
+# annee: 2026
+# source: formats_psy_2026_0.xlsx
+nom;debut;longueur;libelle
+N_FINESS_D_INSCRIPTION_EPMSI;1;9;N° FINESS d’inscription ePMSI
+TYPE_DE_PRESTATION;10;2;Type de prestation
+N_DE_SEJOUR;12;20;N° de séjour
+FORME_D_ACTIVITE;32;4;Forme d'activité
+DATE_DE_VENUE;36;8;Date de venue
+TYPE_DE_VENUE;44;1;Type de venue
+PRESTATION;45;1;Prestation
+MODALITE_DE_LA_VENUE;46;2;Modalité de la venue

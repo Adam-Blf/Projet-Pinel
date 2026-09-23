@@ -1,0 +1,36 @@
+# format: RSF_B_PRESTATIONS_HOSPIT-MCO
+# annee: 2026
+# source: formats_mco_2026.xlsx
+nom;debut;longueur;libelle
+TYPE_D_ENREGISTREMENT;1;1;Type d'enregistrement
+NUMERO_FINESS_D_INSCRIPTION_EPMSI;2;9;Numéro FINESS d’inscription ePMSI
+FILLER;11;9;Filler
+NUMERO_DE_RSS;20;20;Numéro de RSS
+N_IMMATRICULATION_ASSURE;40;13;N° immatriculation assuré
+CLE_DU_N_IMMATRICULATION;53;2;Clé du n° immatriculation
+RANG_DE_BENEFICIAIRE;55;3;Rang de bénéficiaire
+N_DE_FACTURE;58;9;N° de facture
+N_IMMATRICULATION_INDIVIDUEL;67;13;N° immatriculation individuel
+CLE_DU_N_IMMATRICULATION_INDIVIDUEL;80;2;Clé du n° immatriculation individuel
+MODE_DE_TRAITEMENT;82;2;Mode de traitement
+DISCIPLINE_DE_PRESTATION_EX_DMT;84;3;Discipline de prestation (ex DMT)
+JUSTIFICATION_EXONERATION_TM;87;1;Justification exonération TM
+TYPE_DE_PRESTATION_INTERMEDIAIRE;88;1;Type de prestation intermédiaire
+FILLER_2;89;1;Filler
+DATE_DE_DEBUT_DE_SEJOUR;90;8;Date de début de séjour
+DATE_DE_FIN_DE_SEJOUR;98;8;Date de fin de séjour
+CODE_ACTE;106;5;Code acte
+QUANTITE;111;3;Quantité
+COEFFICIENT;114;5;Coefficient
+CODE_DE_PRISE_EN_CHARGE_FJ;119;1;Code de prise en charge FJ
+COEFFICIENT_MCO;120;5;Coefficient MCO
+FILLER_3;125;2;Filler
+PRIX_UNITAIRE;127;7;Prix Unitaire
+MONTANT_BASE_REMBOURSEMENT;134;8;Montant Base remboursement
+TAUX_APPLICABLE_A_LA_PRESTATION;142;3;Taux applicable à la prestation
+MONTANT_REMBOURSABLE_PAR_LA_CAISSE_AMO;145;8;Montant Remboursable par la caisse (AMO)
+MONTANT_TOTAL_DE_LA_DEPENSE;153;8;Montant total de la dépense
+MONTANT_REMBOURSABLE_PAR_L_ORGANISME_COM;161;7;Montant remboursable par l'organisme complémentaire (AMC)
+N_GHS;168;4;N° GHS
+MONTANT_REMBOURSE_NOEMIE_RETOUR;172;8;Montant remboursé NOEMIE Retour
+NATURE_OPERATION_RECUPERATION_NOEMIE_RET;180;3;Nature opération récupération NOEMIE Retour

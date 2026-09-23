@@ -1,0 +1,87 @@
+# format: VID-HOSP
+# annee: 2026
+# source: formats_mco_2026.xlsx
+# zone-repetee: oui
+nom;debut;longueur;libelle
+N_IMMATRICULATION_ASSURE;1;13;N° immatriculation assuré
+CLE_DU_N_IMMATRICULATION;14;2;Clé du N° immatriculation
+CODE_GRAND_REGIME;16;2;Code Grand Régime
+CODE_GESTION;18;2;Code gestion
+DATE_DE_NAISSANCE_DU_BENEFICIAIRE;20;8;Date de naissance du bénéficiaire
+SEXE_DU_BENEFICIAIRE;28;1;Sexe du bénéficiaire
+N_ADMINISTRATIF_DE_SEJOUR;29;20;N° administratif de séjour
+N_FORMAT_VID_HOSP;49;4;N° format VID-HOSP
+N_FINESS_D_INSCRIPTION_E_PMSI;53;9;N° FINESS d’inscription e-PMSI
+N_IMMATRICULATION_INDIVIDUEL;62;13;N° immatriculation individuel
+CLE_DU_N_IMMATRICULATION_INDIVIDUEL;75;2;Clé du N° immatriculation individuel
+JUSTIFICATION_D_EXONERATION_OU_DE_MODULA;77;1;Justification d’exonération ou de modulation du ticket modérateur
+CODE_DE_PRISE_EN_CHARGE_DU_FORFAIT_JOURN;78;1;Code de prise en charge du forfait journalier
+NATURE_D_ASSURANCE;79;2;Nature d’assurance
+TYPE_DE_CONTRAT;81;2;Type de contrat
+SEJOUR_FACTURABLE_A_L_ASSURANCE_MALADIE;83;1;Séjour facturable à l'assurance maladie
+MOTIF_DE_LA_NON_FACTURATION_A_L_ASSURANC;84;1;Motif de la non facturation à l'assurance maladie
+FACTURATION_DU_18;85;1;Facturation du 18 €
+NOMBRE_DE_VENUES_DE_LA_FACTURE;86;4;Nombre de venues de la facture
+MONTANT_A_FACTURER_AU_TITRE_DU_TM;90;10;Montant à facturer au titre du TM
+MONTANT_A_FACTURER_AU_TITRE_DU_FJ;100;10;Montant à facturer au titre du FJ
+MONTANT_TOTAL_DU_SEJOUR_REMBOURSABLE_POU;110;10;Montant total du séjour remboursable pour l'AMO (i.e. hors prestations annexes)
+MONTANT_LIE_A_LA_MAJORATION_AU_PARCOURS;120;4;Montant lié à la majoration au parcours de soins
+MONTANT_BASE_REMBOURSEMENT;124;10;Montant base remboursement
+TAUX_DE_REMBOURSEMENT;134;5;Taux de remboursement
+PATIENT_BENEFICIAIRE_DE_LA_CMU;139;1;Patient bénéficiaire de la CMU
+N_ADMINISTRATIF_DE_SEJOUR_DE_LA_MERE;140;20;N° administratif de séjour de la mère
+HOSPITALISATION_D_UN_NOUVEAU_NE_AUPRES_D;160;1;Hospitalisation d'un nouveau-né auprès de la mère
+HOSPITALISATION_POUR_PRELEVEMENT_D_ORGAN;161;1;Hospitalisation pour prélèvement d'organes
+DATE_DE_L_HOSPITALISATION;162;8;Date de l’hospitalisation
+MONTANT_TOTAL_DU_SEJOUR_REMBOURSABLE_POU_2;170;10;Montant total du séjour remboursable pour l'AMC
+CODE_PARTICIPATION_ASSURE;180;1;Code participation assuré
+N_D_ENTREE;181;9;N° d’entrée
+RANG_DE_NAISSANCE;190;1;Rang de naissance
+RANG_DU_BENEFICIAIRE;191;3;Rang du bénéficiaire
+N_CAISSE_GESTIONNAIRE;194;3;N° caisse gestionnaire
+N_CENTRE_GESTIONNAIRE;197;4;N° centre gestionnaire
+FILLER;201;30;Filler
+CONFIRMATION_DE_LA_PRISE_EN_CHARGE_DANS;231;1;Confirmation de la prise en charge dans le cadre du dispositif des soins urgents
+NUMERO_ACCIDENT_DU_TRAVAIL_OU_DATE_D_ACC;232;9;Numéro accident du travail ou date d’accident de droit commun
+N_D_ORGANISME_COMPLEMENTAIRE;241;10;N° d’organisme complémentaire
+NATURE_DE_LA_PIECE_JUSTIFICATIVE_DES_DRO;251;1;Nature de la pièce justificative des droits
+PRISE_EN_CHARGE_ETABLIE_LE;252;8;Prise en charge établie le
+ATTESTATION_DE_DROITS_CARTE_VITALE_OU_PR;260;8;Attestation de droits, carte Vitale ou prise en charge valable à compter du.
+DELIVREE_PAR;268;3;Délivrée par
+REGIME_DE_PRESTATION_DE_L_ASSURE;271;3;Régime de prestation de l’assuré
+TOP_ECLATEMENT_DES_FLUX_PAR_L_ETABLISSEM;274;1;Top éclatement des flux par l’établissement
+DATE_D_ENTREE;275;8;Date d’entrée
+DATE_DE_SORTIE;283;8;Date de sortie
+MONTANT_TOTAL_DU_SEJOUR_FACTURE_AU_PATIE;291;8;Montant total du séjour facturé au patient
+REJET_AMO;299;1;Rejet AMO
+DATE_DE_FACTURATION_AMO;300;8;Date de facturation AMO
+DATE_DE_FACTURATION_AMC;308;8;Date de facturation AMC
+DATE_DE_FACTURATION_PATIENT;316;8;Date de facturation patient
+DATE_DE_PAIEMENT_AMO;324;8;Date de paiement AMO
+DATE_DE_PAIEMENT_AMC;332;8;Date de paiement AMC
+DATE_DE_PAIEMENT_PATIENT;340;8;Date de paiement patient
+STATUT_FT_AMO;348;1;Statut FT AMO
+STATUT_FT_AMC;349;1;Statut FT AMC
+STATUT_FT_PATIENT;350;1;Statut FT patient
+PAYS_D_ASSURANCE_SOCIAL;351;3;Pays d’assurance social
+NUMERO_D_IDENTIFICATION_PERMANENT_DU_PAT;354;20;Numéro d’identification permanent du patient (IPP)
+IDENTIFIANT_NATIONAL_DE_SANTE_INS;374;15;Identifiant national de santé (INS)
+ART51;389;1;ART51
+COMPLEMENT_AU_NUMERO_DE_TITRE_DE_RECETTE;390;6;Complément au numéro de titre de recette
+TOP_DECLARATION_DE_MEDECIN_TRAITANT;396;1;Top déclaration de médecin traitant
+NOM_DU_MEDECIN_TRAITANT_OU_DU_PRATICIEN;397;25;Nom du médecin traitant ou du praticien qui a orienté le patient
+PRENOM_DU_MEDECIN_TRAITANT_OU_DU_PRATICI;422;15;Prénom du médecin traitant ou du praticien qui a orienté le patient
+INDICATEUR_DU_PARCOURS_DE_SOINS;437;1;Indicateur du parcours de soins
+CMUC_EN_GESTION_UNIQUE;438;1;CMUC en gestion unique
+ETABLISSEMENT_DE_TRANSFERT;439;14;Établissement de Transfert
+ETABLISSEMENT_DE_RETOUR;453;14;Établissement de Retour
+NOMBRE_DE_DISCIPLINES_DE_PRESTATIONS_N;467;4;Nombre de disciplines de prestations (N)
+DMT_N_1_DISCIPLINE_DE_PRESTATIONS_EX_DMT;471;3;DMT n°1: Discipline de prestations (ex DMT)
+MODE_DE_TRAITEMENT;474;2;Mode de traitement
+DATE_DE_DEBUT_DE_SEJOUR;476;8;Date de début de séjour
+DATE_DE_FIN_DE_SEJOUR;484;8;Date de fin de séjour
+QUANTITE;492;3;Quantite
+PRIX_UNITAIRE;495;7;Prix unitaire
+BASE_DE_REMBOURSEMENT;502;8;Base de remboursement
+TAUX_APPLICABLE_A_LA_PRESTATION;510;3;Taux applicable à la prestation
+MONTANT_REMBOURSABLE_PAR_LA_CAISSE;513;8;Montant remboursable par la caisse

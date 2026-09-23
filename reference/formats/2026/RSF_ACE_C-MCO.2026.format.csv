@@ -1,0 +1,32 @@
+# format: RSF_ACE_C-MCO
+# annee: 2026
+# source: formats_mco_2026.xlsx
+nom;debut;longueur;libelle
+TYPE_D_ENREGISTREMENT;1;1;Type d'enregistrement
+NUMERO_FINESS_D_INSCRIPTION_EPMSI;2;9;Numéro FINESS d’inscription ePMSI
+NUMERO_FINESS_GEOGRAPHIQUE;11;9;Numéro FINESS géographique
+N_IMMATRICULATION_ASSURE;20;13;N° immatriculation assuré
+CLE_DU_N_IMMATRICULATION;33;2;Clé du n° immatriculation
+RANG_DE_BENEFICIAIRE;35;3;Rang de bénéficiaire
+N_D_ENTREE;38;9;N° d'entrée
+N_IMMATRICULATION_INDIVIDUEL;47;13;N° immatriculation individuel
+CLE_DU_N_IMMATRICULATION_INDIVIDUEL;60;2;Clé du n° immatriculation individuel
+MODE_DE_TRAITEMENT;62;2;Mode de traitement
+DISCIPLINE_DE_PRESTATION_EX_DMT;64;3;Discipline de prestation (ex DMT)
+JUSTIFICATION_EXO_TM;67;1;Justification exo TM
+SPECIALITE_EXECUTANT;68;2;Spécialité exécutant
+DATE_DES_SOINS;70;8;Date des soins
+CODE_ACTE;78;5;Code acte
+QUANTITE;83;3;Quantité
+COEFFICIENT;86;6;Coefficient
+DENOMBREMENT;92;2;Dénombrement
+PRIX_UNITAIRE;94;7;Prix Unitaire
+MONTANT_BASE_REMBOURSEMENT;101;8;Montant Base remboursement
+TAUX_APPLICABLE_A_LA_PRESTATION;109;3;Taux applicable à la prestation
+MONTANT_REMBOURSABLE_PAR_LA_CAISSE_AMO;112;8;Montant Remboursable par la caisse (AMO)
+MONTANT_DES_HONORAIRE_DEPASSEMENT_COMPRI;120;8;Montant des honoraire (dépassement compris) ou Montant total de la dépense pour PH
+MONTANT_REMBOURSABLE_PAR_L_ORGANISME_COM;128;7;Montant remboursable par l'organisme complémentaire (AMC)
+FILLER;135;11;Filler
+TYPE_D_UNITE_FONCTIONNELLE_DE_CONSULTATI;146;2;Type d’unité fonctionnelle de consultations
+COEFFICIENT_MCO;148;5;Coefficient MCO
+NUMERO_FACTURE;153;9;Numéro facture

@@ -6,86 +6,72 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Pinel</title>
   <link rel="stylesheet" href="fonts/fonts.css">
-  <link rel="stylesheet" href="css/pinel.css">
+  <link rel="stylesheet" href="css/jetons.css">
+  <link rel="stylesheet" href="css/mise-en-page.css">
+  <link rel="stylesheet" href="css/composants.css">
+  <link rel="stylesheet" href="css/accents.css">
+  <link rel="stylesheet" href="css/accessibilite.css">
+  <link rel="icon" href="icons/favicon.png">
+  <script src="js/theme.js"></script>
 </head>
 
 <body>
+  <a class="skip-link" href="#contenu-principal">Aller au contenu principal</a>
+
   <div class="app">
     <aside class="sidebar">
       <div class="brand">
         <h1>Pinel</h1>
-        <p>GHT Psy Sud Paris<br>Département d'Information Médicale</p>
+        <p id="brand-etablissement">Département d'information médicale</p>
       </div>
 
-      <nav class="nav" aria-label="Navigation principale">
-        <div class="nav-group">Traitement des données PMSI</div>
-        <button class="nav-item" data-view="moulinette" aria-current="page">
-          <span class="chip"><span class="i" data-icon="file-down"></span></span> Conversion des formats ATIH
-          <span class="badge" id="badge-fichiers">0</span>
-        </button>
-        <button class="nav-item" data-view="episodes">
-          <span class="chip"><span class="i" data-icon="history"></span></span> Épisodes de prise en charge
-        </button>
-        <button class="nav-item" data-view="structure">
-          <span class="chip"><span class="i" data-icon="git-branch"></span></span> Structure du GHT
-        </button>
-        <button class="nav-item" data-view="fichcomp">
-          <span class="chip"><span class="i" data-icon="table-2"></span></span> Fichiers complémentaires
-        </button>
+      <nav class="nav-shell" aria-label="Navigation principale">
+        <div class="nav" role="tablist" aria-orientation="vertical">
+          <div class="nav-group" role="presentation">Traitement des données PMSI</div>
+          <button class="nav-item" role="tab" id="tab-moulinette" data-view="moulinette" aria-controls="view-moulinette" aria-selected="true" tabindex="0"><span class="chip"><span class="i" data-icon="file-arrow-down"></span></span> Conversion des formats ATIH <span class="badge" id="badge-fichiers">0</span></button>
+          <button class="nav-item" role="tab" id="tab-episodes" data-view="episodes" aria-controls="view-episodes" aria-selected="false" tabindex="-1"><span class="chip"><span class="i" data-icon="clock-counter-clockwise"></span></span> Épisodes de prise en charge</button>
+          <button class="nav-item" role="tab" id="tab-structure" data-view="structure" aria-controls="view-structure" aria-selected="false" tabindex="-1"><span class="chip"><span class="i" data-icon="tree-structure"></span></span> Structure du GHT</button>
+          <button class="nav-item" role="tab" id="tab-fichcomp" data-view="fichcomp" aria-controls="view-fichcomp" aria-selected="false" tabindex="-1"><span class="chip"><span class="i" data-icon="ambulance"></span></span> Transports et fichiers complémentaires</button>
 
-        <div class="nav-group">Qualité et conformité</div>
-        <button class="nav-item" data-view="identito">
-          <span class="chip"><span class="i" data-icon="users-2"></span></span> Identitovigilance
-          <span class="badge" id="badge-conflits">0</span>
-        </button>
-        <button class="nav-item" data-view="controles">
-          <span class="chip"><span class="i" data-icon="check-circle"></span></span> Contrôles qualité
-        </button>
+          <div class="nav-group" role="presentation">Qualité et conformité</div>
+          <button class="nav-item" role="tab" id="tab-identito" data-view="identito" aria-controls="view-identito" aria-selected="false" tabindex="-1"><span class="chip"><span class="i" data-icon="identification-card"></span></span> Identitovigilance <span class="badge" id="badge-conflits">0</span></button>
+          <button class="nav-item" role="tab" id="tab-revue" data-view="revue" aria-controls="view-revue" aria-selected="false" tabindex="-1"><span class="chip"><span class="i" data-icon="list-checks"></span></span> Revue des corrections <span class="badge" id="badge-revue">0</span></button>
+          <button class="nav-item" role="tab" id="tab-controles" data-view="controles" aria-controls="view-controles" aria-selected="false" tabindex="-1"><span class="chip"><span class="i" data-icon="list-checks"></span></span> Contrôles qualité</button>
 
-        <div class="nav-group">Configuration</div>
-        <button class="nav-item" data-view="dossiers">
-          <span class="chip"><span class="i" data-icon="folders"></span></span> Emplacements autorisés
-        </button>
-        <button class="nav-item" data-view="journal">
-          <span class="chip"><span class="i" data-icon="info"></span></span> Traçabilité
-        </button>
+          <div class="nav-group" role="presentation">Configuration</div>
+          <button class="nav-item" role="tab" id="tab-dossiers" data-view="dossiers" aria-controls="view-dossiers" aria-selected="false" tabindex="-1"><span class="chip"><span class="i" data-icon="folder-lock"></span></span> Emplacements autorisés</button>
+          <button class="nav-item" role="tab" id="tab-journal" data-view="journal" aria-controls="view-journal" aria-selected="false" tabindex="-1"><span class="chip"><span class="i" data-icon="scroll"></span></span> Traçabilité</button>
+          <button class="nav-item" role="tab" id="tab-apropos" data-view="apropos" aria-controls="view-apropos" aria-selected="false" tabindex="-1"><span class="chip"><span class="i" data-icon="info"></span></span> À propos</button>
+        </div>
       </nav>
 
       <div class="sidebar-foot">
         <span id="version">Version 1.0.0</span>
+        <span class="spacer"></span>
+        <button class="icon-btn" id="btn-theme" type="button" aria-label="Changer de thème"><span class="i" data-icon="moon"></span></button>
       </div>
     </aside>
 
-    <main class="main">
+    <main class="main" id="contenu-principal" tabindex="-1">
       <header class="topbar">
         <div>
           <h2 id="view-title">Conversion des formats ATIH</h2>
-          <p id="view-subtitle">Chantier 1 - rendre les fichiers ATIH exploitables en CSV</p>
+          <p id="view-subtitle">Cahier des charges DIM, point 1 - fichiers au format national convertis en CSV exploitable</p>
         </div>
         <div class="spacer"></div>
-        <button class="btn ghost" id="btn-reset" type="button">
-          <span class="i" data-icon="power"></span> Réinitialiser
-        </button>
+        <button class="btn ghost" id="btn-reset" type="button"><span class="i" data-icon="arrow-counter-clockwise"></span> Réinitialiser</button>
       </header>
 
-      <!-- ── Moulinette ─────────────────────────────────────────────── -->
-      <section class="view stack" id="view-moulinette">
+      <!-- ── Conversion des formats ATIH ───────────────────────────────── -->
+      <section class="view stack" id="view-moulinette" role="tabpanel" aria-labelledby="tab-moulinette" tabindex="0">
         <div class="card">
           <h3>Dossiers à traiter</h3>
           <p class="hint">Les fichiers sont lus dans les dossiers de travail autorisés. Le traitement reste sur le poste.</p>
           <div class="row">
-            <button class="btn" id="btn-ajouter-dossier" type="button">
-              <span class="i" data-icon="folder-plus"></span> Ajouter un dossier
-            </button>
-            <button class="btn secondary" id="btn-scanner" type="button">
-              <span class="i" data-icon="search"></span> Scanner
-            </button>
-            <button class="btn secondary" id="btn-traiter" type="button">
-              <span class="i" data-icon="zap"></span> Traiter
-            </button>
-            <button class="btn" id="btn-export-csv" type="button">
-              <span class="i" data-icon="download"></span> Exporter en CSV
-            </button>
+            <button class="btn" id="btn-ajouter-dossier" type="button"><span class="i" data-icon="folder-plus"></span> Ajouter un dossier</button>
+            <button class="btn secondary" id="btn-scanner" type="button"><span class="i" data-icon="magnifying-glass"></span> Scanner</button>
+            <button class="btn secondary" id="btn-traiter" type="button"><span class="i" data-icon="lightning"></span> Traiter</button>
+            <button class="btn" id="btn-export-csv" type="button"><span class="i" data-icon="download-simple"></span> Exporter en CSV</button>
           </div>
         </div>
 
@@ -95,9 +81,7 @@
           <h3>Fichiers reconnus</h3>
           <div class="table-wrap">
             <table>
-              <thead>
-                <tr><th>Fichier</th><th>Format</th><th class="num">Taille (Ko)</th><th>Descriptif</th></tr>
-              </thead>
+              <thead><tr><th>Fichier</th><th>Format</th><th class="num">Taille (Ko)</th><th>Descriptif</th></tr></thead>
               <tbody id="tbody-fichiers">
                 <tr><td colspan="4" class="empty">Aucun fichier. Ajoutez un dossier puis lancez le scan.</td></tr>
               </tbody>
@@ -107,24 +91,19 @@
       </section>
 
       <!-- ── Épisodes ───────────────────────────────────────────────── -->
-      <section class="view stack" id="view-episodes" hidden>
+      <section class="view stack" id="view-episodes" role="tabpanel" aria-labelledby="tab-episodes" tabindex="0" hidden>
         <div class="card">
           <h3>Règle de continuité</h3>
-          <p class="hint">
-            Un épisode regroupe les journées consécutives d'un même patient, dans une même unité médicale et un même
-            site. Le recueil étant annuel, un épisode se ferme au 31 décembre.
-          </p>
+          <p class="hint">Un épisode regroupe les journées consécutives d'un même patient, dans une même unité médicale et un même site. Le recueil étant annuel, un épisode se ferme au 31 décembre.</p>
           <div class="row">
             <label class="check">Tolérance
-              <input type="number" id="episode-tolerance" value="0" min="0" max="30" style="width:5rem">
+              <input type="number" id="episode-tolerance" value="0" min="0" max="30" class="narrow">
               jour(s) sans venue
             </label>
             <label class="check"><input type="checkbox" id="episode-um" checked> Rupture au changement d'UM</label>
             <label class="check"><input type="checkbox" id="episode-site" checked> Rupture au changement de site</label>
             <label class="check"><input type="checkbox" id="episode-annee" checked> Fermeture au 31 décembre</label>
-            <button class="btn" id="btn-episodes" type="button">
-              <span class="i" data-icon="history"></span> Calculer les épisodes
-            </button>
+            <button class="btn" id="btn-episodes" type="button"><span class="i" data-icon="clock-counter-clockwise"></span> Calculer les épisodes</button>
           </div>
         </div>
 
@@ -134,10 +113,7 @@
           <h3>Aperçu</h3>
           <div class="table-wrap">
             <table>
-              <thead>
-                <tr><th>Épisode</th><th>IPP</th><th>UM</th><th>Site</th><th>Début</th><th>Fin</th>
-                  <th class="num">Venues</th><th class="num">Durée</th></tr>
-              </thead>
+              <thead><tr><th>Épisode</th><th>IPP</th><th>UM</th><th>Site</th><th>Début</th><th>Fin</th><th class="num">Venues</th><th class="num">Durée</th></tr></thead>
               <tbody id="tbody-episodes">
                 <tr><td colspan="8" class="empty">Traitez un lot RAA ou RPS, puis lancez le calcul.</td></tr>
               </tbody>
@@ -147,112 +123,170 @@
       </section>
 
       <!-- ── Structure ──────────────────────────────────────────────── -->
-      <section class="view stack" id="view-structure" hidden>
+      <section class="view stack" id="view-structure" role="tabpanel" aria-labelledby="tab-structure" tabindex="0" hidden>
         <div class="card">
           <h3>Fichier de structure du GHT</h3>
           <p class="hint">CSV ou TSV. Les colonnes sont reconnues même si les intitulés varient.</p>
           <div class="row">
-            <button class="btn" id="btn-structure" type="button">
-              <span class="i" data-icon="git-branch"></span> Choisir le fichier
-            </button>
+            <button class="btn" id="btn-structure" type="button"><span class="i" data-icon="tree-structure"></span> Choisir le fichier</button>
           </div>
         </div>
-        <div class="card" id="card-structure"><div class="empty">Aucune structure chargée.</div></div>
+        <div class="card" id="card-structure">
+          <div class="empty">Aucune structure chargée. Choisissez le fichier de structure du GHT ci-dessus.</div>
+        </div>
       </section>
 
-      <!-- ── FICHCOMP ───────────────────────────────────────────────── -->
-      <section class="view stack" id="view-fichcomp" hidden>
+      <!-- ── Transports et fichiers complémentaires ────────────────────── -->
+      <section class="view stack" id="view-fichcomp" role="tabpanel" aria-labelledby="tab-fichcomp" tabindex="0" hidden>
         <div class="card">
           <h3>Classeur transports</h3>
-          <p class="hint">
-            Retire les blocs d'en-tête répétés, propage la date de commande sur les lignes vides, et conserve
-            l'original avec les lignes retirées en rouge. Le fichier d'origine n'est jamais modifié.
-          </p>
+          <p class="hint">Retire les blocs d'en-tête répétés, propage la date de commande sur les lignes vides, et conserve l'original avec les lignes retirées en rouge. Le fichier d'origine n'est jamais modifié.</p>
           <div class="row">
-            <button class="btn" id="btn-fichcomp-nettoyer" type="button">
-              <span class="i" data-icon="table-2"></span> Nettoyer un classeur
-            </button>
+            <button class="btn" id="btn-fichcomp-nettoyer" type="button"><span class="i" data-icon="ambulance"></span> Nettoyer un classeur transports</button>
           </div>
         </div>
         <div class="card">
           <h3>Contrôle d'un fichier complémentaire</h3>
           <p class="hint">Longueur de ligne, FINESS, code, quantité et date au format attendu.</p>
           <div class="row">
+            <label class="field-label" for="fichcomp-type">Type de fichier</label>
             <select id="fichcomp-type">
               <option value="med">Médicaments - 53 caractères</option>
               <option value="dmi">Dispositifs médicaux - 50 caractères</option>
             </select>
-            <button class="btn secondary" id="btn-fichcomp-controler" type="button">
-              <span class="i" data-icon="check-circle"></span> Contrôler un fichier
-            </button>
+            <button class="btn secondary" id="btn-fichcomp-controler" type="button"><span class="i" data-icon="check-circle"></span> Contrôler un fichier</button>
           </div>
         </div>
-        <div class="card" id="card-fichcomp"><div class="empty">Aucun traitement lancé.</div></div>
+        <div class="card" id="card-fichcomp">
+          <div class="empty">Aucun traitement lancé. Nettoyez un classeur transports ou contrôlez un fichier complémentaire ci-dessus.</div>
+        </div>
       </section>
 
       <!-- ── Identitovigilance ──────────────────────────────────────── -->
-      <section class="view stack" id="view-identito" hidden>
+      <section class="view stack" id="view-identito" role="tabpanel" aria-labelledby="tab-identito" tabindex="0" hidden>
         <div class="card">
           <h3>Conflits de date de naissance</h3>
           <p class="hint">Un même identifiant patient portant plusieurs dates de naissance casse le chaînage.</p>
           <div class="row">
-            <button class="btn secondary" id="btn-collisions" type="button">
-              <span class="i" data-icon="users-2"></span> Actualiser
-            </button>
-            <button class="btn" id="btn-export-identite" type="button">
-              <span class="i" data-icon="download"></span> Exporter en CSV
-            </button>
+            <button class="btn secondary" id="btn-collisions" type="button"><span class="i" data-icon="arrow-counter-clockwise"></span> Actualiser</button>
+            <button class="btn" id="btn-export-identite" type="button"><span class="i" data-icon="download-simple"></span> Exporter en CSV</button>
           </div>
         </div>
         <div class="card">
           <div class="table-wrap">
             <table>
-              <thead>
-                <tr><th>IPP</th><th>Date retenue</th><th>Dates observées</th><th class="num">Occurrences</th></tr>
-              </thead>
+              <thead><tr><th>IPP</th><th>Date retenue</th><th>Dates observées</th><th class="num">Occurrences</th></tr></thead>
               <tbody id="tbody-collisions">
-                <tr><td colspan="4" class="empty">Aucun conflit détecté.</td></tr>
+                <tr><td colspan="4" class="empty">Aucune vérification lancée. Cliquez sur Actualiser pour rechercher les conflits.</td></tr>
               </tbody>
             </table>
           </div>
         </div>
       </section>
 
-      <!-- ── Contrôles ──────────────────────────────────────────────── -->
-      <section class="view stack" id="view-controles" hidden>
+      <!-- ── Revue des corrections ──────────────────────────────────── -->
+      <section class="view stack" id="view-revue" role="tabpanel" aria-labelledby="tab-revue" tabindex="0" hidden>
         <div class="card">
-          <h3>Contrôles sur le lot</h3>
-          <p class="hint">
-            FINESS, format de date de naissance, identifiant en clair dans un fichier anonymisé, NIR de chaînage,
-            lignes en double, cohérence de l'année du fichier.
-          </p>
+          <h3>Corrections apprises de vos propres corrections</h3>
+          <p class="hint">Pinel compare vos fichiers d'origine à ceux que vous avez corrigés à la main, et en tire des règles. Une règle validée est proposée sur les lots suivants ; tant qu'elle est proposée, elle ne touche à rien.</p>
           <div class="row">
-            <button class="btn" id="btn-controles" type="button">
-              <span class="i" data-icon="check-circle"></span> Lancer les contrôles
-            </button>
+            <button class="btn secondary" id="btn-revue-recharger" type="button"><span class="i" data-icon="arrow-counter-clockwise"></span> Actualiser</button>
+            <button class="btn" id="btn-revue-suggestions" type="button"><span class="i" data-icon="magnifying-glass"></span> Chercher dans les dossiers de travail</button>
           </div>
         </div>
-        <div class="card" id="card-controles"><div class="empty">Aucun contrôle lancé.</div></div>
+
+        <div class="grid cols-4" id="kpi-revue"></div>
+
+        <div class="card">
+          <h3>Règles</h3>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Correction</th><th class="num">Confiance</th><th class="num">Cas</th><th>État</th><th><span class="sr-only">Décision</span></th></tr></thead>
+              <tbody id="tbody-regles">
+                <tr><td colspan="5" class="empty">Aucune règle apprise pour l'instant. Elles apparaissent après un apprentissage sur vos fichiers corrigés.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card" id="card-suggestions">
+          <h3>Lignes concernées dans les dossiers de travail</h3>
+          <div class="empty">Cliquez sur Chercher dans les dossiers de travail pour compter les lignes que chaque règle toucherait.</div>
+        </div>
+
+        <div class="card">
+          <h3>Lignes que le modèle signale</h3>
+          <p class="hint" id="revue-modele">Aucun modèle entraîné sur ce poste.</p>
+          <div class="row">
+            <button class="btn secondary" id="btn-revue-lignes" type="button"><span class="i" data-icon="list-checks"></span> Relever les lignes à revoir</button>
+          </div>
+          <div id="card-lignes-a-revoir"></div>
+        </div>
+      </section>
+
+      <!-- ── Contrôles ──────────────────────────────────────────────── -->
+      <section class="view stack" id="view-controles" role="tabpanel" aria-labelledby="tab-controles" tabindex="0" hidden>
+        <div class="card">
+          <h3>Contrôles sur le lot</h3>
+          <p class="hint">FINESS, format de date de naissance, identifiant en clair dans un fichier anonymisé, NIR de chaînage, lignes en double, cohérence de l'année du fichier.</p>
+          <div class="row">
+            <button class="btn" id="btn-controles" type="button"><span class="i" data-icon="check-circle"></span> Lancer les contrôles</button>
+          </div>
+        </div>
+        <div class="card" id="card-controles">
+          <div class="empty">Aucun contrôle lancé. Cliquez sur Lancer les contrôles pour vérifier le lot.</div>
+        </div>
       </section>
 
       <!-- ── Dossiers de travail ────────────────────────────────────── -->
-      <section class="view stack" id="view-dossiers" hidden>
+      <section class="view stack" id="view-dossiers" role="tabpanel" aria-labelledby="tab-dossiers" tabindex="0" hidden>
         <div class="card">
           <h3>Dossiers autorisés</h3>
-          <p class="hint">
-            Pinel ne lit et n'écrit que dans ces dossiers. Ils peuvent être locaux, sur un lecteur réseau monté ou
-            sur un partage du GHT.
-          </p>
+          <p class="hint">Pinel ne lit et n'écrit que dans ces dossiers. Ils peuvent être locaux, sur un lecteur réseau monté ou sur un partage du GHT.</p>
           <div class="row">
-            <button class="btn" id="btn-dossier-ajouter" type="button">
-              <span class="i" data-icon="folder-plus"></span> Ajouter un dossier
-            </button>
+            <button class="btn" id="btn-dossier-ajouter" type="button"><span class="i" data-icon="folder-plus"></span> Ajouter un dossier</button>
           </div>
-          <div class="table-wrap" style="margin-top:var(--s3)">
+          <div class="table-wrap mt-3">
             <table>
-              <thead><tr><th>Dossier</th><th></th></tr></thead>
-              <tbody id="tbody-dossiers"></tbody>
+              <thead><tr><th>Dossier</th><th><span class="sr-only">Actions</span></th></tr></thead>
+              <tbody id="tbody-dossiers">
+                <tr><td colspan="2" class="empty">Aucun dossier ajouté. Ajoutez un dossier pour autoriser Pinel à y lire et à y écrire.</td></tr>
+              </tbody>
             </table>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Établissement</h3>
+          <p class="hint">Ces valeurs figurent telles quelles dans les fichiers transmis. Elles sont propres à votre établissement : Pinel n'en suppose aucune.</p>
+          <div class="grid cols-2">
+            <div class="field">
+              <label class="field-label" for="etab-nom">Nom affiché</label>
+              <input type="text" id="etab-nom" placeholder="CH de … - Département d'information médicale">
+            </div>
+            <div class="field">
+              <label class="field-label" for="etab-finess-epmsi">FINESS d'inscription e-PMSI</label>
+              <input type="text" id="etab-finess-epmsi" inputmode="numeric" maxlength="9" placeholder="9 chiffres">
+            </div>
+            <div class="field">
+              <label class="field-label" for="etab-finess-geo">FINESS géographique</label>
+              <input type="text" id="etab-finess-geo" inputmode="numeric" maxlength="9" placeholder="9 chiffres">
+            </div>
+            <div class="field">
+              <label class="field-label" for="etab-prestation">Type de prestation (transports)</label>
+              <input type="text" id="etab-prestation" maxlength="2" placeholder="ex. 17">
+            </div>
+            <div class="field">
+              <label class="field-label" for="etab-forfait">Code forfait (transports)</label>
+              <input type="text" id="etab-forfait" maxlength="8" placeholder="ex. ST2">
+            </div>
+            <div class="field">
+              <label class="field-label" for="etab-distance">Classe de distance (transports)</label>
+              <input type="text" id="etab-distance" maxlength="2" placeholder="ex. 06">
+            </div>
+          </div>
+          <div class="row mt-3">
+            <button class="btn" id="btn-etab-enregistrer" type="button"><span class="i" data-icon="check-circle"></span> Enregistrer</button>
           </div>
         </div>
 
@@ -260,31 +294,82 @@
           <div class="card">
             <h3>Dossier de sortie</h3>
             <p class="hint">Destination des CSV, des exports et des classeurs nettoyés.</p>
-            <p class="path" id="dossier-sortie">—</p>
+            <p class="path" id="dossier-sortie">Non défini</p>
             <button class="btn secondary" id="btn-dossier-sortie" type="button">Changer</button>
           </div>
           <div class="card">
             <h3>Descriptifs de format</h3>
-            <p class="hint">
-              Dossier où déposer les descriptifs officiels, un fichier par format et par année. Les formats changent
-              tous les ans, aucune mise à jour de l'application n'est nécessaire.
-            </p>
-            <p class="path" id="dossier-formats">—</p>
+            <p class="hint">Dossier où déposer les descriptifs officiels, un fichier par format et par année. Les formats changent tous les ans, aucune mise à jour de l'application n'est nécessaire.</p>
+            <p class="path" id="dossier-formats">Non défini</p>
             <button class="btn secondary" id="btn-dossier-formats" type="button">Changer</button>
           </div>
         </div>
       </section>
 
       <!-- ── Journal ────────────────────────────────────────────────── -->
-      <section class="view stack" id="view-journal" hidden>
+      <section class="view stack" id="view-journal" role="tabpanel" aria-labelledby="tab-journal" tabindex="0" hidden>
         <div class="card">
           <h3>Journal d'audit</h3>
           <p class="hint">Trace horodatée des opérations sensibles. Aucune donnée patient n'y figure.</p>
-          <p class="path" id="chemin-audit">—</p>
+          <p class="path" id="chemin-audit">Non défini</p>
         </div>
         <div class="card">
           <h3>Journal de session</h3>
           <div class="log" id="journal">En attente…</div>
+        </div>
+      </section>
+
+      <!-- ── À propos ───────────────────────────────────────────────── -->
+      <section class="view stack" id="view-apropos" role="tabpanel" aria-labelledby="tab-apropos" tabindex="0" hidden>
+        <div class="card">
+          <h3>Pinel</h3>
+          <p class="hint">Traitement des fichiers PMSI pour un département d'information médicale.</p>
+          <p><span id="apropos-version">Version 1.0.0</span></p>
+        </div>
+
+        <div class="card">
+          <h3>Licence</h3>
+          <p class="hint">Pinel s'utilise sous licence, rattachée au FINESS d'inscription e-PMSI de votre établissement. La vérification est locale : aucun appel vers l'extérieur, et un poste sans réseau reste autonome.</p>
+          <p id="licence-etat">Vérification…</p>
+          <p class="path" id="licence-detail"></p>
+          <div class="row">
+            <button class="btn secondary" id="btn-licence-importer" type="button"><span class="i" data-icon="folder-lock"></span> Importer une licence</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Mise à jour</h3>
+          <p class="hint">Pinel s'installe sous votre profil, sans droits d'administration, et se met à jour depuis un dossier du réseau du GHT. Aucun accès à internet n'est nécessaire.</p>
+          <p id="maj-etat">Vérification…</p>
+          <p class="path" id="maj-dossier">Aucun dossier de mise à jour configuré.</p>
+          <div class="row">
+            <button class="btn secondary" id="btn-maj-verifier" type="button"><span class="i" data-icon="arrow-counter-clockwise"></span> Vérifier</button>
+            <button class="btn secondary" id="btn-maj-dossier" type="button"><span class="i" data-icon="folder-lock"></span> Choisir le dossier</button>
+            <button class="btn" id="btn-maj-installer" type="button" hidden><span class="i" data-icon="download-simple"></span> Installer et redémarrer</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Icônes</h3>
+          <p class="hint">Les pictogrammes de la navigation et des boutons proviennent de Phosphor Icons, distribués sous licence MIT.</p>
+          <details class="disclosure" data-licence="legal/phosphor-mit.txt">
+            <summary>Lire le texte de la licence MIT (Phosphor Icons)</summary>
+            <pre class="license-text">Chargement du texte de la licence…</pre>
+          </details>
+        </div>
+
+        <div class="card">
+          <h3>Polices</h3>
+          <p class="hint">La police Montserrat est utilisée sous licence SIL Open Font License 1.1.</p>
+          <details class="disclosure" data-licence="legal/montserrat-ofl.txt">
+            <summary>Lire le texte de la licence SIL OFL 1.1 (Montserrat)</summary>
+            <pre class="license-text">Chargement du texte de la licence…</pre>
+          </details>
+        </div>
+
+        <div class="card">
+          <h3>Bibliothèques tierces</h3>
+          <p class="hint">ClosedXML, utilisée pour la lecture et l'écriture des classeurs Excel, est distribuée sous licence MIT.</p>
         </div>
       </section>
     </main>
@@ -292,7 +377,20 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
-  <script src="js/pinel.js"></script>
+  <script src="js/core-dom.js"></script>
+  <script src="js/core-api.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="js/vue-moulinette.js"></script>
+  <script src="js/vue-episodes.js"></script>
+  <script src="js/vue-structure.js"></script>
+  <script src="js/vue-fichcomp.js"></script>
+  <script src="js/vue-identito.js"></script>
+  <script src="js/vue-revue.js"></script>
+  <script src="js/vue-controles.js"></script>
+  <script src="js/vue-reglages.js"></script>
+  <script src="js/vue-journal.js"></script>
+  <script src="js/vue-apropos.js"></script>
+  <script src="js/app.js"></script>
 </body>
 
 </html>

@@ -34,9 +34,16 @@ DxCare, ni PMSI-Pilot, ni BIQuery. Il lit des fichiers déjà extraits et produi
 des fichiers. Le dépôt aux tutelles reste manuel.
 
 Le service HTTP interne n'écoute que sur 127.0.0.1, jamais sur une interface
-réseau. Aucune télémétrie, aucune recherche de mise à jour, aucun appel à un
-service externe. L'interface n'appelle aucun CDN : polices et icônes sont
-embarquées, l'application fonctionne à l'identique sur un poste coupé du réseau.
+réseau. Aucune télémétrie, aucune recherche de mise à jour, aucun appel de
+contrôle ou de vérification vers l'extérieur. L'interface n'appelle aucun CDN :
+polices et icônes sont embarquées, l'application fonctionne à l'identique sur un
+poste coupé du réseau.
+
+La conversion d'une page HTML en PDF charge la page dans un navigateur embarqué
+(WebView2) qui exécute les scripts présents dans le HTML. Si le HTML contient des
+appels externes (chargement de Web Fonts depuis un serveur tiers, traceurs, etc.),
+ceux-ci seraient effectués. Le DIM doit donc soumettre uniquement des HTML
+nettoyés et sans dépendances externes.
 
 ---
 
@@ -78,8 +85,8 @@ d'être autorisés.
 | Origines | Restreintes à l'origine interne de l'interface |
 | En-têtes | `Cache-Control: no-store`, `X-Content-Type-Options: nosniff` |
 | Injection de formule | Valeurs CSV commençant par un caractère interprété par Excel neutralisées |
-| Fuite technique | Aucun détail d'exception renvoyé à l'interface |
-| Écrasement | Un fichier de sortie n'écrase jamais un fichier existant |
+| Fuite technique | La plupart des endpoints capturent les erreurs courantes. Les exceptions non gérées peuvent renvoyer un détail technique selon la configuration ASP.NET Core. Recommandation : activer le mode Production et tester avec la gestion d'erreurs activée. |
+| Écrasement | Si un fichier de sortie de même nom existe déjà, il sera écrasé. Le DIM doit gérer l'organisation de ses dossiers de sortie. |
 
 L'exigence d'un en-tête d'autorisation déclenche une vérification préalable du
 navigateur : une page web tierce ne peut pas déclencher d'action sur le service

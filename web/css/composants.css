@@ -1,0 +1,256 @@
+/*
+ * Pinel - composants réutilisables : cartes, boutons, champs, tableaux,
+ * badges, notification. Les transitions sont courtes (150 ms) et
+ * désactivées globalement pour qui préfère moins de mouvement, voir
+ * accessibilite.css.
+ */
+
+/* ── Cartes et grilles ────────────────────────────────────────────────── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  padding: var(--s4);
+}
+
+.card h3 {
+  margin: 0 0 var(--s1);
+  font-size: var(--t-md);
+  font-weight: 700;
+  color: var(--accent-ink);
+}
+
+.card .hint { margin: 0 0 var(--s3); font-size: var(--t-sm); color: var(--muted); }
+
+.grid { display: grid; gap: var(--s3); }
+.grid.cols-2 { grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr)); }
+.grid.cols-4 { grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); }
+
+/* La bordure générale est posée AVANT le filet gauche : la propriété
+   raccourcie "border" écrase tout "border-left" déclaré plus haut. */
+.kpi {
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 6%, var(--surface)), var(--surface));
+  border-radius: var(--radius);
+  padding: var(--s3);
+}
+
+.kpi .label { font-size: var(--t-xs); text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+.kpi .value { font-variant-numeric: tabular-nums; font-size: var(--t-2xl); font-weight: 700; line-height: 1.2; color: var(--accent-ink); }
+
+/* ── Contrôles ────────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s2);
+  min-height: 2.75rem;
+  padding: var(--s2) var(--s4);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  background: var(--accent);
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--dur) ease, border-color var(--dur) ease, transform var(--dur) var(--ease-out);
+}
+
+.btn:hover { background: color-mix(in srgb, var(--accent) 82%, #000); border-color: transparent; }
+.btn:active { transform: scale(.98); }
+.btn[disabled] { opacity: .5; cursor: not-allowed; }
+
+/* Traitement en cours : api.guard pose aria-busy et désactive le bouton le
+   temps de l'appel, ce qui empêche un double clic de lancer deux lots. */
+.btn[aria-busy="true"] { opacity: 1; cursor: progress; }
+.btn[aria-busy="true"] .i {
+  -webkit-mask-image: url("../icons/circle-notch.svg") !important;
+  mask-image: url("../icons/circle-notch.svg") !important;
+  animation: spin .8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.btn.secondary {
+  background: transparent;
+  color: var(--accent-ink);
+  border-color: color-mix(in srgb, var(--accent-ink) 45%, var(--line));
+}
+
+.btn.secondary:hover { background: color-mix(in srgb, var(--accent) 10%, transparent); }
+.btn.ghost { background: transparent; border-color: var(--line); color: var(--ink); }
+.btn.ghost:hover { background: var(--canvas); }
+.btn.small { min-height: 2.25rem; padding: var(--s1) var(--s3); font-size: var(--t-sm); }
+
+.row { display: flex; flex-wrap: wrap; gap: var(--s2); align-items: center; }
+
+label.check { display: inline-flex; align-items: center; gap: var(--s2); font-size: var(--t-sm); cursor: pointer; }
+
+input[type="checkbox"] { width: 1.1rem; height: 1.1rem; accent-color: var(--accent); cursor: pointer; }
+
+/* ── Champ de formulaire ───────────────────────────────────────────────
+   Un champ est une etiquette au-dessus de sa saisie, et la saisie occupe la
+   largeur offerte. Poser la largeur au cas par cas, en style en ligne, donnait
+   des colonnes de largeurs differentes dans une meme grille. */
+.field { display: flex; flex-direction: column; gap: var(--s1); min-width: 0; }
+.field input, .field select, .field textarea { width: 100%; }
+.field .hint { margin: var(--s1) 0 0; font-size: var(--t-xs); color: var(--muted); }
+
+.field-label {
+  display: block;
+  margin-bottom: var(--s1);
+  font-size: var(--t-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--muted);
+}
+
+input[type="text"], input[type="number"], select {
+  min-height: 2.75rem;
+  padding: var(--s2) var(--s3);
+  border: 1px solid var(--field-border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  min-width: 0;
+  transition: border-color var(--dur) ease;
+}
+
+input[type="text"]:hover, input[type="number"]:hover, select:hover { border-color: var(--accent-ink); }
+input.narrow { width: 5rem; }
+
+/* ── Tableaux ─────────────────────────────────────────────────────────── */
+/* Le conteneur défile dans les deux sens et borne sa hauteur : l'en-tête
+   collant reste visible sur les 200 lignes d'anomalies d'un lot. */
+.table-wrap { overflow: auto; max-height: 34rem; border: 1px solid var(--line); border-radius: var(--radius); }
+
+table { width: 100%; border-collapse: collapse; font-size: var(--t-sm); }
+
+th, td { padding: var(--s2) var(--s3); text-align: left; border-bottom: 1px solid var(--line); }
+
+th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--canvas);
+  font-size: var(--t-xs);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--muted);
+}
+
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:not(:has(.empty)):hover { background: color-mix(in srgb, var(--accent) 5%, transparent); }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+/* ── Éléments d'état ──────────────────────────────────────────────────── */
+.badge {
+  display: inline-block;
+  padding: .1rem var(--s2);
+  border-radius: 999px;
+  background: var(--canvas);
+  border: 1px solid var(--line);
+  font-variant-numeric: tabular-nums;
+  font-size: var(--t-xs);
+}
+
+.badge.ok { background: color-mix(in srgb, var(--teal) 14%, transparent); border-color: transparent; color: var(--teal-ink); }
+.badge.warn { background: color-mix(in srgb, var(--warning) 16%, transparent); border-color: transparent; color: var(--warning-ink); }
+
+.empty { padding: var(--s5); text-align: center; color: var(--muted); font-size: var(--t-sm); }
+
+.note {
+  border-left: 3px solid var(--teal);
+  padding: var(--s2) var(--s3);
+  background: color-mix(in srgb, var(--teal) 7%, transparent);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  font-size: var(--t-sm);
+}
+
+.note.warn { border-left-color: var(--warning); background: color-mix(in srgb, var(--warning) 9%, transparent); }
+
+.path { font-family: var(--font-mono); font-size: var(--t-xs); word-break: break-all; color: var(--muted); }
+
+.log {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  background: var(--canvas);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: var(--s3);
+  max-height: 16rem;
+  overflow-y: auto;
+  white-space: pre-wrap;
+}
+
+/* ── Attribution repliable (écran À propos) ──────────────────────────── */
+.disclosure { border: 1px solid var(--line); border-radius: var(--radius); padding: var(--s2) var(--s3); }
+.disclosure summary { cursor: pointer; font-weight: 600; }
+.disclosure summary:focus-visible { outline-offset: 4px; }
+
+.license-text {
+  margin: var(--s3) 0 0;
+  padding: var(--s3);
+  background: var(--canvas);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  line-height: 1.6;
+  max-height: 22rem;
+  overflow-y: auto;
+  white-space: pre-wrap;
+}
+
+/* ── Icônes Phosphor (regular), SVG servis en masque et colorés par
+   currentColor : nets à toute densité d'écran. Voir tools/vendor_assets.py. */
+.i {
+  display: inline-block;
+  width: 1.15rem;
+  height: 1.15rem;
+  flex: none;
+  background-color: currentColor;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+}
+
+/* ── Notification ─────────────────────────────────────────────────────── */
+.toast {
+  position: fixed;
+  right: var(--s4);
+  bottom: var(--s4);
+  z-index: 50;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s2);
+  max-width: 28rem;
+  padding: var(--s3) var(--s4);
+  border-radius: var(--radius);
+  border-left: 4px solid var(--toast-ok);
+  background: var(--toast-bg);
+  color: var(--toast-ink);
+  box-shadow: var(--shadow);
+  font-size: var(--t-sm);
+  animation: toast-in .24s var(--ease-out);
+}
+
+.toast .i { margin-top: .15rem; color: var(--toast-ok); }
+.toast.error { border-left-color: var(--toast-error); }
+.toast.error .i { color: var(--toast-error); }
+.toast[hidden] { display: none; }
+
+@keyframes toast-in { from { opacity: 0; transform: translateY(.5rem); } }
+
+/* ── Utilitaires ──────────────────────────────────────────────────────
+   Trois seulement, et pas un de plus : une classe utilitaire par besoin reel,
+   sinon la feuille devient un second langage a apprendre. */
+.mt-3 { margin-top: var(--s3); }
+.align-end { text-align: right; }
+.grid.cols-3 { grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); }

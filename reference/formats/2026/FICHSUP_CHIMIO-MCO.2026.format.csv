@@ -1,0 +1,10 @@
+# format: FICHSUP_CHIMIO-MCO
+# annee: 2026
+# source: formats_mco_2026.xlsx
+nom;debut;longueur;libelle
+N_FINESS_D_INSCRIPTION_EPMSI;1;9;N° FINESS d’inscription ePMSI
+TYPE_DE_FICHIER;10;3;Type de fichier
+ANNEE;13;4;Année
+PERIODE;17;2;Période
+FILE_ACTIVE_DE_PATIENTS_AYANT_UN_TRAITEM;19;10;File active de patients ayant un traitement du cancer par chimiothérapie orale
+NOMBRE_TOTAL_DE_CONSULTATIONS_MEDICALES;29;10;Nombre total de consultations médicales pour primo-prescription de traitement de chimiothérapie par voie orale pendant l’année

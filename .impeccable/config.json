@@ -1,0 +1,23 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "overused-font",
+        "value": "montserrat",
+        "createdAt": "2026-09-23T11:53:53.353Z",
+        "reason": "police institutionnelle du projet, inscrite au registre des polices et servie en local avec sa licence OFL ; documentee dans docs/05_SYSTEME_DE_DESIGN.md"
+      },
+      {
+        "rule": "side-tab",
+        "value": "*",
+        "files": [
+          "web/systeme.html"
+        ],
+        "createdAt": "2026-09-23T11:53:53.928Z",
+        "reason": "le filet de couleur a gauche des compteurs est le marqueur de section de Pinel, anterieur a cette session et documente dans docs/05_SYSTEME_DE_DESIGN.md ; la page du systeme ne fait que l afficher"
+      }
+    ]
+  }
+}
