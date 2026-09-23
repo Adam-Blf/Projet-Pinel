@@ -3,16 +3,15 @@
 Usage :
     python docs/generate_pdf.py
 
-Entrees  : docs/DOCUMENTATION_FONCTIONNELLE_ET_TECHNIQUE.md
-           docs/GUIDE_UTILISATEUR.md
-Sorties  : docs/Sovereign_OS_DIM_Documentation_Technique.pdf
-           docs/Sovereign_OS_DIM_Guide_Utilisateur.pdf
+Entrees  : les six documents numerotes de docs/, liste dans DOCUMENTS
+Sorties  : un PDF par document, docs/Pinel_NN_<sujet>.pdf
 
 Le rendu couvre le sous-ensemble Markdown utilise par ces documents :
 titres h1 a h3, paragraphes, listes a puces, listes numerotees, tableaux
 pipe, blocs de code, gras en ligne, code en ligne et separateurs.
 Police : Montserrat, une seule famille pour tout le document, fichiers TTF
 versionnes dans docs/fonts/ avec leur licence OFL. Aucune dependance hors fpdf2.
+Marques de couverture : Phosphor Icons, MIT, produites par tools/make_doc_icons.py.
 """
 
 from __future__ import annotations
@@ -92,16 +91,24 @@ class Doc:
     title: str
     subtitle: str
     recipient: str
-    icon: Path  # marque de couverture, jeu Icons8 Fluent
+    icon: Path  # marque de couverture, Phosphor, voir tools/make_doc_icons.py
 
 
 DOCUMENTS = [
+    Doc(
+        source=DOCS / "00_COMMENCER_ICI.md",
+        output=DOCS / "Pinel_00_Commencer_ici.pdf",
+        title="Pinel",
+        subtitle="Commencer ici",
+        recipient="Toute personne qui decouvre Pinel",
+        icon=DOCS / "icons" / "commencer.png",
+    ),
     Doc(
         source=DOCS / "01_GUIDE_UTILISATEUR.md",
         output=DOCS / "Pinel_01_Guide_utilisateur.pdf",
         title="Pinel",
         subtitle="Guide utilisateur",
-        recipient="Departement d'Information Medicale - GHT Psy Sud Paris",
+        recipient="Techniciens et medecins d'un Departement d'Information Medicale",
         icon=DOCS / "icons" / "guide.png",
     ),
     Doc(
@@ -109,24 +116,32 @@ DOCUMENTS = [
         output=DOCS / "Pinel_02_Dossier_fonctionnel.pdf",
         title="Pinel",
         subtitle="Dossier fonctionnel",
-        recipient="Departement d'Information Medicale - GHT Psy Sud Paris",
-        icon=DOCS / "icons" / "guide.png",
+        recipient="Departement d'Information Medicale",
+        icon=DOCS / "icons" / "fonctionnel.png",
     ),
     Doc(
         source=DOCS / "03_DOSSIER_TECHNIQUE_DSI.md",
         output=DOCS / "Pinel_03_Dossier_technique.pdf",
         title="Pinel",
         subtitle="Dossier technique",
-        recipient="Direction des Ressources Numeriques - GHT Psy Sud Paris",
-        icon=DOCS / "icons" / "securite.png",
+        recipient="Direction des systemes d'information",
+        icon=DOCS / "icons" / "technique.png",
     ),
     Doc(
         source=DOCS / "04_SECURITE_ET_CONFORMITE.md",
         output=DOCS / "Pinel_04_Securite_et_conformite.pdf",
         title="Pinel",
         subtitle="Securite et conformite",
-        recipient="Direction des Ressources Numeriques et DPO - GHT Psy Sud Paris",
+        recipient="Delegue a la protection des donnees et direction des systemes d'information",
         icon=DOCS / "icons" / "securite.png",
+    ),
+    Doc(
+        source=DOCS / "06_GLOSSAIRE.md",
+        output=DOCS / "Pinel_06_Glossaire.pdf",
+        title="Pinel",
+        subtitle="Glossaire",
+        recipient="Toute personne qui bute sur un mot",
+        icon=DOCS / "icons" / "glossaire.png",
     ),
 ]
 
@@ -173,7 +188,7 @@ class Renderer(FPDF):
         self.set_fill_color(*NAVY)
         self.rect(0, 0, PAGE_W, COVER_BAND, style="F")
 
-        # Marque Icons8 posee sur la diagonale d'or de la bande.
+        # Marque posee sur la diagonale d'or de la bande.
         if self.doc.icon.exists():
             mark = SP_XL * PHI                       # 20,55 mm
             self.image(
