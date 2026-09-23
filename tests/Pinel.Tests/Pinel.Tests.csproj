@@ -7,6 +7,18 @@
     <RootNamespace>Pinel.Tests</RootNamespace>
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
+
+    <!--
+      Journal de test ecrit a chaque passage. Motif : un test tombe par
+      intermittence sous forte charge disque, trois fois le 23/09/2026, et son
+      NOM n'a jamais pu etre releve parce que la sortie console ne garde que le
+      decompte. Un journal ecrit systematiquement le nommera au prochain echec,
+      sans qu'il faille penser a ajouter une option au moment ou l'on est
+      occupe a autre chose.
+      Le dossier est ignore par git.
+    -->
+    <VSTestLogger>trx%3bLogFileName=dernier-passage.trx</VSTestLogger>
+    <VSTestResultsDirectory>$(MSBuildThisFileDirectory)resultats</VSTestResultsDirectory>
   </PropertyGroup>
 
   <ItemGroup>
