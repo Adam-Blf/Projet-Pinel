@@ -1,5 +1,6 @@
 using System.Globalization;
 using System.Text;
+using Pinel.Core.Formats;
 
 namespace Pinel.Core.Fichcomp;
 
@@ -34,13 +35,7 @@ public sealed record FichcompResult(int Lines, IReadOnlyList<FichcompIssue> Issu
 /// </remarks>
 public static class FichcompConverter
 {
-    private static readonly Encoding Latin1;
 
-    static FichcompConverter()
-    {
-        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-        Latin1 = Encoding.GetEncoding("ISO-8859-1");
-    }
 
     /// <summary>
     /// Met une valeur en forme sur une largeur fixe. Une valeur trop longue
@@ -94,7 +89,7 @@ public static class FichcompConverter
     public static int Write(IEnumerable<FichcompRecord> records, string outputPath, FichcompLayout layout)
     {
         Directory.CreateDirectory(Path.GetDirectoryName(outputPath) ?? ".");
-        using var writer = new StreamWriter(outputPath, append: false, Latin1);
+        using var writer = new StreamWriter(outputPath, append: false, PmsiEncoding.Latin1);
 
         int count = 0;
         foreach (var record in records)
@@ -109,7 +104,7 @@ public static class FichcompConverter
     public static IReadOnlyList<FichcompRecord> Read(string path, FichcompLayout layout)
     {
         var records = new List<FichcompRecord>();
-        using var reader = new StreamReader(path, Latin1);
+        using var reader = new StreamReader(path, PmsiEncoding.Latin1);
 
         while (reader.ReadLine() is { } line)
         {
@@ -156,7 +151,7 @@ public static class FichcompConverter
         var issues = new List<FichcompIssue>();
         int lineNumber = 0, lines = 0;
 
-        using var reader = new StreamReader(path, Latin1);
+        using var reader = new StreamReader(path, PmsiEncoding.Latin1);
         while (reader.ReadLine() is { } line)
         {
             lineNumber++;

@@ -10,17 +10,12 @@ namespace Pinel.Core.Processing;
 /// </summary>
 public sealed class SanitizedExporter
 {
-    private static readonly Encoding Latin1 = Encoding.GetEncoding("ISO-8859-1");
 
-    static SanitizedExporter()
-    {
-        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-    }
 
     public int Export(string sourceFile, string outputFile, AtihFormat format, MasterPatientIndex mpi)
     {
-        using var reader = new StreamReader(sourceFile, Latin1);
-        using var writer = new StreamWriter(outputFile, append: false, Latin1);
+        using var reader = new StreamReader(sourceFile, PmsiEncoding.Latin1);
+        using var writer = new StreamWriter(outputFile, append: false, PmsiEncoding.Latin1);
 
         int rewritten = 0;
         while (reader.ReadLine() is { } line)

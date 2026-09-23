@@ -18,17 +18,12 @@ namespace Pinel.Core.Checks;
 /// </summary>
 public sealed class FileYearCheck : IFileCheck
 {
-    private static readonly Encoding Latin1 = Encoding.GetEncoding("ISO-8859-1");
     private static readonly Regex YearInName = new(@"(?<!\d)(19|20)\d{2}(?!\d)", RegexOptions.Compiled);
 
     public string Name => "Cohérence année fichier";
 
     public IReadOnlySet<string>? AppliesTo => null;
 
-    static FileYearCheck()
-    {
-        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-    }
 
     public IEnumerable<CheckFinding> Validate(string filePath, string formatName)
     {
@@ -52,7 +47,7 @@ public sealed class FileYearCheck : IFileCheck
 
         StreamReader? reader = null;
         string? readFailure = null;
-        try { reader = new StreamReader(filePath, Latin1); }
+        try { reader = new StreamReader(filePath, PmsiEncoding.Latin1); }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
             readFailure = FindingRedaction.ReadFailure(ex);

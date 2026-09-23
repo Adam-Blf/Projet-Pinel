@@ -18,7 +18,6 @@ namespace Pinel.Core.Checks;
 /// </summary>
 public sealed class FinessCheck : IFileCheck
 {
-    private static readonly Encoding Latin1 = Encoding.GetEncoding("ISO-8859-1");
     private static readonly Regex NineDigits = new("^[0-9]{9}$", RegexOptions.Compiled);
 
     /// <summary>A FINESS code is 9 digits, at the head of the ATIH record.</summary>
@@ -39,10 +38,6 @@ public sealed class FinessCheck : IFileCheck
     public IReadOnlySet<string>? AppliesTo { get; } =
         new HashSet<string>(FinessOffset.Keys, StringComparer.OrdinalIgnoreCase);
 
-    static FinessCheck()
-    {
-        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-    }
 
     public IEnumerable<CheckFinding> Validate(string filePath, string formatName)
     {
@@ -53,7 +48,7 @@ public sealed class FinessCheck : IFileCheck
 
         StreamReader? reader = null;
         string? readFailure = null;
-        try { reader = new StreamReader(filePath, Latin1); }
+        try { reader = new StreamReader(filePath, PmsiEncoding.Latin1); }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
             readFailure = FindingRedaction.ReadFailure(ex);

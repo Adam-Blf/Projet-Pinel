@@ -26,7 +26,6 @@ namespace Pinel.Core.Checks;
 /// </summary>
 public sealed class ChainageCoverageCheck : ICrossFileCheck
 {
-    private static readonly Encoding Latin1 = Encoding.GetEncoding("ISO-8859-1");
     private static readonly HashSet<string> ActivityFormats = new(StringComparer.OrdinalIgnoreCase)
     {
         "RPS", "RAA", "RPSA", "R3A", "RHS", "SSRHA", "RAPSS", "RAPSS-HAD", "RPSS", "RSS",
@@ -40,10 +39,6 @@ public sealed class ChainageCoverageCheck : ICrossFileCheck
 
     public string Name => "Chaînage VID-HOSP";
 
-    static ChainageCoverageCheck()
-    {
-        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-    }
 
     public IEnumerable<CheckFinding> Validate(IReadOnlyList<(string Path, string Format)> files)
     {
@@ -165,7 +160,7 @@ public sealed class ChainageCoverageCheck : ICrossFileCheck
     private static IEnumerable<(string Ipp, int LineNumber)> ExtractIpps(string path, AtihFormat fmt)
     {
         StreamReader? reader = null;
-        try { reader = new StreamReader(path, Latin1); }
+        try { reader = new StreamReader(path, PmsiEncoding.Latin1); }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException) { yield break; }
 
         using (reader)

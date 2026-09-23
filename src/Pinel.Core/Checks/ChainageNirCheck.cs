@@ -18,7 +18,6 @@ namespace Pinel.Core.Checks;
 /// </summary>
 public sealed class ChainageNirCheck : IFileCheck
 {
-    private static readonly Encoding Latin1 = Encoding.GetEncoding("ISO-8859-1");
 
     /// <summary>NIR occupies the first 13 characters of the record.</summary>
     private const int NirLength = 13;
@@ -33,16 +32,12 @@ public sealed class ChainageNirCheck : IFileCheck
         "VID-HOSP", "ANO-HOSP",
     };
 
-    static ChainageNirCheck()
-    {
-        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-    }
 
     public IEnumerable<CheckFinding> Validate(string filePath, string formatName)
     {
         StreamReader? reader = null;
         string? readFailure = null;
-        try { reader = new StreamReader(filePath, Latin1); }
+        try { reader = new StreamReader(filePath, PmsiEncoding.Latin1); }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
             readFailure = FindingRedaction.ReadFailure(ex);

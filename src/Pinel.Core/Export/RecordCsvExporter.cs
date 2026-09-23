@@ -35,13 +35,7 @@ public static class RecordCsvExporter
 {
     public const char Delimiter = ';';
 
-    private static readonly Encoding Latin1;
 
-    static RecordCsvExporter()
-    {
-        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-        Latin1 = Encoding.GetEncoding("ISO-8859-1");
-    }
 
     /// <summary>
     /// Exporte un fichier ATIH vers <paramref name="outputPath"/>.
@@ -58,7 +52,7 @@ public static class RecordCsvExporter
     {
         Directory.CreateDirectory(Path.GetDirectoryName(outputPath) ?? ".");
 
-        using var reader = new StreamReader(sourcePath, Latin1);
+        using var reader = new StreamReader(sourcePath, PmsiEncoding.Latin1);
         using var writer = new StreamWriter(
             new FileStream(outputPath, FileMode.Create, FileAccess.Write, FileShare.Read),
             new UTF8Encoding(encoderShouldEmitUTF8Identifier: true));

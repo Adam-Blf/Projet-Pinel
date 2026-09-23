@@ -16,7 +16,6 @@ namespace Pinel.Core.Checks;
 /// </remarks>
 public sealed class BirthDateFormatCheck : IFileCheck
 {
-    private static readonly Encoding Latin1 = Encoding.GetEncoding("ISO-8859-1");
 
     /// <summary>L'ATIH code la date de naissance sur 8 chiffres, JJMMAAAA.</summary>
     private const int DdnDigits = 8;
@@ -25,10 +24,6 @@ public sealed class BirthDateFormatCheck : IFileCheck
 
     public IReadOnlySet<string>? AppliesTo => null; // every format has a DDN
 
-    static BirthDateFormatCheck()
-    {
-        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-    }
 
     public IEnumerable<CheckFinding> Validate(string filePath, string formatName)
     {
@@ -39,7 +34,7 @@ public sealed class BirthDateFormatCheck : IFileCheck
 
         StreamReader? reader = null;
         string? readFailure = null;
-        try { reader = new StreamReader(filePath, Latin1); }
+        try { reader = new StreamReader(filePath, PmsiEncoding.Latin1); }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
             readFailure = FindingRedaction.ReadFailure(ex);

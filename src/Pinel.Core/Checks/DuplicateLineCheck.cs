@@ -1,5 +1,6 @@
 using System.Security.Cryptography;
 using System.Text;
+using Pinel.Core.Formats;
 
 namespace Pinel.Core.Checks;
 
@@ -18,23 +19,18 @@ namespace Pinel.Core.Checks;
 /// </summary>
 public sealed class DuplicateLineCheck : IFileCheck
 {
-    private static readonly Encoding Latin1 = Encoding.GetEncoding("ISO-8859-1");
 
     public string Name => "Doublons de lignes";
 
     /// <summary>Applies to all fixed-width ATIH formats (null = any).</summary>
     public IReadOnlySet<string>? AppliesTo => null;
 
-    static DuplicateLineCheck()
-    {
-        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-    }
 
     public IEnumerable<CheckFinding> Validate(string filePath, string formatName)
     {
         StreamReader? reader = null;
         string? readFailure = null;
-        try { reader = new StreamReader(filePath, Latin1); }
+        try { reader = new StreamReader(filePath, PmsiEncoding.Latin1); }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
             readFailure = FindingRedaction.ReadFailure(ex);

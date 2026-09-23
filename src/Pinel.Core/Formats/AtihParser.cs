@@ -11,12 +11,7 @@ namespace Pinel.Core.Formats;
 public sealed class AtihParser
 {
     private const int MinLine = 50;
-    private static readonly Encoding Latin1 = Encoding.GetEncoding("ISO-8859-1");
 
-    static AtihParser()
-    {
-        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-    }
 
     /// <summary>
     /// Parses a file and yields one <see cref="PatientRecord"/> per valid line.
@@ -44,7 +39,7 @@ public sealed class AtihParser
 
         var effective = DetectVariant(filePath, format);
 
-        using var reader = new StreamReader(filePath, Latin1);
+        using var reader = new StreamReader(filePath, PmsiEncoding.Latin1);
         int lineNo = 0;
         while (reader.ReadLine() is { } line)
         {
@@ -84,7 +79,7 @@ public sealed class AtihParser
         var lengths = new Dictionary<int, int>();
         try
         {
-            using var reader = new StreamReader(filePath, Latin1);
+            using var reader = new StreamReader(filePath, PmsiEncoding.Latin1);
             int sampled = 0;
             while (sampled < 100 && reader.ReadLine() is { } line)
             {
