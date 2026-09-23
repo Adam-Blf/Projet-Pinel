@@ -311,7 +311,7 @@ Pinel.exe maj
 
 Codes de sortie : **0** à jour, **10** une mise à jour attend.
 
-### 9.3 Les dix verbes d'outils
+### 9.3 Les onze verbes d'outils
 
 | Verbe | Ce qu'il fait |
 |---|---|
@@ -325,6 +325,7 @@ Codes de sortie : **0** à jour, **10** une mise à jour attend.
 | `suggerer` | Compte les lignes concernées ; avec un dossier, écrit les copies corrigées |
 | `entrainer` | Entraîne le modèle, ne remplace le précédent que s'il fait mieux |
 | `scorer` | Signale les lignes que le service supprimerait probablement |
+| `ospi-extraire` | Sort les lignes ATIH que transportent les exports JSON de la plateforme OSPI |
 
 Codes de sortie : **0** succès, **1** erreur d'argument, d'accès, de format ou
 d'état.

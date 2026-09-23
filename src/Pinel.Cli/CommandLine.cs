@@ -35,13 +35,15 @@ public static class CommandLine
         "  pinel entrainer <dossier> <dossier-modele> <dossier-descriptifs>\n" +
         "      Entraine le modele des suppressions RAA ; ne remplace le modele en place que s'il fait mieux.\n" +
         "  pinel scorer <dossier> <dossier-modele> <dossier-descriptifs> [rapport.csv]\n" +
-        "      Signale les lignes RAA que le DIM supprimerait probablement.";
+        "      Signale les lignes RAA que le DIM supprimerait probablement.\n" +
+        "  pinel ospi-extraire <dossier-source> <dossier-cible>\n" +
+        "      Sort les lignes ATIH que transportent les exports JSON de la plateforme OSPI.";
 
     /// <summary>Verbes reconnus, pour qu'un lanceur sache si la ligne de commande lui est destinee.</summary>
     public static readonly IReadOnlySet<string> Verbs = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
     {
         "formats-importer", "roles", "anonymiser", "controler", "apprendre", "regles", "regle",
-        "suggerer", "entrainer", "scorer",
+        "suggerer", "entrainer", "scorer", "ospi-extraire",
     };
 
     public static int Run(string[] args)
@@ -66,6 +68,7 @@ public static class CommandLine
                 "regle" when args.Length == 4 => LearnCommand.SetStatus(args[1], args[2], args[3]),
                 "suggerer" when args.Length is 4 or 5 => LearnCommand.Suggest(args[1], args[2], args[3], args.Length == 5 ? args[4] : null),
                 "anonymiser" when args.Length == 4 => AnonymizeCommand.Run(args[1], args[2], args[3]),
+                "ospi-extraire" when args.Length == 3 => OspiCommand.Run(args[1], args[2]),
                 _ => Fail(Usage),
             };
         }

@@ -117,10 +117,23 @@ seul, le format est établi. Le nom du fichier ne sert alors qu'à départager u
 Le premier mécanisme est le plus sûr et sert la pseudonymisation, l'apprentissage
 et le modèle. Le second est celui de l'écran de conversion.
 
-> **Conséquence pratique, et c'est une limite** : sur l'écran de conversion,
-> nommez vos fichiers de manière explicite, par exemple `FV94_RPS_2026.txt`. Un
-> fichier nommé `donnees.txt` n'y sera pas reconnu. L'unification des deux
-> chemins reste à faire.
+Depuis le 23 septembre 2026, **le scan retient aussi les fichiers sans
+extension** et passe par le détecteur de contenu. Deux défauts mesurés sur les
+fichiers réels le justifiaient : des fichiers PMSI nommés `vh` ou `VIDHOSP_PSY`
+disparaissaient du scan sans le moindre message, et trois conventions de nommage
+d'un site du groupement n'étaient pas reconnues, dont celle du VID-IPP, ce qui
+faisait ressortir des milliers de patients comme non chaînés.
+
+### 3.1 bis Les exports JSON de plateforme
+
+Certaines plateformes livrent un export JSON où chaque enregistrement rassemble
+un patient ou un séjour avec **toutes ses lignes ATIH** et sa clé de chaînage.
+Ce n'est pas un format de plus : c'est un groupement déjà fait.
+
+Pinel en sort les lignes telles quelles, zones répétées comprises, pour que le
+reste de la chaîne les traite normalement. Les lignes qui décrivent une unité
+médicale ne sont écrites qu'une fois : l'export les attache à chacun de ses
+patients, ce qui produisait 21 563 lignes pour 108 unités distinctes.
 
 ### 3.2 Les formats connus
 

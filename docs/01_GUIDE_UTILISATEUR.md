@@ -233,6 +233,17 @@ caractères, le RAA en 86 et 90.
 EDGAR n'est pas dans cette liste, et ce n'est pas un oubli : c'est une typologie
 d'actes codée à l'intérieur du RAA, pas un format de fichier.
 
+### 4.5 Si votre établissement exporte en JSON
+
+Certaines plateformes ne produisent pas des fichiers à plat mais un export JSON
+où chaque patient arrive **déjà accompagné de toutes ses lignes**, activité,
+unités médicales, fichiers complémentaires et clé de chaînage.
+
+Pinel sait en sortir les lignes pour les traiter comme des fichiers ordinaires.
+C'est une commande, décrite dans le dossier technique : demandez-la à votre
+correspondant informatique. Sur un mois réel, elle a sorti 196 125 lignes de
+deux fichiers.
+
 ---
 
 ## 5. Reconstruire des parcours
