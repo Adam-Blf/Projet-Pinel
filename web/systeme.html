@@ -17,12 +17,13 @@
   <link rel="stylesheet" href="css/composants.css">
   <link rel="stylesheet" href="css/accents.css">
   <link rel="stylesheet" href="css/accessibilite.css">
+  <link rel="stylesheet" href="css/systeme.css">
   <link rel="icon" href="icons/favicon.png">
   <script src="js/theme.js"></script>
 </head>
 
 <body>
-  <div class="app" data-accent="revue">
+  <div class="app" data-accent="moulinette">
     <main class="main" id="contenu-principal" tabindex="-1">
       <header class="topbar">
         <div>
@@ -137,21 +138,22 @@
       ];
 
       document.getElementById('palette').innerHTML = SECTIONS.map(function (s) {
-        return '<div class="kpi" style="border-left-color: var(--c-' + s[0] + ')">' +
+        return '<div class="kpi swatch" data-section="' + s[0] + '">' +
           '<div class="label">' + s[1] + '</div>' +
-          '<div class="value" style="color: var(--c-' + s[0] + '-ink); font-size: var(--t-md)">--c-' + s[0] + '</div></div>';
+          '<div class="value">--c-' + s[0] + '</div></div>';
       }).join('');
 
       document.getElementById('espacements').innerHTML = '<p class="field-label">Espacements</p>' +
-        [1, 2, 3, 4, 5, 6].map(function (n) {
-          return '<div class="row"><span class="path" style="width:3.5rem">--s' + n + '</span>' +
-            '<span style="height:.6rem;width:var(--s' + n + ');background:var(--accent);border-radius:99px"></span></div>';
-        }).join('');
+        '<div class="echelle">' + [1, 2, 3, 4, 5, 6].map(function (n) {
+          return '<div class="mesure"><span class="nom">--s' + n + '</span>' +
+            '<span class="barre" data-espacement="' + n + '"></span></div>';
+        }).join('') + '</div>';
 
       document.getElementById('typographie').innerHTML = '<p class="field-label">Typographie</p>' +
-        ['xs', 'sm', 'md', 'lg', 'xl', '2xl'].map(function (t) {
-          return '<div style="font-size:var(--t-' + t + ')">--t-' + t + ' Montserrat</div>';
-        }).join('');
+        '<div class="echelle">' + ['xs', 'sm', 'md', 'lg', 'xl', '2xl'].map(function (t) {
+          return '<div class="mesure"><span class="nom">--t-' + t + '</span>' +
+            '<span class="exemple" data-taille="' + t + '">Montserrat</span></div>';
+        }).join('') + '</div>';
 
       dom.kpis('kpi-demo', [['Fichiers', 12], ['Lignes lues', '89 505'], ['IPP uniques', '5 210'], ['Conflits', 0]]);
 
