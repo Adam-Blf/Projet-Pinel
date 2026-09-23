@@ -25,6 +25,12 @@ public sealed class DuplicateLineCheck : IFileCheck
     /// <summary>Applies to all fixed-width ATIH formats (null = any).</summary>
     public IReadOnlySet<string>? AppliesTo => null;
 
+    /// <summary>
+    /// Ce contrôle compare des lignes ENTIERES : il ne lit aucun champ à une
+    /// position, donc il reste juste quel que soit le millésime du fichier.
+    /// </summary>
+    public bool ReadsFieldPositions => false;
+
 
     public IEnumerable<CheckFinding> Validate(string filePath, string formatName)
     {

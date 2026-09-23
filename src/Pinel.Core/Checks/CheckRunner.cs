@@ -46,11 +46,27 @@ public sealed class CheckRunner
     {
         var fileList = files.ToList();
         var bag = new ConcurrentBag<CheckFinding>();
+
+        // Fichiers dont la longueur de ligne ne correspond à aucune longueur
+        // déclarée pour leur format. Ils sont écartés des contrôles qui lisent
+        // un champ à sa position, et des contrôles croisés : un fichier de
+        // chaînage dont la structure n'est pas celle qu'on croit ferait
+        // apparaître tous les patients comme non chaînés. Voir LineLengthGate.
+        var suspects = new ConcurrentDictionary<string, byte>(StringComparer.OrdinalIgnoreCase);
+
         Parallel.ForEach(fileList, file =>
         {
+            var verdict = LineLengthGate.Inspect(file.Path, file.Format);
+            if (!verdict.Accepted)
+            {
+                suspects[file.Path] = 0;
+                if (verdict.Finding is not null) bag.Add(verdict.Finding);
+            }
+
             foreach (var validator in _validators)
             {
                 if (validator.AppliesTo is not null && !validator.AppliesTo.Contains(file.Format)) continue;
+                if (!verdict.Accepted && validator.ReadsFieldPositions) continue;
                 foreach (var finding in validator.Validate(file.Path, file.Format))
                 {
                     bag.Add(finding);
@@ -59,9 +75,10 @@ public sealed class CheckRunner
         });
 
         // Cross-file validators run sequentially: they already correlate multiple files.
+        var croisables = fileList.Where(f => !suspects.ContainsKey(f.Path)).ToList();
         foreach (var cross in _crossValidators)
         {
-            foreach (var finding in cross.Validate(fileList))
+            foreach (var finding in cross.Validate(croisables))
             {
                 bag.Add(finding);
             }
