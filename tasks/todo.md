@@ -54,10 +54,37 @@ A FAIRE PAR LE DIM
 3. Faire corriger le parametrage Druides : le sejour facturable sort a 1 alors
    que le DIM le repasse a 0 tous les mois, 959 lignes en un seul envoi.
 
+FAIT DANS LA FOULEE, le 23/09 apres-midi (PR 2, branche poussee)
+- Ecran de revue dans l'application : regles avec leur confiance, decision du
+  DIM regle par regle, lignes concernees, lignes signalees par le modele.
+- Un seul executable : Pinel.exe ouvre la fenetre sans argument et joue les
+  outils avec un verbe. Pinel.Cli est devenu une bibliotheque.
+- Installateur Velopack sous le profil utilisateur, sans droits
+  d'administration, mises a jour depuis un partage reseau : 30 Ko par
+  correction contre 104 Mo en paquet complet. tools/packager.py.
+- Donnees deplacees de %LOCALAPPDATA%/Pinel, dossier que l'installateur
+  s'approprie, vers %LOCALAPPDATA%/Pinel-DIM, avec reprise automatique d'une
+  installation anterieure.
+- Identite de l'etablissement en reglage : Pinel ne suppose plus aucun
+  etablissement, il sert n'importe quel DIM.
+- Licence verifiee hors ligne, rattachee au FINESS, 30 jours de tolerance.
+  Sans licence : lecture et controles disponibles, ecritures suspendues.
+  tools/licence.py emet, la cle privee vit dans ~/.secrets.
+- Icone dessinee (assets/icone-pinel.svg) avec variante des petites tailles,
+  tools/make_icon.py. Derniers pictogrammes Icons8 retires.
+- Systeme de design : docs/05_SYSTEME_DE_DESIGN.md et page vivante
+  web/systeme.html. Echelle typographique recalee sur 16 px. Captures de la
+  documentation refaites.
+- 221 tests verts.
+
 SUITE
-- Ecran de revue dans l'application : valider ou rejeter une regle, relire les
-  lignes signalees par le modele.
+- Point bloquant, juridique : la vente sous licence suppose un ecrit de
+  l'etablissement (article L113-9 CPI, l'apprenti est salarie). Trois taches
+  Notion creees, la premiere est de geler une preuve d'anteriorite.
 - Dossier DPO et DSI avant tout usage hors de ce poste.
+- Signature de code de l'installateur : aujourd'hui non signe, un EDR
+  hospitalier peut le bloquer.
+- Merger la PR 2 une fois relue.
 - Factoriser les sept declarations locales de l'encodage ISO-8859-1 des
   controles sur PmsiEncoding.Latin1.
 - Un test a echoue une fois le 23/09 pendant la copie de la cle, sous forte
