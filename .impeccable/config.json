@@ -13,10 +13,11 @@
         "rule": "side-tab",
         "value": "*",
         "files": [
-          "web/systeme.html"
+          "web/systeme.html",
+          "web/css/systeme.css"
         ],
         "createdAt": "2026-09-23T11:53:53.928Z",
-        "reason": "le filet de couleur a gauche des compteurs est le marqueur de section de Pinel, anterieur a cette session et documente dans docs/05_SYSTEME_DE_DESIGN.md ; la page du systeme ne fait que l afficher"
+        "reason": "le filet de couleur a gauche est le marqueur de section de Pinel, anterieur a cette session et documente dans docs/05_SYSTEME_DE_DESIGN.md ; sur la page du systeme il n'est pas une decoration mais l'echantillon lui-meme, c'est la couleur de section qui est montree. Les styles sont passes de systeme.html a css/systeme.css le 23/09/2026, l'exception suit le fichier."
       }
     ]
   }
