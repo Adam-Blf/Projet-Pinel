@@ -18,23 +18,49 @@ internal static class LearnCommand
         var today = DateOnly.FromDateTime(DateTime.Today);
 
         Console.WriteLine($"{pairs.Count} paire(s) origine / corrige trouvee(s).");
-        int learned = 0;
-        var evidence = new HashSet<string>(StringComparer.Ordinal);
-        foreach (var pair in pairs)
-        {
-            var fingerprint = RuleStore.Fingerprint(pair.Original, pair.Corrected);
-            if (store.LearnedPairs.Contains(fingerprint)) continue;
 
-            var mining = CorrectionMiner.Mine(
-                pair.Spec,
-                File.ReadAllLines(pair.Original, PmsiEncoding.Latin1),
-                File.ReadAllLines(pair.Corrected, PmsiEncoding.Latin1),
-                today, store.Rules, evidence);
-            store.Merge(fingerprint, mining.Rules);
-            learned++;
+        // Les paires deja apprises sont ecartees ici : la memoire des regles
+        // compte chaque paire une fois, quelle que soit la frequence des
+        // apprentissages.
+        var fresh = pairs
+            .Select(p => (Pair: p, Fingerprint: RuleStore.Fingerprint(p.Original, p.Corrected)))
+            .Where(p => !store.LearnedPairs.Contains(p.Fingerprint))
+            .ToList();
+
+        var evidence = new HashSet<string>(StringComparer.Ordinal);
+        var loaded = fresh
+            .Select(p => (p.Pair.Spec,
+                Original: (IReadOnlyList<string>)File.ReadAllLines(p.Pair.Original, PmsiEncoding.Latin1),
+                Corrected: (IReadOnlyList<string>)File.ReadAllLines(p.Pair.Corrected, PmsiEncoding.Latin1)))
+            .ToList();
+
+        var (rules, perPair, unexplained) = CorrectionMiner.MineBatch(loaded, today, store.Rules, evidence);
+        for (int i = 0; i < fresh.Count; i++)
+        {
             Console.WriteLine(
-                $"   {pair.Spec.Format,-10} {Path.GetRelativePath(root, pair.Corrected)} : " +
-                $"{mining.ChangedLines} ligne(s) modifiee(s), {mining.DeletedLines} supprimee(s), {mining.AddedLines} ajoutee(s)");
+                $"   {fresh[i].Pair.Spec.Format,-10} {Path.GetRelativePath(root, fresh[i].Pair.Corrected)} : " +
+                $"{perPair[i].ChangedLines} ligne(s) modifiee(s), {perPair[i].DeletedLines} supprimee(s), {perPair[i].AddedLines} ajoutee(s)");
+        }
+
+        // Les observations valent pour le lot entier : elles sont enregistrees
+        // sous l'empreinte de chaque paire, pour qu'aucune ne soit recomptee.
+        bool first = true;
+        foreach (var (_, fingerprint) in fresh)
+        {
+            store.Merge(fingerprint, first ? rules : Array.Empty<LearnedRule>());
+            first = false;
+        }
+        int learned = fresh.Count;
+
+        if (unexplained.Count > 0)
+        {
+            Console.WriteLine();
+            Console.WriteLine("Corrections vues mais non generalisables (le DIM les fait au cas par cas) :");
+            foreach (var u in unexplained.Take(8))
+            {
+                Console.WriteLine($"   {u.Applied,5} fois appliquee, {u.Skipped,6} fois non : " +
+                    $"{u.Format} {u.Field} « {(u.From.Length == 0 ? "vide" : u.From)} » -> « {u.To} »");
+            }
         }
 
         store.Save(rulesPath);

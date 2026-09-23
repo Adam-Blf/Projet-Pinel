@@ -64,6 +64,7 @@ graph TB
 | `src/Pinel.Core` | Logique métier : formats ATIH, épisodes ambulatoires, contrôles de qualité, entrées/sorties fichiers |
 | `src/Pinel.Desktop` | Interface WPF, serveur HTTP local, authentification, pont WebView2 vers Pinel.Core |
 | `src/Pinel.Cli` | Outils en ligne de commande : import des formats ATIH, pseudonymisation, contrôles, apprentissage des corrections |
+| `src/Pinel.Ml` | Modèle local de détection des lignes RAA supprimées par le DIM (ML.NET, LightGBM) |
 | `reference/formats/2026` | Descriptifs Pinel tirés des classeurs officiels ATIH 2026 (PSY et MCO) |
 | `web/` | Pages HTML, CSS, JavaScript de l'interface utilisateur |
 | `tests/Pinel.Tests` | Tous les tests xUnit couvrant Pinel.Core |
@@ -112,6 +113,8 @@ L'exécutable se trouve ensuite dans `src/Pinel.Desktop/bin/Release/net8.0-windo
 | `regles <regles.json>` | Liste les règles apprises, leur confiance et leur statut |
 | `regle <regles.json> <n> valider, rejeter ou proposer` | Décision du DIM sur une règle |
 | `suggerer <dossier> <regles.json> <descriptifs> [copies]` | Compte les lignes d'un lot concernées par les règles ; les copies n'appliquent que les règles validées |
+| `entrainer <dossier> <modele> <descriptifs>` | Entraîne le modèle des suppressions RAA ; ne remplace le modèle en place que s'il fait mieux sur le même mois de contrôle |
+| `scorer <dossier> <modele> <descriptifs> [rapport.csv]` | Signale les lignes RAA que le DIM supprimerait probablement ; le rapport ne porte que des numéros de ligne et des probabilités |
 | `roles <descriptifs>` | Liste les champs que la pseudonymisation transforme |
 
 **Données de santé.** Les lots réels ne sont lus qu'en local, dans un dossier de travail hors de tout dossier synchronisé : `Documents` peut remonter en entier vers un nuage grand public, non certifié HDS. `anonymiser` refuse une telle cible.

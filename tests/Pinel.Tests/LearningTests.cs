@@ -162,6 +162,41 @@ public sealed class LearningTests : IDisposable
         Assert.All(written, l => Assert.Equal(96, l.Length));
     }
 
+    [Fact]
+    public void Une_ligne_remise_en_forme_n_invente_pas_de_regles()
+    {
+        // Ligne decalee : tous ses champs changent d'un coup. Elle doit etre
+        // ecartee, sans quoi elle produit autant de fausses regles qu'elle a
+        // de champs.
+        var normal = Enumerable.Range(0, 20).Select(i => Line(i, "31", "U100")).ToList();
+        var before = normal.Append(Line(99, "30", "U200", "D")).ToList();
+        var after = normal.Append(Line(99, "31", "U300", "A")).ToList();
+
+        var rules = CorrectionMiner.Mine(Spec(), before, after, Today).Rules;
+
+        Assert.DoesNotContain(rules, r => r.Field == "UM");
+        Assert.DoesNotContain(rules, r => r.Field == "NATURE");
+        Assert.Empty(rules);
+    }
+
+    [Fact]
+    public void Une_correction_rare_repartie_sur_plusieurs_fichiers_est_apprise()
+    {
+        // Un cas par fichier : invisible fichier par fichier, reguliere sur le lot.
+        var spec = Spec();
+        var lots = Enumerable.Range(0, 4).Select(i =>
+        {
+            var before = new[] { Line(i, "30", "U100"), Line(i + 50, "31", "U900") };
+            var after = new[] { Line(i, "30", "U100"), Line(i + 50, "33", "U900") };
+            return (spec, (IReadOnlyList<string>)before, (IReadOnlyList<string>)after);
+        }).ToList();
+
+        var (rules, _, _) = CorrectionMiner.MineBatch(lots, Today);
+
+        var rule = Assert.Single(rules, r => r.Field == "FORME" && r.To == "33");
+        Assert.Equal(4, rule.Support);
+    }
+
     [Theory]
     [InlineData("vh_psy_CORR_main.txt", "vh_psy")]
     [InlineData("vipp_CORRIGE_main.txt", "vipp")]

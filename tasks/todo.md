@@ -24,55 +24,45 @@ manque. Voir ci-dessous.
 
 ## Chantier 2026-09 : adaptation aux fichiers reels 2026 (checkpoint)
 
-Decisions d'Adam du 22/09/2026 : les fichiers de D:/2026 ne sont lus qu'apres
-pseudonymisation locale ; apprentissage en deux temps, regles tirees des
-corrections du DIM puis modele ML local.
+Deroule complet rejoue le 23/09/2026 depuis la cle USB rebranchee, huit etapes,
+branche feat/fichiers-reels-2026. Donnees dans C:/Users/adamb/PinelDonnees, hors
+de Documents qui est synchronise Google Drive. Resultats mesures :
 
-Fait (branche feat/fichiers-reels-2026) :
-- `AtihWorkbookImporter` + `pinel formats-importer` : classeurs ATIH 2026 PSY et
-  MCO convertis dans reference/formats/2026 (54 descriptifs).
-- `RecordSpec` : zones repetees RPS (8 x nDA, 23 x nZA), RAA (8 x nDA),
-  VID-HOSP (470 + 50 x N, compteur en 467-470). Les lignes VID-HOSP de 470, 570
-  et 620 caracteres sont conformes.
-- `ContentFormatDetector` : reconnaissance par longueur de ligne ; les noms
-  Druides (vh_psy, vipp, fc_ic, dim_rps, PSY_RAA_HOSP_PMSI) trompaient
-  l'identification par nom.
-- `PmsiAnonymizer` + `pinel anonymiser` : liste blanche au caractere, cle
-  DPAPI dans %LOCALAPPDATA%/Pinel/anonymisation.key, controle de fuite.
-  Tests : AnonymizationTests.
-- Execution du 22/09 : C:/Users/adamb/PinelDonnees/2026_brut -> 2026_pseudonymise, 440 fichiers, 2 min, zero fuite (18 montants ressemblant a un identifiant, masques). Donnees hors de Documents, synchronise Google Drive.
+- Copie : 1 407 fichiers, 4,2 Go.
+- Formats ATIH 2026 PSY et MCO : 51 descriptifs, longueurs conformes aux
+  fichiers reels.
+- Pseudonymisation : 440 fichiers en 1 min 35, 967 ecartes faute de format
+  reconnu, controle de fuite limite a 18 montants ressemblant a un identifiant,
+  tous masques.
+- Controles sur PSY M4 envoi 3, lot accepte par e-PMSI : 90 anomalies, contre
+  162 878 avant les corrections du 22/09.
+- Regles apprises : 62, toutes au-dessus de 90 pour cent de confiance, 28
+  suggerees. VID-HOSP sejour facturable 1 vers 0 (959 cas) et motif vers 9
+  (970 cas) a 100 pour cent.
+- Modele des suppressions RAA : apprentissage M1 a M3, controle M6 jamais vu,
+  AUPRC 0,998 pour un hasard a 0,005, 100 pour cent de vraies suppressions sur
+  les 500 lignes les plus suspectes. Sur M7 jamais vu : 692 lignes signalees
+  sur 150 687, toutes des repetitions du meme jour, nature A dans l'UM 5420.
+- 210 tests verts.
 
-- Controles corriges sur le lot reel M4 envoi 3 : 162 878 anomalies -> 90.
-  Restent a montrer au DIM : 31 NIR non numeriques dans VID-HOSP, 1 annee de
-  naissance hors plage.
+A FAIRE PAR LE DIM
+1. Relire les regles (`pinel regles`) et trancher : `pinel regle <n> valider`
+   ou `rejeter`. Rien n'est applique a un fichier transmis sans validation.
+2. Completer a la main ce qui n'est pas generalisable : 31 NIR non numeriques
+   dans un VID-HOSP, un NIR bouche-trou partage par 217 patients dans un
+   VID-IPP, le type d'unite laisse a 000 pour quelques UM par mois.
+3. Faire corriger le parametrage Druides : le sejour facturable sort a 1 alors
+   que le DIM le repasse a 0 tous les mois, 959 lignes en un seul envoi.
 
-Reste, dans l'ordre :
-2. Adapter Pinel sur les copies : ANO-HOSP (1584 puis 1712 car. des M3,
-   AtihMatrix dit 1064), RSS groupe format 123 (zones repetees),
-   identification par contenu branchee sur le scan de l'application (le scan
-   ne lit encore que le nom), VID-HOSP a longueur variable dans LineInspector.
-3. FAIT (22/09) : apprentissage des corrections, 40 regles dans
-   C:/Users/adamb/PinelDonnees/regles-apprises.json. A FAIRE PAR LE DIM : relire
-   les regles (`pinel regles`) et valider ou rejeter. Non automatisable, a
-   signaler : un NIR assure partage par 217 patients dans le VID-IPP de M1
-   (valeur bouche-trou), rempli a la main patient par patient.
-   Suppressions de lignes RAA (135 a 599 par mois) : non deterministes, a
-   confier au modele ML (etape 4).
-4. EN COURS (pause du 22/09 au soir) : modele ML des suppressions RAA.
-   Fait : projet src/Pinel.Ml (ML.NET 5 + LightGBM), RaaFeatureBuilder,
-   DeletionModel (validation temporelle, champion / challenger, fiche modele),
-   commandes `pinel entrainer` et `pinel scorer`. Premier entrainement sur
-   M1-M3, controle sur M6 jamais vu : AUC 1,000, AUPRC 0,998 (hasard 0,005),
-   100 % de vraies suppressions sur les 500 lignes les plus suspectes.
-   Modele dans C:/Users/adamb/PinelDonnees/modele (hors depot, hors Drive).
-   Reprendre ici, dans l'ordre :
-   a. tests unitaires de Pinel.Ml (etiquetage, champion non degrade) ;
-   b. lancer `pinel scorer` sur M7 (jamais vu) et verifier la coherence ;
-   c. CHANGELOG, README (section ML), fiche vault, tache Notion ;
-   d. brancher regles et modele dans l'interface (ecran de revue du DIM) ;
-   e. avant tout usage sur donnees reelles hors ce poste : avis DPO et DSI.
-5. Factoriser les sept declarations locales de l'encodage ISO-8859-1 des
-   controles sur `PmsiEncoding.Latin1`.
+SUITE
+- Ecran de revue dans l'application : valider ou rejeter une regle, relire les
+  lignes signalees par le modele.
+- Dossier DPO et DSI avant tout usage hors de ce poste.
+- Factoriser les sept declarations locales de l'encodage ISO-8859-1 des
+  controles sur PmsiEncoding.Latin1.
+- Un test a echoue une fois le 23/09 pendant la copie de la cle, sous forte
+  charge disque, sans se reproduire sur onze passages suivants. A retracer avec
+  un journal de test si cela revient.
 
 ## A REPONDRE AU MEDECIN, et c'est le plus urgent
 

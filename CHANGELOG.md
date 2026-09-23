@@ -27,6 +27,37 @@ annonce ce qui n'existe pas encore ne sert plus à personne.
   dossier synchronisé vers un nuage (Google Drive, OneDrive, Dropbox, iCloud).
 - `pinel roles` : liste des champs transformés par la pseudonymisation.
 
+### Ajouté (modèle local)
+
+- Projet `src/Pinel.Ml` : modèle de détection des lignes RAA que le DIM supprime
+  (LightGBM via ML.NET, exécuté sur le poste, sans Python ni accès réseau).
+  Variables tirées des libellés du descriptif officiel, jamais d'identifiant.
+  Validation temporelle sur le mois corrigé le plus récent, jamais vu à
+  l'apprentissage ; un nouveau modèle ne remplace le précédent que s'il fait au
+  moins aussi bien sur ce même mois, et chaque modèle garde sa fiche.
+  Mesure du 23/09/2026 : apprentissage M1 à M3, contrôle M6, AUPRC 0,998 pour un
+  taux de base de 0,005, et 100 % de vraies suppressions sur les 500 lignes les
+  plus suspectes. Sur M7, jamais vu : 692 lignes signalées sur 150 687, toutes
+  des répétitions du même jour, profil identique aux suppressions des mois
+  appris.
+- `pinel entrainer` et `pinel scorer`.
+
+### Corrigé (apprentissage des corrections)
+
+- L'induction se fait maintenant paire par paire ET sur l'ensemble des paires
+  d'un format. Paire par paire seule, une correction qui ne touche qu'une ligne
+  par fichier (retyper une unité médicale) n'était jamais apprise ; sur
+  l'ensemble seul, les essais déjà corrigés d'un même mois comptaient comme des
+  contre-exemples et effaçaient les corrections massives du VID-HOSP.
+- Une ligne dont plus du quart des champs changent d'un coup est écartée de
+  l'apprentissage : c'est une ligne remise en forme, et elle produisait autant
+  de fausses règles qu'elle compte de champs (27 relevées sur un VID-HOSP
+  décalé d'un caractère).
+- Les corrections vues mais non généralisables sont listées séparément, avec le
+  nombre de fois où le DIM les a appliquées et celui où il ne les a pas
+  appliquées. C'est le cas du type d'unité laissé à 000, renseigné pour quelques
+  unités par mois et laissé tel quel pour 160 autres : aucune règle ne le décrit.
+
 ### Corrigé (fichiers réels 2026)
 
 - VID-HOSP n'est pas à longueur fixe : 470 caractères plus 50 par discipline de
