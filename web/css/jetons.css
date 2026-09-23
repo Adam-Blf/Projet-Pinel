@@ -90,7 +90,11 @@
   --c-structure: #0c7db6;
   --c-fichcomp: #92610a;
   --c-identito: #9b2c2c;
-  --c-revue: #6b3fa0;
+  /* Olive : la seule plage de teintes encore libre, entre l'ocre des
+     transports (38 degres) et le vert des controles (150 degres). Le violet
+     essaye d'abord tenait plus de l'interface generee que de la charte de
+     l'etablissement, et ne venait d'aucune couleur institutionnelle. */
+  --c-revue: #5f6d2b;
   --c-controles: #1f7a4d;
   --c-dossiers: #3b5ea8;
   --c-journal: #5a6470;

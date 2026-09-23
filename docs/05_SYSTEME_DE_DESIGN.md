@@ -35,6 +35,8 @@ Trois règles tiennent le système :
 
 **Couleurs.** Relevées sur le site institutionnel d'origine : marine `#253e80`, teal `#1d7c96`, bleu clair `#0c7db6`, ocre `#fcc764`. Chaque chantier porte sa teinte, ce qui situe l'utilisateur sans qu'il lise le titre.
 
+Une teinte nouvelle se choisit dans une plage encore libre, mesurée sur les teintes déjà prises, et jamais au goût du moment. La revue des corrections a d'abord reçu un violet : aucune couleur institutionnelle ne le justifiait, et c'est la teinte qui fait le plus « interface générée ». Elle est passée à un olive `#5f6d2b`, seul créneau vide entre l'ocre des transports à 38 degrés et le vert des contrôles à 150.
+
 Toute couleur porteuse de sens existe en deux versions. La version brute sert aux **fonds** ; la version `-ink` sert au **texte et aux bordures**, et c'est elle qui s'éclaircit en thème sombre. Sans cette séparation, le marine de la conversion disparaît sur fond sombre : c'était le cas jusqu'au 22/09/2026.
 
 **Espacements**, raison 1,618 : `--s1` 0,35 rem à `--s6` 3,90 rem. **Typographie**, raison racine de 1,618, calée sur 16 px de texte courant : `--t-xs` 0,80 rem à `--t-2xl` 2,06 rem. L'échelle partait de 0,72 rem, soit 11,5 px sur les mentions, les chemins et les en-têtes de tableau, trop fin pour une station de travail hospitalière.
