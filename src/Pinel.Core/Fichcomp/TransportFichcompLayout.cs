@@ -15,13 +15,29 @@ public sealed record TransportFichcompOptions(
     string CodeForfait,
     string ClasseDistance)
 {
-    /// <summary>Valeurs par défaut relevées sur le classeur transports de la Fondation Vallée.</summary>
-    public static TransportFichcompOptions Default { get; } = new(
-        FinessEPmsi: "940140049",
-        TypeDePrestation: "17",
-        FinessGeographique: "940000631",
-        CodeForfait: "ST2",
-        ClasseDistance: "06");
+    /// <summary>
+    /// Constantes vides : Pinel refuse de produire un FICHCOMP transports tant
+    /// que l'etablissement n'a pas renseigne les siennes. Jusqu'au 23/09/2026,
+    /// celles de la Fondation Vallee etaient ecrites ici et servaient de
+    /// valeurs par defaut ; un autre etablissement aurait transmis son activite
+    /// sous le FINESS de celle-ci.
+    /// </summary>
+    public static TransportFichcompOptions Empty { get; } = new(
+        FinessEPmsi: "",
+        TypeDePrestation: "",
+        FinessGeographique: "",
+        CodeForfait: "",
+        ClasseDistance: "");
+
+    /// <summary>Constantes d'un etablissement, telles que ses reglages les portent.</summary>
+    public static TransportFichcompOptions From(
+        string? finessEPmsi, string? finessGeographique, string? typeDePrestation,
+        string? codeForfait, string? classeDistance) => new(
+            FinessEPmsi: finessEPmsi?.Trim() ?? "",
+            TypeDePrestation: typeDePrestation?.Trim() ?? "",
+            FinessGeographique: finessGeographique?.Trim() ?? "",
+            CodeForfait: codeForfait?.Trim() ?? "",
+            ClasseDistance: classeDistance?.Trim() ?? "");
 }
 
 /// <summary>

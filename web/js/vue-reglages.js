@@ -32,11 +32,42 @@
       }));
     });
 
+    renderEtablissement(settings.etablissement || {});
     dom.$('dossier-sortie').textContent = settings.dossierSortie || 'Non défini';
     dom.$('dossier-formats').textContent = settings.dossierFormats || 'Non défini';
   }
 
+  // Le bandeau porte le nom de l'etablissement : sans lui, Pinel affiche son
+  // role, jamais le nom d'un autre etablissement.
+  var CHAMPS = {
+    'etab-nom': 'nom',
+    'etab-finess-epmsi': 'finessEPmsi',
+    'etab-finess-geo': 'finessGeographique',
+    'etab-prestation': 'typeDePrestation',
+    'etab-forfait': 'codeForfait',
+    'etab-distance': 'classeDistance'
+  };
+
+  function renderEtablissement(etablissement) {
+    Object.keys(CHAMPS).forEach(function (id) {
+      var champ = dom.$(id);
+      if (champ) champ.value = etablissement[CHAMPS[id]] || '';
+    });
+    var bandeau = dom.$('brand-etablissement');
+    if (bandeau && etablissement.nom) bandeau.textContent = etablissement.nom;
+  }
+
   function wire() {
+    dom.$('btn-etab-enregistrer').addEventListener('click', api.guard(async function () {
+      var corps = {};
+      Object.keys(CHAMPS).forEach(function (id) {
+        corps[CHAMPS[id]] = (dom.$(id).value || '').trim();
+      });
+      var enregistre = await api.call('/api/reglages/etablissement', { method: 'POST', body: corps });
+      renderEtablissement(enregistre);
+      dom.toast('Établissement enregistré.');
+    }));
+
     dom.$('btn-dossier-ajouter').addEventListener('click', api.guard(async function () {
       var folder = await api.pickFolder();
       if (!folder) return;

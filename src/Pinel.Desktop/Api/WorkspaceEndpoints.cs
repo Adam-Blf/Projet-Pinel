@@ -15,7 +15,17 @@ internal static class WorkspaceEndpoints
             dossierSortie = session.Settings.ResolveOutputFolder(),
             dossierFormats = session.Settings.ResolveFormatsFolder(),
             dossiersAutorises = SafePath.Roots,
+            etablissement = session.Settings.Etablissement,
         }));
+
+        // Identite de l'etablissement : Pinel sert n'importe quel departement
+        // d'information medicale, ces valeurs ne peuvent pas venir du code.
+        app.MapPost("/api/reglages/etablissement", (EstablishmentSettings r, PinelSession session) =>
+        {
+            session.Settings.Etablissement = r;
+            session.Settings.Save();
+            return Results.Ok(session.Settings.Etablissement);
+        });
 
         app.MapPost("/api/reglages/dossier", (FolderRequest r, PinelSession session) =>
         {

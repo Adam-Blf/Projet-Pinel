@@ -16,6 +16,18 @@ namespace Pinel.Tests;
 public sealed class TransportFichcompTests
 {
     /// <summary>
+    /// Constantes d'un etablissement fictif. Elles vivaient dans le code de
+    /// production jusqu'au 23/09/2026 ; elles n'ont plus rien a y faire, Pinel
+    /// servant n'importe quel departement d'information medicale.
+    /// </summary>
+    private static readonly TransportFichcompOptions Etablissement = TransportFichcompOptions.From(
+        finessEPmsi: "940140049",
+        finessGeographique: "940000631",
+        typeDePrestation: "17",
+        codeForfait: "ST2",
+        classeDistance: "06");
+
+    /// <summary>
     /// Construit une feuille source qui imite "Rapport 1 modifié" : un
     /// bandeau d'en-tête sur les trois premières lignes, puis les données à
     /// partir de la ligne 4, colonnes B à L.
@@ -57,7 +69,7 @@ public sealed class TransportFichcompTests
         var source = BuildSourceSheet(workbook);
         var target = workbook.Worksheets.Add("Fichcomp");
 
-        var result = TransportFichcompBuilder.Build(source, target, TransportFichcompOptions.Default);
+        var result = TransportFichcompBuilder.Build(source, target, Etablissement);
 
         Assert.Equal(1, result.RowsWritten);
         Assert.True(result.IsClean);
@@ -97,7 +109,7 @@ public sealed class TransportFichcompTests
             source.Cell(sourceRow, 3).Value = $"UF{i}";
         }
 
-        var result = TransportFichcompBuilder.Build(source, target, TransportFichcompOptions.Default);
+        var result = TransportFichcompBuilder.Build(source, target, Etablissement);
 
         Assert.Equal(3, result.RowsWritten);
         Assert.Equal("UF0", target.Cell(2, 1).GetString());
@@ -120,7 +132,7 @@ public sealed class TransportFichcompTests
 
         var line = TransportFichcompLayout.ComposeLine(
             "UF1", "Libelle Test", "COLC", "10031980",
-            new DateOnly(2025, 3, 10), TransportFichcompOptions.Default);
+            new DateOnly(2025, 3, 10), Etablissement);
 
         Assert.Equal(expected, line);
         Assert.StartsWith("UF1 ", line);
@@ -158,7 +170,7 @@ public sealed class TransportFichcompTests
         var source = BuildSourceSheet(workbook, uf: "UF_BEAUCOUP_TROP_LONGUE");
         var target = workbook.Worksheets.Add("Fichcomp");
 
-        var result = TransportFichcompBuilder.Build(source, target, TransportFichcompOptions.Default);
+        var result = TransportFichcompBuilder.Build(source, target, Etablissement);
 
         Assert.Equal(1, result.RowsWritten);
         Assert.False(result.IsClean);
@@ -181,7 +193,7 @@ public sealed class TransportFichcompTests
         source.Cell(4, 2).Clear(); // Retire la date de commande deposee par le constructeur.
         var target = workbook.Worksheets.Add("Fichcomp");
 
-        var result = TransportFichcompBuilder.Build(source, target, TransportFichcompOptions.Default);
+        var result = TransportFichcompBuilder.Build(source, target, Etablissement);
 
         Assert.Equal(1, result.RowsWritten);
         Assert.False(result.IsClean);
@@ -198,7 +210,7 @@ public sealed class TransportFichcompTests
         var source = workbook.Worksheets.Add("Rapport 1 modifie");
         var target = workbook.Worksheets.Add("Fichcomp");
 
-        var result = TransportFichcompBuilder.Build(source, target, TransportFichcompOptions.Default);
+        var result = TransportFichcompBuilder.Build(source, target, Etablissement);
 
         Assert.Equal(0, result.RowsWritten);
         Assert.True(result.IsClean);
