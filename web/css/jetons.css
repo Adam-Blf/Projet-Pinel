@@ -60,13 +60,16 @@
   --s5: 2.41rem;
   --s6: 3.90rem;
 
-  /* Échelle typographique, raison racine de phi. */
-  --t-xs: 0.72rem;
-  --t-sm: 0.82rem;
-  --t-md: 0.94rem;
-  --t-lg: 1.19rem;
-  --t-xl: 1.52rem;
-  --t-2xl: 1.93rem;
+  /* Échelle typographique, raison racine de phi, calée sur 16 px de texte
+     courant. Elle partait de 0,72 rem, soit 11,5 px sur les mentions, les
+     chemins et les en-têtes de tableau : trop fin pour une station de travail
+     hospitalière, où l'on lit des colonnes de chiffres toute la journée. */
+  --t-xs: 0.80rem;
+  --t-sm: 0.89rem;
+  --t-md: 1.00rem;
+  --t-lg: 1.27rem;
+  --t-xl: 1.62rem;
+  --t-2xl: 2.06rem;
 
   /* Pile à chasse fixe des chemins, du journal et des identifiants : polices
      système Windows, présentes sur tout poste du GHT, rien à embarquer. */

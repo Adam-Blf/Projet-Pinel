@@ -152,6 +152,7 @@ Quatre documents complémentaires, à lire selon votre rôle :
 | `docs/02_DOSSIER_FONCTIONNEL_DIM.md` | Département d'Information Médicale | Spécifications du cahier des charges, règles de gestion, formats reconnus |
 | `docs/03_DOSSIER_TECHNIQUE_DSI.md` | Direction des Ressources Numériques | Architecture, dépendances, déploiement, maintenance |
 | `docs/04_SECURITE_ET_CONFORMITE.md` | DSI, Responsable conformité | Authentification, RGPD, anonymisation, contrôles de sécurité |
+| `docs/05_SYSTEME_DE_DESIGN.md` | Qui touche à l'interface | Jetons, primitives, états, accessibilité. La page vivante est `web/systeme.html` |
 
 ---
 

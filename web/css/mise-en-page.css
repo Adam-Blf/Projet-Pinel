@@ -44,7 +44,7 @@
 
 .nav-group {
   padding: var(--s3) var(--s4) var(--s1);
-  font-size: .66rem;
+  font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: .08em;
   text-transform: uppercase;

@@ -128,7 +128,7 @@ configuration du poste.
 Pinel ne lit et n'écrit que dans les répertoires que vous déclarez. C'est la
 première chose à faire.
 
-![L'écran des emplacements autorisés](screenshots/04_emplacements.png)
+![L'écran des emplacements autorisés, avec l'identité de l'établissement](screenshots/03_emplacements.png)
 
 Ouvrez **Emplacements autorisés**, puis **Ajouter un dossier**. Vous pouvez
 déclarer un dossier local, un lecteur réseau monté comme `O:\RIMP`, ou un
@@ -310,7 +310,7 @@ Il le sera dès que son descriptif sera fourni.
 
 Deuxième point du cahier des charges.
 
-![L'écran des épisodes](screenshots/02_episodes.png)
+![L'écran de revue des corrections](screenshots/02_revue_des_corrections.png)
 
 Dans le format national, l'activité ambulatoire n'est rattachée ni à un séjour
 ni à un dossier. Pinel reconstitue une maille intermédiaire : l'épisode.
@@ -364,7 +364,7 @@ produite automatiquement.
 
 ## 7. Fichiers complémentaires
 
-![L'écran des fichiers complémentaires](screenshots/03_fichiers_complementaires.png)
+![La licence et la mise à jour, dans l'écran À propos](screenshots/04_licence_et_mise_a_jour.png)
 
 **Nettoyage d'un classeur transports.** Les exports de la chaîne de facturation
 répètent le bloc d'en-tête toutes les quelques lignes et laissent la date de
