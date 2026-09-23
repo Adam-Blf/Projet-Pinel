@@ -88,18 +88,39 @@ public sealed class LineLengthGateTests : IDisposable
     }
 
     [Fact]
-    public void Un_fichier_heterogene_ne_declenche_rien()
+    public void Un_fichier_heterogene_mais_majoritairement_conforme_passe()
     {
-        // Aucune longueur ne domine : on ne conclut pas plutôt que de conclure
-        // à tort. Le détecteur de format par le contenu applique le même seuil.
+        // Un format a zones repetees fait varier la longueur en toute
+        // legitimite. Tant que la majorite des lignes est conforme, on accepte.
         var chemin = Path.Combine(_dir, "melange.txt");
         File.WriteAllLines(chemin, new[]
         {
-            new string('0', 154), new string('0', 100), new string('0', 42),
-            new string('0', 77), new string('0', 200),
+            new string('0', 154), new string('0', 154), new string('0', 154),
+            new string('0', 162), new string('0', 170),
         });
 
         Assert.True(LineLengthGate.Inspect(chemin, "RPS").Accepted);
+    }
+
+    [Fact]
+    public void Un_fichier_heterogene_sans_ligne_conforme_est_refuse()
+    {
+        // Le trou ferme le 23/09/2026 : un ANO-HOSP de 2020 n'avait aucune
+        // longueur dominante, et aucune de ses lignes n'etait a la longueur
+        // declaree. Il passait pourtant, et les controles de NIR lisaient
+        // ensuite la position 1 d'un fichier qui n'y porte pas de NIR.
+        var chemin = Path.Combine(_dir, "fv_psy_ano_2020_M12.txt");
+        File.WriteAllLines(chemin, new[]
+        {
+            new string('0', 1283), new string('0', 1283), new string('0', 1283),
+            new string('0', 900), new string('0', 1100), new string('0', 1400),
+        });
+
+        var verdict = LineLengthGate.Inspect(chemin, "ANO-HOSP");
+
+        Assert.False(verdict.Accepted);
+        Assert.NotNull(verdict.Finding);
+        Assert.Contains("1064", verdict.Finding!.Message);
     }
 
     [Fact]

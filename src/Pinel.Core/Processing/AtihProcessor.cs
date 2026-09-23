@@ -54,13 +54,19 @@ public sealed class AtihProcessor
     }
 
     /// <summary>
+    /// Detecteur par le contenu, pose par la session a partir des descriptifs
+    /// deposes. Tant qu'il est absent, le scan retombe sur le nom du fichier.
+    /// </summary>
+    public ContentFormatDetector? Detector { get; set; }
+
+    /// <summary>
     /// Recursively scans every registered folder for ATIH candidate files
     /// and replaces <see cref="Files"/> with the result.
     /// </summary>
     public IReadOnlyList<ScannedFile> Scan()
     {
         _files.Clear();
-        _files.AddRange(DirectoryScanner.Scan(_folders));
+        _files.AddRange(DirectoryScanner.Scan(_folders, Detector));
         return _files;
     }
 

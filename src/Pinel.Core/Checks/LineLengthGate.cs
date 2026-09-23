@@ -61,10 +61,16 @@ public static class LineLengthGate
             return new Verdict(true, 0, null);
         }
 
-        int observed;
+        var accepted = new List<int> { format.Length };
+        if (AtihMatrix.Variants.TryGetValue(formatName, out var variants))
+        {
+            accepted.AddRange(variants.Select(v => v.Length));
+        }
+
+        Measure measure;
         try
         {
-            observed = DominantLength(filePath);
+            measure = Measure.Of(filePath, accepted);
         }
         catch (IOException)
         {
@@ -77,21 +83,26 @@ public static class LineLengthGate
             return new Verdict(true, 0, null);
         }
 
-        if (observed == 0) return new Verdict(true, 0, null);
+        if (measure.Total == 0) return new Verdict(true, 0, null);
 
-        var accepted = new List<int> { format.Length };
-        if (AtihMatrix.Variants.TryGetValue(formatName, out var variants))
+        // Assez de lignes conformes : le fichier a bien la structure annoncée.
+        // Le seuil n'est pas à 100 % parce qu'un format à zones répétées fait
+        // varier la longueur d'une ligne à l'autre en toute légitimité.
+        if (measure.ConformingRatio >= ConformingRatio)
         {
-            accepted.AddRange(variants.Select(v => v.Length));
+            return new Verdict(true, measure.Dominant, null);
         }
 
-        if (accepted.Contains(observed)) return new Verdict(true, observed, null);
+        var attendues = string.Join(" ou ", measure.Accepted.OrderBy(x => x));
+        var constate = measure.Dominant > 0
+            ? $"Lignes de {measure.Dominant} caractères"
+            : $"Longueurs de ligne hétérogènes, dont seulement "
+              + $"{measure.ConformingRatio:P0} de lignes conformes";
 
-        var attendues = string.Join(" ou ", accepted.OrderBy(x => x));
-        return new Verdict(false, observed, new CheckFinding(
+        return new Verdict(false, measure.Dominant, new CheckFinding(
             Code,
             CheckSeverity.Error,
-            $"Lignes de {observed} caractères, alors que le format {formatName} en déclare "
+            $"{constate}, alors que le format {formatName} en déclare "
             + $"{attendues}. Les contrôles qui lisent un champ à sa position n'ont pas été "
             + "appliqués : sans position établie pour ce millésime, tout ce qui en serait tiré "
             + "serait faux.",
@@ -103,25 +114,40 @@ public static class LineLengthGate
     }
 
     /// <summary>
-    /// Longueur portée par au moins <see cref="DominanceRatio"/> des lignes
-    /// lues, ou 0 si le fichier est vide ou trop hétérogène pour conclure.
+    /// Part minimale de lignes conformes pour accepter le fichier. En dessous,
+    /// on refuse. Mesuré sur les fichiers réels : un ANO-HOSP de 2020 n'avait
+    /// que la moitié de ses lignes à une même longueur, aucune n'étant la
+    /// longueur déclarée, et passait pourtant la garde faute de longueur
+    /// dominante. Raisonner sur la part de lignes CONFORMES, et non sur
+    /// l'existence d'une longueur dominante, ferme ce trou.
     /// </summary>
-    private static int DominantLength(string filePath)
+    private const double ConformingRatio = 0.5;
+
+    private sealed record Measure(int Total, int Conforming, int Dominant, IReadOnlyList<int> Accepted)
     {
-        var counts = new Dictionary<int, int>();
-        var total = 0;
+        public double ConformingRatio => Total == 0 ? 0 : Conforming / (double)Total;
 
-        using var reader = new StreamReader(filePath, PmsiEncoding.Latin1);
-        for (string? line = reader.ReadLine(); line is not null && total < SampleLines; line = reader.ReadLine())
+        public static Measure Of(string filePath, IReadOnlyList<int> accepted)
         {
-            if (line.Length == 0) continue;
-            counts[line.Length] = counts.GetValueOrDefault(line.Length) + 1;
-            total++;
+            var counts = new Dictionary<int, int>();
+            var total = 0;
+            var conforming = 0;
+
+            using var reader = new StreamReader(filePath, PmsiEncoding.Latin1);
+            for (string? line = reader.ReadLine(); line is not null && total < SampleLines; line = reader.ReadLine())
+            {
+                if (line.Length == 0) continue;
+                counts[line.Length] = counts.GetValueOrDefault(line.Length) + 1;
+                if (accepted.Contains(line.Length)) conforming++;
+                total++;
+            }
+
+            if (total == 0) return new Measure(0, 0, 0, accepted);
+
+            var (length, count) = counts.MaxBy(kv => kv.Value);
+            var dominant = count >= total * DominanceRatio ? length : 0;
+            return new Measure(total, conforming, dominant, accepted);
         }
-
-        if (total == 0) return 0;
-
-        var (length, count) = counts.MaxBy(kv => kv.Value);
-        return count >= total * DominanceRatio ? length : 0;
     }
+
 }

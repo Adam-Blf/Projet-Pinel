@@ -27,9 +27,23 @@ public sealed class ChainageNirCheck : IFileCheck
 
     public string Name => "NIR VID-HOSP";
 
+    /// <summary>
+    /// VID-HOSP seulement.
+    /// </summary>
+    /// <remarks>
+    /// L'ANO-HOSP a été retiré le 23/09/2026. C'est la SORTIE de
+    /// l'anonymisation : le NIR y est remplacé par la clé de chaînage, la
+    /// matrice le dit elle-même. Chercher un NIR à la position 1 d'un fichier
+    /// où il n'y en a plus revient à contrôler l'absence de ce qu'on a
+    /// justement supprimé. Mesure sur les fichiers de la Fondation Vallée,
+    /// 2018 à 2024 : 4 566 anomalies, toutes fausses, dont 2 849 « NIR non
+    /// conforme » et 1 717 « clé de contrôle non conforme ».
+    /// Même famille que le contrôle d'anonymisation, ramené de six formats à
+    /// deux pour le même motif.
+    /// </remarks>
     public IReadOnlySet<string>? AppliesTo { get; } = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
     {
-        "VID-HOSP", "ANO-HOSP",
+        "VID-HOSP",
     };
 
 
