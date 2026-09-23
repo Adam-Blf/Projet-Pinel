@@ -45,3 +45,6 @@ dist/
 publish/velopack/
 *.lic
 cle-privee.pem
+
+# Journal de test, ecrit a chaque passage pour nommer un echec intermittent
+tests/Pinel.Tests/resultats/

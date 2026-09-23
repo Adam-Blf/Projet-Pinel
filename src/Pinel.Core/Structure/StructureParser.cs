@@ -17,8 +17,24 @@ public static class StructureParser
         { "code", "id", "identifiant", "um", "code_um", "code_service" };
     private static readonly HashSet<string> ParentCols = new(StringComparer.OrdinalIgnoreCase)
         { "parent", "parent_code", "code_parent", "rattache_a", "rattachement" };
+    /// <summary>
+    /// Intitulés qui portent le libellé complet d'une entité. Ceux du fichier
+    /// réel du service y ont été ajoutés le 23/09/2026 : sa colonne s'appelle
+    /// <c>lib_um</c>, et sans cet alias l'arbre de structure sortait avec le
+    /// code d'unité à la place de son nom.
+    /// </summary>
     private static readonly HashSet<string> LabelCols = new(StringComparer.OrdinalIgnoreCase)
-        { "label", "libelle", "libellé", "nom", "name", "designation" };
+        { "label", "libelle", "libellé", "nom", "name", "designation",
+          "lib_um", "libelle_um", "lib_service", "service_lib", "lib_pole", "lib_secteur" };
+
+    /// <summary>
+    /// Intitulés qui portent une forme ABRÉGÉE du libellé. Ils ne servent que
+    /// si aucune colonne de libellé complet n'a été trouvée, faute de quoi
+    /// l'ordre des colonnes déciderait à la place du sens : le fichier réel
+    /// porte <c>lib_um_court</c> AVANT <c>lib_um</c>.
+    /// </summary>
+    private static readonly HashSet<string> ShortLabelCols = new(StringComparer.OrdinalIgnoreCase)
+        { "lib_um_court", "libelle_court", "lib_court", "abrege" };
     private static readonly HashSet<string> LevelCols = new(StringComparer.OrdinalIgnoreCase)
         { "level", "niveau", "type" };
 
@@ -99,6 +115,7 @@ public static class StructureParser
         foreach (var s in CodeCols) known.Add(s);
         foreach (var s in ParentCols) known.Add(s);
         foreach (var s in LabelCols) known.Add(s);
+        foreach (var s in ShortLabelCols) known.Add(s);
         foreach (var s in LevelCols) known.Add(s);
         return tokens.Intersect(known).Any();
     }
@@ -106,13 +123,21 @@ public static class StructureParser
     private static Dictionary<string, int> NormalizeHeader(IReadOnlyList<string> headers)
     {
         var mapping = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+        int? shortLabel = null;
         for (var i = 0; i < headers.Count; i++)
         {
             var key = headers[i]?.Trim().ToLowerInvariant() ?? string.Empty;
             if (CodeCols.Contains(key) && !mapping.ContainsKey("code")) mapping["code"] = i;
             else if (ParentCols.Contains(key) && !mapping.ContainsKey("parent")) mapping["parent"] = i;
             else if (LabelCols.Contains(key) && !mapping.ContainsKey("label")) mapping["label"] = i;
+            else if (ShortLabelCols.Contains(key)) shortLabel ??= i;
             else if (LevelCols.Contains(key) && !mapping.ContainsKey("level")) mapping["level"] = i;
+        }
+
+        // Le libellé abrégé n'est retenu qu'à défaut du libellé complet.
+        if (!mapping.ContainsKey("label") && shortLabel is not null)
+        {
+            mapping["label"] = shortLabel.Value;
         }
         for (var i = 0; i < FallbackOrder.Length && i < headers.Count; i++)
         {
