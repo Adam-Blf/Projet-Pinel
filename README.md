@@ -77,7 +77,7 @@ graph TB
 | `reference/formats/2026` | Descriptifs Pinel tirés des classeurs officiels ATIH 2026 (PSY et MCO) |
 | `web/` | Pages HTML, CSS, JavaScript de l'interface utilisateur |
 | `tests/Pinel.Tests` | Tous les tests xUnit couvrant Pinel.Core |
-| `docs/` | Quatre documents destinés à différents lecteurs |
+| `docs/` | Six documents destinés à différents lecteurs, plus leurs PDF |
 
 ---
 
@@ -153,15 +153,19 @@ Sans licence valable, Pinel lit les fichiers et passe ses contrôles, mais n'éc
 
 ## Documentation
 
-Quatre documents complémentaires, à lire selon votre rôle :
+Six documents complémentaires. Si vous ne savez pas par où entrer, commencez par
+`docs/00_COMMENCER_ICI.md` : il est écrit pour quelqu'un qui n'a jamais vu de
+fichier PMSI. Et si un mot vous arrête, il est dans le glossaire.
 
 | Document | Lecteur | Contenu |
 |----------|--------|---------|
+| `docs/00_COMMENCER_ICI.md` | Toute personne qui découvre Pinel | Le problème en une image, ce que fait l'outil, démarrage en cinq étapes |
 | `docs/01_GUIDE_UTILISATEUR.md` | Technicien TIM, Médecin DIM | Prise en main, écrans, données, premiers pas |
 | `docs/02_DOSSIER_FONCTIONNEL_DIM.md` | Département d'Information Médicale | Spécifications du cahier des charges, règles de gestion, formats reconnus |
 | `docs/03_DOSSIER_TECHNIQUE_DSI.md` | Direction des Ressources Numériques | Architecture, dépendances, déploiement, maintenance |
 | `docs/04_SECURITE_ET_CONFORMITE.md` | DSI, Responsable conformité | Authentification, RGPD, anonymisation, contrôles de sécurité |
 | `docs/05_SYSTEME_DE_DESIGN.md` | Qui touche à l'interface | Jetons, primitives, états, accessibilité. La page vivante est `web/systeme.html` |
+| `docs/06_GLOSSAIRE.md` | Qui bute sur un mot | PMSI, ATIH, RPS, chaînage, pseudonymisation, et les dix mots qui suffisent |
 
 ---
 
