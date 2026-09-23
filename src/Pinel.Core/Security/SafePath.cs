@@ -14,7 +14,7 @@ namespace Pinel.Core.Security;
 /// du GHT, les refuser rendrait l'outil inutilisable.
 /// </para>
 /// <para>
-/// L'espace de travail local <c>%LOCALAPPDATA%\Pinel\travail</c> est toujours
+/// L'espace de travail local <c>%LOCALAPPDATA%\Pinel-DIM\travail</c> est toujours
 /// autorisé. La variable d'environnement <c>PINEL_WORKSPACE</c>, si elle est
 /// posée par la DSI, ajoute des dossiers séparés par <c>;</c>.
 /// </para>

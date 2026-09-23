@@ -90,9 +90,12 @@ SUITE
   serveur de previsualisation a ete arrete par manque de memoire systeme.
 - Factoriser les sept declarations locales de l'encodage ISO-8859-1 des
   controles sur PmsiEncoding.Latin1.
-- Un test a echoue une fois le 23/09 pendant la copie de la cle, sous forte
-  charge disque, sans se reproduire sur onze passages suivants. A retracer avec
-  un journal de test si cela revient.
+- Un test echoue par intermittence sous forte charge disque. Deux occurrences
+  le 23/09, la seconde sur un passage de 2 min 06 la ou la suite tourne en 35 s.
+  Aucune reproduction sur les passages suivants, et le nom du test n'a pas ete
+  capture. Prochaine fois : relancer avec --logger trx pour avoir le nom avant
+  de chercher. Piste la plus probable, une attente trop courte dans un test qui
+  sonde le disque.
 
 ## A REPONDRE AU MEDECIN, et c'est le plus urgent
 
