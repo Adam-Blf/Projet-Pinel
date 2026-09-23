@@ -80,7 +80,7 @@ internal static class AnonymizeCommand
 /// </summary>
 /// <remarks>
 /// Tiree au hasard a la premiere utilisation, chiffree par DPAPI pour l'utilisateur
-/// courant et rangee sous %LOCALAPPDATA%\Pinel. Elle ne quitte jamais le poste :
+/// courant et rangee sous %LOCALAPPDATA%\Pinel-DIM. Elle ne quitte jamais le poste :
 /// les copies produites restent reliees entre elles d'un mois sur l'autre, sans
 /// qu'on puisse remonter aux valeurs d'origine ailleurs que sur ce poste.
 /// </remarks>

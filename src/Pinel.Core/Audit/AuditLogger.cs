@@ -13,7 +13,7 @@ namespace Pinel.Core.Audit;
 /// sensitive bridge operation without ever recording patient data.
 /// </summary>
 /// <remarks>
-/// File - <c>%LOCALAPPDATA%\Pinel\audit.log</c>.
+/// File - <c>%LOCALAPPDATA%\Pinel-DIM\audit-AAAAMMJJ.log</c>.
 /// Format - JSON Lines (one record per line, UTF-8 sans BOM).
 /// Rotation - daily - filename postfixed with <c>-YYYYMMDD</c>.
 /// Thread-safe - writes are serialised through a <see cref="Channel"/>-backed
@@ -31,7 +31,7 @@ public sealed class AuditLogger : IDisposable
 
     /// <summary>
     /// Public constructor for tests and DI. Production code should prefer
-    /// <see cref="Instance"/> which points at <c>%LOCALAPPDATA%\Pinel</c>.
+    /// <see cref="Instance"/> which points at <c>%LOCALAPPDATA%\Pinel-DIM</c>.
     /// </summary>
     public AuditLogger(string directory)
     {

@@ -10,7 +10,7 @@ namespace Pinel.Desktop;
 /// The bundle is compiled into the executable as embedded resources so the
 /// application ships as a single .exe with nothing alongside it. On first
 /// run of a given version, the files are written to
-/// <c>%LOCALAPPDATA%\Pinel\frontend\{version}</c> and reused as-is
+/// <c>%LOCALAPPDATA%\Pinel-DIM\frontend\{version}</c> and reused as-is
 /// afterwards (WebView2 needs real files on disk to map a virtual host).
 /// </para>
 /// <para>

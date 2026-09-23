@@ -16,7 +16,7 @@ namespace Pinel.Core.Security;
 /// direction des ressources numeriques.
 /// </para>
 /// <para>
-/// Fichier : <c>%LOCALAPPDATA%\Pinel\settings.json</c>. Il ne contient que des
+/// Fichier : <c>%LOCALAPPDATA%\Pinel-DIM\settings.json</c>. Il ne contient que des
 /// chemins, jamais de donnee patient.
 /// </para>
 /// </remarks>
