@@ -122,7 +122,9 @@ public sealed class AuditLogger : IDisposable
     /// any run of <see cref="IdentifierDigitRun"/> digits or more is replaced by
     /// <see cref="RedactionMarker"/>. Letters, separators and folder paths are
     /// left untouched, so <c>D:\PMSI\2024</c> survives while
-    /// <c>IPP 2860675110042</c> does not.
+    /// <c>IPP 0000000000001</c> does not. The example is deliberately a
+    /// run of zeroes: a NIR-shaped fixture in a public repository reads as a
+    /// real one, and nothing here needs it to be well formed.
     /// </summary>
     private static string? Sanitize(string? value)
     {

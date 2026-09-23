@@ -57,12 +57,12 @@ public sealed class RedactionAuditTests : IDisposable
     public void Audit_detail_masks_a_patient_identifier()
     {
         using var logger = new AuditLogger(Path.Combine(_tempDir, "audit_mask"));
-        logger.Record("/api/export-csv", "POST", 200, detail: "IPP 2860675110042 exporté");
+        logger.Record("/api/export-csv", "POST", 200, detail: "IPP 0000000000001 exporté");
 
         var line = ReadFirstAuditLine(logger);
         var detail = JsonDocument.Parse(line).RootElement.GetProperty("detail").GetString();
 
-        Assert.DoesNotContain("2860675110042", line, StringComparison.Ordinal);
+        Assert.DoesNotContain("0000000000001", line, StringComparison.Ordinal);
         Assert.Contains(AuditLogger.RedactionMarker, detail!, StringComparison.Ordinal);
     }
 
@@ -71,13 +71,13 @@ public sealed class RedactionAuditTests : IDisposable
     {
         using var logger = new AuditLogger(Path.Combine(_tempDir, "audit_folder"));
         logger.Record("/api/scanner", "POST", 200,
-            folder: @"D:\PMSI\2024\lot-286067511004200");
+            folder: @"D:\PMSI\2024\lot-000000000000100");
 
         var folder = JsonDocument.Parse(ReadFirstAuditLine(logger)).RootElement
             .GetProperty("folder").GetString();
 
         Assert.Contains("2024", folder!, StringComparison.Ordinal);
-        Assert.DoesNotContain("286067511004200", folder!, StringComparison.Ordinal);
+        Assert.DoesNotContain("000000000000100", folder!, StringComparison.Ordinal);
     }
 
     [Fact]
