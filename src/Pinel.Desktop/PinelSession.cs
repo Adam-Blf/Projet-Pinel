@@ -18,6 +18,7 @@ public sealed class PinelSession
         SafePath.Reload(Settings);
         Processor = new AtihProcessor();
         Layouts = LoadLayouts();
+        Processor.Detector = BuildDetector(Layouts);
         SynchronizeFolders();
     }
 
@@ -64,6 +65,9 @@ public sealed class PinelSession
         Settings.FormatsFolder = string.IsNullOrWhiteSpace(folder) ? null : Path.GetFullPath(folder);
         Settings.Save();
         Layouts = LoadLayouts();
+        // Le detecteur se construit sur les descriptifs : deposer un millesime
+        // sans le reconstruire laisserait le scan aveugle au format ajoute.
+        Processor.Detector = BuildDetector(Layouts);
         return Layouts.Formats.Count();
     }
 
@@ -72,6 +76,22 @@ public sealed class PinelSession
     {
         Processor.Reset();
         SynchronizeFolders();
+    }
+
+    /// <summary>
+    /// Detecteur par le contenu, construit sur les descriptifs connus. Il
+    /// reconnait un fichier a la longueur de ses lignes, donc independamment de
+    /// la convention de nommage de l'etablissement. Le nom ne sert plus que de
+    /// recours, ou de depart d'egalite.
+    /// </summary>
+    private static ContentFormatDetector BuildDetector(LayoutRegistry registry)
+    {
+        var specs = registry.Formats
+            .Select(f => registry.Resolve(f))
+            .OfType<FormatLayout>()
+            .Select(RecordSpec.For)
+            .ToList();
+        return new ContentFormatDetector(specs);
     }
 
     private LayoutRegistry LoadLayouts()
