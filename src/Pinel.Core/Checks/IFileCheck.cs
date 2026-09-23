@@ -14,6 +14,17 @@ public interface IFileCheck
     IReadOnlySet<string>? AppliesTo { get; }
 
     /// <summary>
+    /// Vrai si le contrôle lit un champ A SA POSITION dans la ligne. Ces
+    /// contrôles-là sont suspendus quand la longueur des lignes ne correspond à
+    /// aucune longueur déclarée pour le format, faute de quoi ils rapportent des
+    /// anomalies tirées de caractères qui ne sont pas le champ attendu. Voir
+    /// <see cref="LineLengthGate"/>.
+    /// Un contrôle qui raisonne sur la ligne entière, ou sur le nom du fichier,
+    /// reste valable et le déclare à false.
+    /// </summary>
+    bool ReadsFieldPositions => true;
+
+    /// <summary>
     /// Runs the validator over <paramref name="filePath"/> and yields
     /// <see cref="CheckFinding"/>s as they are detected. Must not
     /// throw; file I/O errors become <see cref="CheckSeverity.Blocker"/>
